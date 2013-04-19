@@ -10,3 +10,31 @@
 *.lai
 *.la
 *.a
+
+# Visual Studio bits (Added by PJC)
+*.pch
+*.suo
+*.obj
+*.ilk
+*.lib
+*.exe
+*.dep
+*.pdb
+*.ncb
+*.idb
+*.htm
+*.res
+*.map
+*.RES
+*.manifest
+*.cod
+*.user
+
+
+# Linux bits
+*.swp
+*.tar
+*.tar.gz
+*.0
+
+# Project specific ignores
