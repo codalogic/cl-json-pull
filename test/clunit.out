@@ -1,0 +1,20 @@
+Tests run on Wed May 22 12:15:34 2013
+
+
+    ok: event.name() == ""
+    ok: event.value() == ""
+    ok: event.type() == cljp::Event::T_UNKNOWN
+    ok: event.name() == "name"
+    ok: event.value() == "value"
+    ok: event.type() == cljp::Event::T_STRING
+    ok: event.name() == ""
+    ok: event.value() == ""
+    ok: event.type() == cljp::Event::T_UNKNOWN
+    ok: ! _CrtMemDifference( &s3, &s1, &s2 )
+    ok: _CrtCheckMemory() != 0
+
+TODOs (1):
+------------------------
+- json event [c:\pete\json\sw\cl-json-puller-0001\test\test-event.cpp:40]
+
+0 error(s), 1 todo(s), 11 test(s)

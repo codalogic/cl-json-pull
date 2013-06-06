@@ -34,4 +34,40 @@
 #ifndef CL_JSON_PULLER_H
 #define CL_JSON_PULLER_H
 
+#include <string>
+
+namespace cljp {	// Codalogic JSON Puller
+
+class Event
+{
+public:
+	enum Type { T_UNKNOWN, T_STRING, T_NUMBER, T_OBJECT_START, T_OBJECT_END, 
+			T_ARRAY_START, T_ARRAY_END, T_BOOLEAN, T_NULL };
+
+private:
+	struct Members {
+		std::string name;
+		std::string value;
+		Type type;
+		
+		Members() : type( T_UNKNOWN ) {}
+	} m;
+	
+public:
+	// Event() = default;
+	// Event( const Event & ) = default;
+	// Event & operator = ( const Event & ) = default;
+
+	const std::string & name() const { return m.name; }
+	void name( const std::string & r_name_in ) { m.name = r_name_in; }
+	const std::string & value() const { return m.value; }
+	void value( const std::string & r_value_in ) { m.value = r_value_in; }
+	Type type() const { return m.type; }
+	void type( Type type_in ) { m.type = type_in; }
+
+	void clear() { m = Members(); }
+};
+
+}	// End of namespace cljp
+
 #endif	// CL_JSON_PULLER_H

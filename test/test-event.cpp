@@ -31,12 +31,31 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //----------------------------------------------------------------------------
 
-#include "cl-json-puller.h"
-
-#define CLUNIT_HOME
 #include "clunit.h"
 
-int main()
+#include "cl-json-puller.h"
+
+TFUNCTION( json_event )
 {
-	TRUNALL();
+	TTODO( "json event" );
+	
+	cljp::Event event;
+
+	TTEST( event.name() == "" );
+	TTEST( event.value() == "" );
+	TTEST( event.type() == cljp::Event::T_UNKNOWN );
+
+	event.name( "name" );
+	event.value( "value" );
+	event.type( cljp::Event::T_STRING );
+
+	TTEST( event.name() == "name" );
+	TTEST( event.value() == "value" );
+	TTEST( event.type() == cljp::Event::T_STRING );
+	
+	event.clear();
+
+	TTEST( event.name() == "" );
+	TTEST( event.value() == "" );
+	TTEST( event.type() == cljp::Event::T_UNKNOWN );
 }
