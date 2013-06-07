@@ -1,4 +1,4 @@
-Tests run on Fri Jun 07 14:38:22 2013
+Tests run on Fri Jun 07 21:20:01 2013
 
 
       json event
@@ -31,13 +31,25 @@ Tests run on Fri Jun 07 14:38:22 2013
     ok: ! _CrtMemDifference( &s3, &s1, &s2 )
 
 
+      reader_rewind
+    ok: reader.get() == 'a'
+    ok: reader.get() == 'b'
+      : reader.rewind()
+    ok: reader.get() == 'a'
+    ok: reader.get() == 'a'
+    ok: reader.get() == 'b'
+      : reader.unget( 'g' )
+      : reader.rewind()
+    ok: reader.get() == 'a'
+    ok: ! _CrtMemDifference( &s3, &s1, &s2 )
+
+
       reader_file
     ok: ! _CrtMemDifference( &s3, &s1, &s2 )
     ok: _CrtCheckMemory() != 0
 
-TODOs (2):
+TODOs (1):
 ------------------------
-- Test rewind, including unget then rewind [c:\pete\json\sw\cl-json-puller-0001\test\test-reader.cpp:76]
-- reader_file [c:\pete\json\sw\cl-json-puller-0001\test\test-reader.cpp:82]
+- reader_file [c:\pete\json\sw\cl-json-puller-0001\test\test-reader.cpp:109]
 
-0 error(s), 2 todo(s), 26 test(s)
+0 error(s), 1 todo(s), 33 test(s)

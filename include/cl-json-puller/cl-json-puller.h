@@ -94,10 +94,11 @@ public:
 
 	int get();	// Returns EOM when no more input
 	void unget( int );
+	void rewind();
 
 private:
 	virtual int get_new() = 0;
-	virtual void rewind() = 0;
+	virtual void do_rewind() = 0;
 	virtual void close_on_destruct( bool is_close_on_destruct_required ) {}
 };
 
@@ -123,7 +124,7 @@ public:
 
 private:
 	virtual int get_new();
-	virtual void rewind();
+	virtual void do_rewind();
 };
 
 //----------------------------------------------------------------------------
@@ -158,7 +159,7 @@ public:
 
 private:
 	virtual int get_new();
-	virtual void rewind();
+	virtual void do_rewind();
 };
 
 }	// End of namespace cljp

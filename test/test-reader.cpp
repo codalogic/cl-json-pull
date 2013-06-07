@@ -72,8 +72,34 @@ TFUNCTION( reader_memory )
 	
 	TTEST( reader.get() == cljp::Reader::EOM );
 	}
+}
+
+TFUNCTION( reader_rewind )
+{
+	TDOC( "reader_rewind" );
+
+	{
+	std::string in( "abc" );
 	
-	TTODO( "Test rewind, including unget then rewind" );
+	cljp::ReaderString reader( in );
+	
+	TTEST( reader.get() == 'a' );
+	TTEST( reader.get() == 'b' );
+	TSETUP( reader.rewind() );
+	TTEST( reader.get() == 'a' );
+	}
+
+	{
+	std::string in( "abc" );
+	
+	cljp::ReaderString reader( in );
+	
+	TTEST( reader.get() == 'a' );
+	TTEST( reader.get() == 'b' );
+	TSETUP( reader.unget( 'g' ) );
+	TSETUP( reader.rewind() );
+	TTEST( reader.get() == 'a' );
+	}
 }
 
 TFUNCTION( reader_file )

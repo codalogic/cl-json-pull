@@ -58,6 +58,12 @@ void Reader::unget( int c )
 	m.unget_buffer.push_back( c );
 }
 
+void Reader::rewind()
+{
+	m.unget_buffer.clear();
+	do_rewind();
+}
+
 //----------------------------------------------------------------------------
 //                             class ReaderMemory
 //----------------------------------------------------------------------------
@@ -74,9 +80,9 @@ int ReaderMemory::get_new()
 	return EOM;
 }
 
-void ReaderMemory::rewind()
+void ReaderMemory::do_rewind()
 {
-	m.p_start = m.p_now;
+	m.p_now = m.p_start;
 }
 
 }	// End of namespace cljp
