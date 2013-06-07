@@ -1,6 +1,7 @@
-Tests run on Wed May 22 12:15:34 2013
+Tests run on Fri Jun 07 14:38:22 2013
 
 
+      json event
     ok: event.name() == ""
     ok: event.value() == ""
     ok: event.type() == cljp::Event::T_UNKNOWN
@@ -11,10 +12,32 @@ Tests run on Wed May 22 12:15:34 2013
     ok: event.value() == ""
     ok: event.type() == cljp::Event::T_UNKNOWN
     ok: ! _CrtMemDifference( &s3, &s1, &s2 )
+
+
+      reader_memory
+    ok: reader.get() == 'a'
+    ok: reader.get() == 'b'
+    ok: reader.get() == 'f'
+    ok: reader.get() == 'h'
+    ok: reader.get() == 'g'
+    ok: reader.get() == 'c'
+    ok: reader.get() == cljp::Reader::EOM
+    ok: reader.get() == cljp::Reader::EOM
+    ok: reader.get() == cljp::Reader::EOM
+    ok: reader.get() == 'h'
+    ok: reader.get() == 'g'
+    ok: reader.get() == cljp::Reader::EOM
+    ok: reader.get() == cljp::Reader::EOM
+    ok: ! _CrtMemDifference( &s3, &s1, &s2 )
+
+
+      reader_file
+    ok: ! _CrtMemDifference( &s3, &s1, &s2 )
     ok: _CrtCheckMemory() != 0
 
-TODOs (1):
+TODOs (2):
 ------------------------
-- json event [c:\pete\json\sw\cl-json-puller-0001\test\test-event.cpp:40]
+- Test rewind, including unget then rewind [c:\pete\json\sw\cl-json-puller-0001\test\test-reader.cpp:76]
+- reader_file [c:\pete\json\sw\cl-json-puller-0001\test\test-reader.cpp:82]
 
-0 error(s), 1 todo(s), 11 test(s)
+0 error(s), 2 todo(s), 26 test(s)

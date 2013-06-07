@@ -35,8 +35,14 @@
 #define CL_JSON_PULLER_H
 
 #include <string>
+#include <vector>
+#include <cstdio>
 
 namespace cljp {	// Codalogic JSON Puller
+
+//----------------------------------------------------------------------------
+//                             class Event
+//----------------------------------------------------------------------------
 
 class Event
 {
@@ -52,7 +58,7 @@ private:
 		
 		Members() : type( T_UNKNOWN ) {}
 	} m;
-	
+
 public:
 	// Event() = default;
 	// Event( const Event & ) = default;
@@ -60,12 +66,99 @@ public:
 
 	const std::string & name() const { return m.name; }
 	void name( const std::string & r_name_in ) { m.name = r_name_in; }
+
 	const std::string & value() const { return m.value; }
 	void value( const std::string & r_value_in ) { m.value = r_value_in; }
+
 	Type type() const { return m.type; }
 	void type( Type type_in ) { m.type = type_in; }
 
-	void clear() { m = Members(); }
+	void clear() { m.name.clear(); m.value.clear(); m.type = T_UNKNOWN; }	// Don't do m = Members(); because we want to preserve any memory allocated by the strings
+};
+
+//----------------------------------------------------------------------------
+//                             class Reader
+//----------------------------------------------------------------------------
+
+class Reader
+{
+private:
+	struct Members {
+		std::vector< char > unget_buffer;
+	} m;
+
+public:
+	virtual ~Reader() {}
+
+	static const int EOM /*= -1*/;	// End of message
+
+	int get();	// Returns EOM when no more input
+	void unget( int );
+
+private:
+	virtual int get_new() = 0;
+	virtual void rewind() = 0;
+	virtual void close_on_destruct( bool is_close_on_destruct_required ) {}
+};
+
+//----------------------------------------------------------------------------
+//                             class ReaderMemory
+//----------------------------------------------------------------------------
+
+class ReaderMemory : public Reader
+{
+private:
+	struct Members {
+		const char * p_start;
+		const char * p_now;
+		const char * p_end;	// Half closed end (i.e. one past last char in string)
+		
+		Members( const char * p_start_in, const char * p_end_in )
+			: p_start( p_start_in ), p_now( p_start_in ), p_end( p_end_in )
+		{}
+	} m;
+
+public:
+	ReaderMemory( const char * p_start_in, const char * p_end_in );
+
+private:
+	virtual int get_new();
+	virtual void rewind();
+};
+
+//----------------------------------------------------------------------------
+//                             class ReaderString
+//----------------------------------------------------------------------------
+
+class ReaderString : public ReaderMemory
+{
+public:
+	ReaderString( const std::string & r_in )
+		: ReaderMemory( r_in.c_str(), r_in.c_str() + r_in.size() )
+	{}
+};
+
+//----------------------------------------------------------------------------
+//                             class ReaderFile
+//----------------------------------------------------------------------------
+
+class ReaderFile : public Reader
+{
+private:
+	struct Members {
+		FILE * h_fin;
+		
+		Members( FILE * h_fin_in )
+			: h_fin( h_fin_in )
+		{}
+	} m;
+
+public:
+	ReaderFile( FILE * h_fin_in );
+
+private:
+	virtual int get_new();
+	virtual void rewind();
 };
 
 }	// End of namespace cljp

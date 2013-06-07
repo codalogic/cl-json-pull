@@ -31,52 +31,54 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //----------------------------------------------------------------------------
 
+#include "clunit.h"
+
 #include "cl-json-puller.h"
 
-namespace cljp {	// Codalogic JSON Puller
-
-//----------------------------------------------------------------------------
-//                             class Reader
-//----------------------------------------------------------------------------
-
-const int Reader::EOM = -1;
-
-int Reader::get()
+TFUNCTION( reader_memory )
 {
-	if( ! m.unget_buffer.empty() )
+	TDOC( "reader_memory" );
+	
 	{
-		int result = m.unget_buffer.back();
-		m.unget_buffer.pop_back();
-		return result;
+	std::string in( "abc" );
+	
+	cljp::ReaderString reader( in );
+	
+	TTEST( reader.get() == 'a' );
+	TTEST( reader.get() == 'b' );
+	reader.unget( 'f' );
+	TTEST( reader.get() == 'f' );
+	reader.unget( 'g' );
+	reader.unget( 'h' );
+	TTEST( reader.get() == 'h' );
+	TTEST( reader.get() == 'g' );
+	TTEST( reader.get() == 'c' );
+	TTEST( reader.get() == cljp::Reader::EOM );
+	TTEST( reader.get() == cljp::Reader::EOM );
+	reader.unget( cljp::Reader::EOM );
+	TTEST( reader.get() == cljp::Reader::EOM );
+	
+	reader.unget( 'g' );
+	reader.unget( 'h' );
+	TTEST( reader.get() == 'h' );
+	TTEST( reader.get() == 'g' );
+	TTEST( reader.get() == cljp::Reader::EOM );
 	}
 	
-	return get_new();
+	{
+	std::string in( "" );
+	
+	cljp::ReaderString reader( in );
+	
+	TTEST( reader.get() == cljp::Reader::EOM );
+	}
+	
+	TTODO( "Test rewind, including unget then rewind" );
 }
 
-void Reader::unget( int c )
+TFUNCTION( reader_file )
 {
-	m.unget_buffer.push_back( c );
+	TDOC( "reader_file" );
+
+	TTODO( "reader_file" );
 }
-
-//----------------------------------------------------------------------------
-//                             class ReaderMemory
-//----------------------------------------------------------------------------
-
-ReaderMemory::ReaderMemory( const char * p_start_in, const char * p_end_in )
-	: m( p_start_in, p_end_in )
-{
-}
-
-int ReaderMemory::get_new()
-{
-	if( m.p_now < m.p_end )
-		return static_cast< unsigned char >( *m.p_now++ );
-	return EOM;
-}
-
-void ReaderMemory::rewind()
-{
-	m.p_start = m.p_now;
-}
-
-}	// End of namespace cljp

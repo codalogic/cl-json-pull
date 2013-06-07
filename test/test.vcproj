@@ -185,6 +185,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\test-reader.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\test.cpp"
 				>
 			</File>

@@ -37,7 +37,7 @@
 
 TFUNCTION( json_event )
 {
-	TTODO( "json event" );
+	TDOC( "json event" );
 	
 	cljp::Event event;
 
