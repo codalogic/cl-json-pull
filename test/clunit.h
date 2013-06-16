@@ -50,7 +50,7 @@
 example-test.cpp:
 	#include "clunit.h"
 
-	void example_test()
+	TFUNCTION( example_test )			// A simpler way to both define and regsiter
 	{
 		TBEGIN( "Example tests" );		// Document the beginning of a test function
 
@@ -58,27 +58,20 @@ example-test.cpp:
 		TSETUP( int t=1 );				// Do any lines needed to setup a test
 		int b=1;						// Use of TSETUP for test setup is optional
 		TTODO( "Need todo this" );		// Log any tests that need to be done
+		TTODON( 2, "Need todo this" );	// As above but with a depth indicator (i.e. 2) to help prioritise work
 		TTODOX( t == b );				// Log a todo that is compilable but not trying to pass yet
+		TTODOXN( 2, t == b );			// A version of TTODOX() with a depth indicator
 		TDOC( "More description" );
 		TTEST( 1 != 0 );				// Run a test
+		TTESTN( 2, 1 != 0 );			// A version of TTEST() to mirror TTODOXN()
 		TCRITICALTEST( 1 == 1 );		// Return from function immediately if test fails
-	}
-
-	TREGISTER( example_test );			// Register example_test() for calling
-
-another-test.cpp:
-	#include "clunit.h"
-
-	TFUNCTION( another_test )			// A simpler way to both define and regsiter
-	{									// a test function called another_test()
-		...
 	}
 
 main-test.cpp:
 	#define CLUNIT_HOME
 	#include "clunit.h"
 
-	int main()
+	void main()
 	{
 		TRUNALL();						// Run registered tests and print final pass/fail result
 	}
@@ -147,8 +140,11 @@ public:
 #define TDOC( x ) cl::clunit::tdoc( x )
 #define TSETUP( x ) cl::clunit::tsetup_log( #x ); x
 #define TTODO( x ) cl::clunit::ttodo( x, __FILE__, __LINE__ )
+#define TTODON( n, x ) cl::clunit::ttodo( "[" #n "] " x, __FILE__, __LINE__ )
 #define TTODOX( x ) { cl::clunit::ttodox( #x, (x), __FILE__, __LINE__ ); }
+#define TTODOXN( n, x ) { cl::clunit::ttodox( "[" #n "] " #x, (x), __FILE__, __LINE__ ); }
 #define TTEST( x ) { cl::clunit::ttest( #x, (x), __FILE__, __LINE__ ); }
+#define TTESTN( n, x ) TTEST( x )
 #define TCRITICALTEST( x ) { if( ! cl::clunit::ttest( #x, (x), __FILE__, __LINE__ ) ) return; }
 #define TRUNALL() { cl::clunit::run(); size_t n_errors = cl::clunit::report(); if( n_errors > 255 ) return 255; return n_errors; }
 
