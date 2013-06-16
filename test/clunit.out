@@ -1,4 +1,4 @@
-Tests run on Fri Jun 07 21:20:01 2013
+Tests run on Sun Jun 16 18:37:59 2013
 
 
       json event
@@ -45,11 +45,39 @@ Tests run on Fri Jun 07 21:20:01 2013
 
 
       reader_file
+    ok: fout.is_open()
+    ok: reader.is_open()
+    ok: reader.get() == 'a'
+    ok: reader.get() == 'b'
+    ok: reader.get() == 'f'
+    ok: reader.get() == 'c'
+    ok: reader.get() == 0x00f2
+    ok: reader.get() == cljp::Reader::EOM
+    ok: reader.get() == 'a'
+    ok: ! _CrtMemDifference( &s3, &s1, &s2 )
+
+
+    ok: ! _CrtMemDifference( &s3, &s1, &s2 )
+
+
+    ok: ! _CrtMemDifference( &s3, &s1, &s2 )
+
+
+    ok: ! _CrtMemDifference( &s3, &s1, &s2 )
+
+
+    ok: ! _CrtMemDifference( &s3, &s1, &s2 )
+
+
     ok: ! _CrtMemDifference( &s3, &s1, &s2 )
     ok: _CrtCheckMemory() != 0
 
-TODOs (1):
+TODOs (5):
 ------------------------
-- reader_file [c:\pete\json\sw\cl-json-puller-0001\test\test-reader.cpp:109]
+- class UTFConverter [c:\home\pete\json\sw\cl-json-puller-0001\test\test-todo.cpp:40]
+- class ReadUTF8 [c:\home\pete\json\sw\cl-json-puller-0001\test\test-todo.cpp:45]
+- class ReadUTF8WithUnget [c:\home\pete\json\sw\cl-json-puller-0001\test\test-todo.cpp:50]
+- class Parser [c:\home\pete\json\sw\cl-json-puller-0001\test\test-todo.cpp:55]
+- class SmartParser [c:\home\pete\json\sw\cl-json-puller-0001\test\test-todo.cpp:60]
 
-0 error(s), 1 todo(s), 33 test(s)
+0 error(s), 5 todo(s), 47 test(s)

@@ -35,100 +35,27 @@
 
 #include "cl-json-puller.h"
 
-TFUNCTION( reader_memory )
+TFUNCTION( UTFConverter )
 {
-	TDOC( "reader_memory" );
-	
-	{
-	std::string in( "abc" );
-	
-	cljp::ReaderString reader( in );
-	
-	TTEST( reader.get() == 'a' );
-	TTEST( reader.get() == 'b' );
-	reader.unget( 'f' );
-	TTEST( reader.get() == 'f' );
-	reader.unget( 'g' );
-	reader.unget( 'h' );
-	TTEST( reader.get() == 'h' );
-	TTEST( reader.get() == 'g' );
-	TTEST( reader.get() == 'c' );
-	TTEST( reader.get() == cljp::Reader::EOM );
-	TTEST( reader.get() == cljp::Reader::EOM );
-	reader.unget( cljp::Reader::EOM );
-	TTEST( reader.get() == cljp::Reader::EOM );
-	
-	reader.unget( 'g' );
-	reader.unget( 'h' );
-	TTEST( reader.get() == 'h' );
-	TTEST( reader.get() == 'g' );
-	TTEST( reader.get() == cljp::Reader::EOM );
-	}
-	
-	{
-	std::string in( "" );
-	
-	cljp::ReaderString reader( in );
-	
-	TTEST( reader.get() == cljp::Reader::EOM );
-	}
+	TTODO( "class UTFConverter" );
 }
 
-TFUNCTION( reader_rewind )
+TFUNCTION( ReadUTF8 )
 {
-	TDOC( "reader_rewind" );
-
-	{
-	std::string in( "abc" );
-	
-	cljp::ReaderString reader( in );
-	
-	TTEST( reader.get() == 'a' );
-	TTEST( reader.get() == 'b' );
-	TSETUP( reader.rewind() );
-	TTEST( reader.get() == 'a' );
-	}
-
-	{
-	std::string in( "abc" );
-	
-	cljp::ReaderString reader( in );
-	
-	TTEST( reader.get() == 'a' );
-	TTEST( reader.get() == 'b' );
-	TSETUP( reader.unget( 'g' ) );
-	TSETUP( reader.rewind() );
-	TTEST( reader.get() == 'a' );
-	}
+	TTODO( "class ReadUTF8" );
 }
 
-TFUNCTION( reader_file )
+TFUNCTION( ReadUTF8WithUnget )
 {
-	TDOC( "reader_file" );
+	TTODO( "class ReadUTF8WithUnget" );
+}
 
-	const char * p_test_file_name = "Reader-test-abc.txt";
-	
-	{
-	std::ofstream fout( p_test_file_name );
-	TCRITICALTEST( fout.is_open() );
-	
-	fout << "abc\xf2";
-	}
-	
-	{
-	cljp::ReaderFile reader( p_test_file_name );
-	
-	TCRITICALTEST( reader.is_open() );
-	
-	TTEST( reader.get() == 'a' );
-	TTEST( reader.get() == 'b' );
-	reader.unget( 'f' );
-	TTEST( reader.get() == 'f' );
-	TTEST( reader.get() == 'c' );
-	TTEST( reader.get() == 0x00f2 );
-	TTEST( reader.get() == cljp::Reader::EOM );
-	
-	reader.rewind();
-	TTEST( reader.get() == 'a' );
-	}
+TFUNCTION( Parser )
+{
+	TTODO( "class Parser" );
+}
+
+TFUNCTION( SmartParser )
+{
+	TTODO( "class SmartParser" );
 }

@@ -33,6 +33,8 @@
 
 #include "cl-json-puller.h"
 
+#include <cstdio>
+
 namespace cljp {	// Codalogic JSON Puller
 
 //----------------------------------------------------------------------------
@@ -40,29 +42,6 @@ namespace cljp {	// Codalogic JSON Puller
 //----------------------------------------------------------------------------
 
 const int Reader::EOM = -1;
-
-int Reader::get()
-{
-	if( ! m.unget_buffer.empty() )
-	{
-		int result = m.unget_buffer.back();
-		m.unget_buffer.pop_back();
-		return result;
-	}
-	
-	return get_new();
-}
-
-void Reader::unget( int c )
-{
-	m.unget_buffer.push_back( c );
-}
-
-void Reader::rewind()
-{
-	m.unget_buffer.clear();
-	do_rewind();
-}
 
 //----------------------------------------------------------------------------
 //                             class ReaderMemory
@@ -84,5 +63,83 @@ void ReaderMemory::do_rewind()
 {
 	m.p_now = m.p_start;
 }
+
+//----------------------------------------------------------------------------
+//                             class ReaderFile
+//----------------------------------------------------------------------------
+
+ReaderFile::ReaderFile( const char * p_file_name_in )
+	: m( fopen( p_file_name_in, "r" ) )
+{
+}
+
+ReaderFile::ReaderFile( FILE * h_fin_in )
+	: m( h_fin_in )
+{
+}
+
+ReaderFile::~ReaderFile()
+{
+	if( m.is_close_on_destruct_required )
+		fclose( m.h_fin );
+}
+
+int ReaderFile::get_new()
+{
+	if( ! is_open() )
+		return EOM;
+	int c = fgetc( m.h_fin );
+	if( c == EOF )
+		return EOM;
+	return c;
+}
+
+void ReaderFile::do_rewind()
+{
+	if( is_open() )
+		fseek( m.h_fin, 0, SEEK_SET );
+}
+
+void ReaderFile::close_on_destruct( bool is_close_on_destruct_required )
+{
+	m.is_close_on_destruct_required = is_close_on_destruct_required;
+}
+
+//----------------------------------------------------------------------------
+//                             class UTFConverter
+//----------------------------------------------------------------------------
+
+//----------------------------------------------------------------------------
+//                               class ReadUTF8
+//----------------------------------------------------------------------------
+
+//----------------------------------------------------------------------------
+//                           class ReadUTF8WithUnget
+//----------------------------------------------------------------------------
+
+int ReadUTF8WithUnget::get()
+{
+	if( ! m.unget_buffer.empty() )
+	{
+		int result = m.unget_buffer.back();
+		m.unget_buffer.pop_back();
+		return result;
+	}
+	
+	return m.read_utf8.get();
+}
+
+void ReadUTF8WithUnget::unget( int c )
+{
+	m.unget_buffer.push_back( c );
+}
+
+//----------------------------------------------------------------------------
+//                               class Parser
+//----------------------------------------------------------------------------
+
+//----------------------------------------------------------------------------
+//                               class SmartParser
+//----------------------------------------------------------------------------
 
 }	// End of namespace cljp

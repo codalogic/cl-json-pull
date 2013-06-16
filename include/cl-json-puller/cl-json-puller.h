@@ -38,6 +38,8 @@
 #include <vector>
 #include <cstdio>
 
+#include "../test/sdd.h"	// Temporary inclusion while being designed
+
 namespace cljp {	// Codalogic JSON Puller
 
 //----------------------------------------------------------------------------
@@ -82,24 +84,20 @@ public:
 
 class Reader
 {
-private:
-	struct Members {
-		std::vector< char > unget_buffer;
-	} m;
-
 public:
-	virtual ~Reader() {}
-
 	static const int EOM /*= -1*/;	// End of message
 
-	int get();	// Returns EOM when no more input
-	void unget( int );
-	void rewind();
+	virtual ~Reader() {}
+
+	virtual void close_on_destruct( bool is_close_on_destruct_required ) {}
+
+	SDD_METHOD( get, "Read a character from the relevant input interface" )
+	int get() { return do_get(); }	// Returns EOM when no more input
+	void rewind() { return do_rewind(); }
 
 private:
-	virtual int get_new() = 0;
+	virtual int do_get() = 0;
 	virtual void do_rewind() = 0;
-	virtual void close_on_destruct( bool is_close_on_destruct_required ) {}
 };
 
 //----------------------------------------------------------------------------
@@ -148,18 +146,108 @@ class ReaderFile : public Reader
 private:
 	struct Members {
 		FILE * h_fin;
+		bool is_close_on_destruct_required;
 		
 		Members( FILE * h_fin_in )
-			: h_fin( h_fin_in )
+			: h_fin( h_fin_in ), is_close_on_destruct_required( true )
 		{}
 	} m;
 
 public:
+	ReaderFile( const char * p_file_name_in );
 	ReaderFile( FILE * h_fin_in );
+	~ReaderFile();
+	
+	bool is_open() const { return m.h_fin != 0; }
 
 private:
 	virtual int get_new();
 	virtual void do_rewind();
+	virtual void close_on_destruct( bool is_close_on_destruct_required );
+};
+
+//----------------------------------------------------------------------------
+//                             class UTFConverter
+//----------------------------------------------------------------------------
+
+class UTFConverter
+{
+public:
+	SDD_CLASS( "Utility class providing conversion from non-UTF8 to UTF8" )
+	
+	typedef char utf8_buffer_t[6+1];
+	typedef char utf16_buffer_t[2+1];
+	typedef char utf32_buffer_t[4+1];
+	
+	enum ConversionResult { CR_OK, CR_LOW_SURROGATE, CR_HIGH_SURROGATE, CR_FAIL };
+	
+	SDD_METHOD( from_utf16le, "( char * utf8_out, int utf16le_in ) -> ConversionResult" )
+	//SDD_METHOD( from_utf16le, "( char * utf8_out, Reader & reader_in ) -> ConversionResult" )
+};
+
+//----------------------------------------------------------------------------
+//                               class ReadUTF8
+//----------------------------------------------------------------------------
+
+class ReadUTF8
+{
+public:
+	SDD_CLASS( "Converts any Reader input into UTF8" )
+
+	SDD_REFERENCES( Reader )
+	SDD_METHOD( get, "Returns a UTF8 character" )
+	int get();
+	SDD_CALLS( Reader, get )
+};
+
+//----------------------------------------------------------------------------
+//                           class ReadUTF8WithUnget
+//----------------------------------------------------------------------------
+
+class ReadUTF8WithUnget
+{
+private:
+	struct Members {
+		std::vector< char > unget_buffer;
+		ReadUTF8 read_utf8;
+	} m;
+
+public:
+	SDD_CLASS( "Allows ungetting characters" )
+	
+	SDD_USES( ReadUTF8 )
+	SDD_CALLS( ReadUTF8, get )
+	SDD_METHOD( get, "Returns a UTF8 character that may previously have been ungot" )
+	int get();
+
+	SDD_METHOD( unget, "ungets a character" )
+	void unget( int c );
+};
+
+//----------------------------------------------------------------------------
+//                               class Parser
+//----------------------------------------------------------------------------
+
+class Parser
+{
+public:
+	SDD_USES( ReadUTF8 )
+
+	SDD_METHOD( get, "Reads the next name/value pair from input" )
+	SDD_METHOD( get_value, "Reads the next value from input. Used in arrays" )
+};
+
+//----------------------------------------------------------------------------
+//                           class SmartParser
+//----------------------------------------------------------------------------
+
+class SmartParser : public Parser
+{
+public:
+	SDD_CLASS( "Adds context to the basic parser to keep track of whether reading name/value pairs or just values" )
+	SDD_EXTENDS( Parser )
+	
+	SDD_METHOD( get, "Reads either a name/value pair or just a value dependin on context" )
 };
 
 }	// End of namespace cljp

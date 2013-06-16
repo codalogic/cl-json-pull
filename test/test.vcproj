@@ -177,15 +177,15 @@
 			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath=".\clunit.h"
-				>
-			</File>
-			<File
 				RelativePath=".\test-event.cpp"
 				>
 			</File>
 			<File
 				RelativePath=".\test-reader.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\test-todo.cpp"
 				>
 			</File>
 			<File
@@ -198,6 +198,14 @@
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
+			<File
+				RelativePath=".\clunit.h"
+				>
+			</File>
+			<File
+				RelativePath=".\sdd.h"
+				>
+			</File>
 		</Filter>
 	</Files>
 	<Globals>
