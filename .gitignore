@@ -38,3 +38,4 @@
 *.0
 
 # Project specific ignores
+test/Reader-test-abc.txt
