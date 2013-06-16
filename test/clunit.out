@@ -1,4 +1,4 @@
-Tests run on Sun Jun 16 18:37:59 2013
+Tests run on Sun Jun 16 22:38:07 2013
 
 
       json event
@@ -17,30 +17,10 @@ Tests run on Sun Jun 16 18:37:59 2013
       reader_memory
     ok: reader.get() == 'a'
     ok: reader.get() == 'b'
-    ok: reader.get() == 'f'
-    ok: reader.get() == 'h'
-    ok: reader.get() == 'g'
     ok: reader.get() == 'c'
     ok: reader.get() == cljp::Reader::EOM
     ok: reader.get() == cljp::Reader::EOM
     ok: reader.get() == cljp::Reader::EOM
-    ok: reader.get() == 'h'
-    ok: reader.get() == 'g'
-    ok: reader.get() == cljp::Reader::EOM
-    ok: reader.get() == cljp::Reader::EOM
-    ok: ! _CrtMemDifference( &s3, &s1, &s2 )
-
-
-      reader_rewind
-    ok: reader.get() == 'a'
-    ok: reader.get() == 'b'
-      : reader.rewind()
-    ok: reader.get() == 'a'
-    ok: reader.get() == 'a'
-    ok: reader.get() == 'b'
-      : reader.unget( 'g' )
-      : reader.rewind()
-    ok: reader.get() == 'a'
     ok: ! _CrtMemDifference( &s3, &s1, &s2 )
 
 
@@ -49,7 +29,6 @@ Tests run on Sun Jun 16 18:37:59 2013
     ok: reader.is_open()
     ok: reader.get() == 'a'
     ok: reader.get() == 'b'
-    ok: reader.get() == 'f'
     ok: reader.get() == 'c'
     ok: reader.get() == 0x00f2
     ok: reader.get() == cljp::Reader::EOM
@@ -72,12 +51,17 @@ Tests run on Sun Jun 16 18:37:59 2013
     ok: ! _CrtMemDifference( &s3, &s1, &s2 )
     ok: _CrtCheckMemory() != 0
 
-TODOs (5):
+TODOs (10):
 ------------------------
 - class UTFConverter [c:\home\pete\json\sw\cl-json-puller-0001\test\test-todo.cpp:40]
 - class ReadUTF8 [c:\home\pete\json\sw\cl-json-puller-0001\test\test-todo.cpp:45]
-- class ReadUTF8WithUnget [c:\home\pete\json\sw\cl-json-puller-0001\test\test-todo.cpp:50]
-- class Parser [c:\home\pete\json\sw\cl-json-puller-0001\test\test-todo.cpp:55]
-- class SmartParser [c:\home\pete\json\sw\cl-json-puller-0001\test\test-todo.cpp:60]
+- ReadUTF8: test reading in UTF8 [c:\home\pete\json\sw\cl-json-puller-0001\test\test-todo.cpp:47]
+- ReadUTF8: test reading in UTF16LE [c:\home\pete\json\sw\cl-json-puller-0001\test\test-todo.cpp:48]
+- ReadUTF8: test reading in UTF16BE [c:\home\pete\json\sw\cl-json-puller-0001\test\test-todo.cpp:49]
+- ReadUTF8: test reading in UTF32LE [c:\home\pete\json\sw\cl-json-puller-0001\test\test-todo.cpp:50]
+- ReadUTF8: test reading in UTF32BE [c:\home\pete\json\sw\cl-json-puller-0001\test\test-todo.cpp:51]
+- class ReadUTF8WithUnget [c:\home\pete\json\sw\cl-json-puller-0001\test\test-todo.cpp:56]
+- class Parser [c:\home\pete\json\sw\cl-json-puller-0001\test\test-todo.cpp:61]
+- class SmartParser [c:\home\pete\json\sw\cl-json-puller-0001\test\test-todo.cpp:66]
 
-0 error(s), 5 todo(s), 47 test(s)
+0 error(s), 10 todo(s), 32 test(s)

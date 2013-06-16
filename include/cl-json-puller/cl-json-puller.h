@@ -121,7 +121,7 @@ public:
 	ReaderMemory( const char * p_start_in, const char * p_end_in );
 
 private:
-	virtual int get_new();
+	virtual int do_get();
 	virtual void do_rewind();
 };
 
@@ -161,7 +161,7 @@ public:
 	bool is_open() const { return m.h_fin != 0; }
 
 private:
-	virtual int get_new();
+	virtual int do_get();
 	virtual void do_rewind();
 	virtual void close_on_destruct( bool is_close_on_destruct_required );
 };
@@ -191,8 +191,21 @@ public:
 
 class ReadUTF8
 {
+private:
+	struct Members {
+		Reader & r_reader;
+		
+		Members( Reader & r_reader_in )
+			: r_reader( r_reader_in )
+		{}
+	} m;
+
 public:
 	SDD_CLASS( "Converts any Reader input into UTF8" )
+	
+	ReadUTF8( Reader & r_reader_in )
+		: m( r_reader_in )
+	{}
 
 	SDD_REFERENCES( Reader )
 	SDD_METHOD( get, "Returns a UTF8 character" )

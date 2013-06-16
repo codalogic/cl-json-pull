@@ -46,22 +46,8 @@ TFUNCTION( reader_memory )
 	
 	TTEST( reader.get() == 'a' );
 	TTEST( reader.get() == 'b' );
-	reader.unget( 'f' );
-	TTEST( reader.get() == 'f' );
-	reader.unget( 'g' );
-	reader.unget( 'h' );
-	TTEST( reader.get() == 'h' );
-	TTEST( reader.get() == 'g' );
 	TTEST( reader.get() == 'c' );
 	TTEST( reader.get() == cljp::Reader::EOM );
-	TTEST( reader.get() == cljp::Reader::EOM );
-	reader.unget( cljp::Reader::EOM );
-	TTEST( reader.get() == cljp::Reader::EOM );
-	
-	reader.unget( 'g' );
-	reader.unget( 'h' );
-	TTEST( reader.get() == 'h' );
-	TTEST( reader.get() == 'g' );
 	TTEST( reader.get() == cljp::Reader::EOM );
 	}
 	
@@ -71,34 +57,6 @@ TFUNCTION( reader_memory )
 	cljp::ReaderString reader( in );
 	
 	TTEST( reader.get() == cljp::Reader::EOM );
-	}
-}
-
-TFUNCTION( reader_rewind )
-{
-	TDOC( "reader_rewind" );
-
-	{
-	std::string in( "abc" );
-	
-	cljp::ReaderString reader( in );
-	
-	TTEST( reader.get() == 'a' );
-	TTEST( reader.get() == 'b' );
-	TSETUP( reader.rewind() );
-	TTEST( reader.get() == 'a' );
-	}
-
-	{
-	std::string in( "abc" );
-	
-	cljp::ReaderString reader( in );
-	
-	TTEST( reader.get() == 'a' );
-	TTEST( reader.get() == 'b' );
-	TSETUP( reader.unget( 'g' ) );
-	TSETUP( reader.rewind() );
-	TTEST( reader.get() == 'a' );
 	}
 }
 
@@ -122,8 +80,6 @@ TFUNCTION( reader_file )
 	
 	TTEST( reader.get() == 'a' );
 	TTEST( reader.get() == 'b' );
-	reader.unget( 'f' );
-	TTEST( reader.get() == 'f' );
 	TTEST( reader.get() == 'c' );
 	TTEST( reader.get() == 0x00f2 );
 	TTEST( reader.get() == cljp::Reader::EOM );

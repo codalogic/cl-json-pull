@@ -52,7 +52,7 @@ ReaderMemory::ReaderMemory( const char * p_start_in, const char * p_end_in )
 {
 }
 
-int ReaderMemory::get_new()
+int ReaderMemory::do_get()
 {
 	if( m.p_now < m.p_end )
 		return static_cast< unsigned char >( *m.p_now++ );
@@ -84,7 +84,7 @@ ReaderFile::~ReaderFile()
 		fclose( m.h_fin );
 }
 
-int ReaderFile::get_new()
+int ReaderFile::do_get()
 {
 	if( ! is_open() )
 		return EOM;
@@ -112,6 +112,11 @@ void ReaderFile::close_on_destruct( bool is_close_on_destruct_required )
 //----------------------------------------------------------------------------
 //                               class ReadUTF8
 //----------------------------------------------------------------------------
+
+int ReadUTF8::get()
+{
+	return m.r_reader.get();
+}
 
 //----------------------------------------------------------------------------
 //                           class ReadUTF8WithUnget

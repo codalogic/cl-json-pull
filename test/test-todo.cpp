@@ -43,6 +43,12 @@ TFUNCTION( UTFConverter )
 TFUNCTION( ReadUTF8 )
 {
 	TTODO( "class ReadUTF8" );
+	
+	TTODO( "ReadUTF8: test reading in UTF8" );
+	TTODO( "ReadUTF8: test reading in UTF16LE" );
+	TTODO( "ReadUTF8: test reading in UTF16BE" );
+	TTODO( "ReadUTF8: test reading in UTF32LE" );
+	TTODO( "ReadUTF8: test reading in UTF32BE" );
 }
 
 TFUNCTION( ReadUTF8WithUnget )
