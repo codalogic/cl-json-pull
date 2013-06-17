@@ -1,4 +1,4 @@
-Tests run on Mon Jun 17 12:42:27 2013
+Tests run on Mon Jun 17 16:22:25 2013
 
 
       json event
@@ -36,6 +36,20 @@ Tests run on Mon Jun 17 12:42:27 2013
     ok: ! _CrtMemDifference( &s3, &s1, &s2 )
 
 
+      class ReadUTF8WithUnget
+    ok: input.get() == 'a'
+    ok: input.get() == 'b'
+    ok: input.get() == 'f'
+    ok: input.get() == 'h'
+    ok: input.get() == 'g'
+    ok: input.get() == 'c'
+    ok: input.get() == cljp::Reader::EOM
+    ok: input.get() == cljp::Reader::EOM
+    ok: input.get() == cljp::Reader::EOM
+    ok: input.get() == 'h'
+    ok: input.get() == 'g'
+    ok: input.get() == cljp::Reader::EOM
+    ok: input.get() == cljp::Reader::EOM
     ok: ! _CrtMemDifference( &s3, &s1, &s2 )
 
 
@@ -48,6 +62,7 @@ Tests run on Mon Jun 17 12:42:27 2013
     ok: ! _CrtMemDifference( &s3, &s1, &s2 )
 
 
+      Basic Parser
     ok: ! _CrtMemDifference( &s3, &s1, &s2 )
     ok: _CrtCheckMemory() != 0
 
@@ -60,8 +75,8 @@ TODOs (10):
 - ReadUTF8: test reading in UTF16BE [test-todo.cpp:49]
 - ReadUTF8: test reading in UTF32LE [test-todo.cpp:50]
 - ReadUTF8: test reading in UTF32BE [test-todo.cpp:51]
-- class ReadUTF8WithUnget [test-todo.cpp:56]
-- class Parser [test-todo.cpp:61]
-- class SmartParser [test-todo.cpp:66]
+- class SmartParser [test-todo.cpp:56]
+- class Parser [test-parse.cpp:44]
+- parser.get_value( &event ); [test-parse.cpp:54]
 
-0 error(s), 10 todo(s), 32 test(s)
+0 error(s), 10 todo(s), 45 test(s)

@@ -211,6 +211,8 @@ public:
 	SDD_METHOD( get, "Returns a UTF8 character" )
 	int get();
 	SDD_CALLS( Reader, get )
+	
+	void rewind();
 };
 
 //----------------------------------------------------------------------------
@@ -243,6 +245,8 @@ public:
 
 	SDD_METHOD( unget, "ungets a character" )
 	void unget( int c );
+	
+	void rewind();
 };
 
 //----------------------------------------------------------------------------

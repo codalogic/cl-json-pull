@@ -88,3 +88,45 @@ TFUNCTION( reader_file )
 	TTEST( reader.get() == 'a' );
 	}
 }
+
+TFUNCTION( ReadUTF8WithUnget )
+{
+	TDOC( "class ReadUTF8WithUnget" );
+	{
+	std::string in( "abc" );
+	
+	cljp::ReaderString reader( in );
+	
+	cljp::ReadUTF8WithUnget input( reader );
+	
+	TTEST( input.get() == 'a' );
+	TTEST( input.get() == 'b' );
+	input.unget( 'f' );
+	TTEST( input.get() == 'f' );
+	input.unget( 'g' );
+	input.unget( 'h' );
+	TTEST( input.get() == 'h' );
+	TTEST( input.get() == 'g' );
+	TTEST( input.get() == 'c' );
+	TTEST( input.get() == cljp::Reader::EOM );
+	TTEST( input.get() == cljp::Reader::EOM );
+	input.unget( cljp::Reader::EOM );
+	TTEST( input.get() == cljp::Reader::EOM );
+	
+	input.unget( 'g' );
+	input.unget( 'h' );
+	TTEST( input.get() == 'h' );
+	TTEST( input.get() == 'g' );
+	TTEST( input.get() == cljp::Reader::EOM );
+	}
+	
+	{
+	std::string in( "" );
+	
+	cljp::ReaderString reader( in );
+	
+	cljp::ReadUTF8WithUnget input( reader );
+	
+	TTEST( input.get() == cljp::Reader::EOM );
+	}
+}

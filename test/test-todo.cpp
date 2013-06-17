@@ -51,11 +51,6 @@ TFUNCTION( ReadUTF8 )
 	TTODO( "ReadUTF8: test reading in UTF32BE" );
 }
 
-TFUNCTION( ReadUTF8WithUnget )
-{
-	TTODO( "class ReadUTF8WithUnget" );
-}
-
 TFUNCTION( SmartParser )
 {
 	TTODO( "class SmartParser" );

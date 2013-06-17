@@ -118,6 +118,11 @@ int ReadUTF8::get()
 	return m.r_reader.get();
 }
 
+void ReadUTF8::rewind()
+{
+	return m.r_reader.rewind();
+}
+
 //----------------------------------------------------------------------------
 //                           class ReadUTF8WithUnget
 //----------------------------------------------------------------------------
@@ -137,6 +142,11 @@ int ReadUTF8WithUnget::get()
 void ReadUTF8WithUnget::unget( int c )
 {
 	m.unget_buffer.push_back( c );
+}
+
+void ReadUTF8WithUnget::rewind()
+{
+	return m.read_utf8.rewind();
 }
 
 //----------------------------------------------------------------------------
