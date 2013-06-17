@@ -255,14 +255,16 @@ private:
 	} m;
 
 public:
-	SDD_USES( ReadUTF8 )
-	
+	enum ParserResult { PR_OK, PR_FAIL };
+
 	Parser( Reader & reader_in )
 		: m( reader_in )
 	{}
 
 	SDD_METHOD( get, "Reads the next name/value pair from input" )
+	ParserResult get( Event * p_event_out );
 	SDD_METHOD( get_value, "Reads the next value from input. Used in arrays" )
+	ParserResult get_value( Event * p_event_out );
 };
 
 //----------------------------------------------------------------------------

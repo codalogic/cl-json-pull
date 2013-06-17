@@ -37,17 +37,40 @@
 
 #include <string>
 
+struct Harness
+{
+	std::string json;
+	cljp::ReaderString reader;
+	cljp::Parser parser;
+	cljp::Event event;
+	
+	Harness( const std::string & r_json_in )
+		:
+		json( r_json_in ),
+		reader( json ),
+		parser( reader )
+	{}
+	
+	cljp::Parser::ParserResult get()
+	{
+		return parser.get( &event );
+	}
+	
+	cljp::Parser::ParserResult get_value()
+	{
+		return parser.get_value( &event );
+	}
+};
+
 TFUNCTION( parser )
 {
 	TDOC( "Basic Parser" );
 	
 	TTODO( "class Parser" );
 	
-	std::string json( "{" );
+	{
+	Harness harness( "{" );
 	
-	cljp::ReaderString reader( json );
-	
-	cljp::Parser parser( reader );
-	
-	cljp::Event event;
+	TTEST( harness.get_value() == cljp::Parser::PR_OK );
+	}
 }

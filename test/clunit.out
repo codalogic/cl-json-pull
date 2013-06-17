@@ -1,4 +1,4 @@
-Tests run on Mon Jun 17 16:22:25 2013
+Tests run on Mon Jun 17 17:38:25 2013
 
 
       json event
@@ -63,10 +63,11 @@ Tests run on Mon Jun 17 16:22:25 2013
 
 
       Basic Parser
+not ok: harness.get_value() == cljp::Parser::PR_OK (74)
     ok: ! _CrtMemDifference( &s3, &s1, &s2 )
     ok: _CrtCheckMemory() != 0
 
-TODOs (10):
+TODOs (9):
 ------------------------
 - class UTFConverter [test-todo.cpp:40]
 - class ReadUTF8 [test-todo.cpp:45]
@@ -76,7 +77,6 @@ TODOs (10):
 - ReadUTF8: test reading in UTF32LE [test-todo.cpp:50]
 - ReadUTF8: test reading in UTF32BE [test-todo.cpp:51]
 - class SmartParser [test-todo.cpp:56]
-- class Parser [test-parse.cpp:44]
-- parser.get_value( &event ); [test-parse.cpp:54]
+- class Parser [test-parse.cpp:69]
 
-0 error(s), 10 todo(s), 45 test(s)
+1 error(s), 9 todo(s), 46 test(s)

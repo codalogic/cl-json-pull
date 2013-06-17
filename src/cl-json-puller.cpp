@@ -150,8 +150,46 @@ void ReadUTF8WithUnget::rewind()
 }
 
 //----------------------------------------------------------------------------
+//                          local class ParserImpl
+//----------------------------------------------------------------------------
+
+class ParserImpl
+{
+private:
+	struct Members {
+		ReadUTF8WithUnget & input;
+		
+		Members( ReadUTF8WithUnget & input_in )
+			: input( input_in )
+		{}
+	} m;
+
+public:
+	ParserImpl( ReadUTF8WithUnget & input_in )
+		: m( input_in )
+	{}
+
+	SDD_METHOD( get, "Reads the next name/value pair from input" )
+	Parser::ParserResult get( Event * p_event_out )
+	{
+		return Parser::PR_FAIL;
+	}
+
+	SDD_METHOD( get_value, "Reads the next value from input. Used in arrays" )
+	Parser::ParserResult get_value( Event * p_event_out )
+	{
+		return Parser::PR_FAIL;
+	}
+};
+
+//----------------------------------------------------------------------------
 //                               class Parser
 //----------------------------------------------------------------------------
+
+Parser::ParserResult Parser::get_value( Event * p_event_out )
+{
+	return ParserImpl( m.input ).get_value( p_event_out );
+}
 
 //----------------------------------------------------------------------------
 //                               class SmartParser
