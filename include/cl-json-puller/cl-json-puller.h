@@ -91,7 +91,6 @@ public:
 
 	virtual void close_on_destruct( bool is_close_on_destruct_required ) {}
 
-	SDD_METHOD( get, "Read a character from the relevant input interface" )
 	int get() { return do_get(); }	// Returns EOM when no more input
 	void rewind() { return do_rewind(); }
 
@@ -207,10 +206,7 @@ public:
 		: m( r_reader_in )
 	{}
 
-	SDD_REFERENCES( Reader )
-	SDD_METHOD( get, "Returns a UTF8 character" )
 	int get();
-	SDD_CALLS( Reader, get )
 	
 	void rewind();
 };
@@ -232,18 +228,12 @@ private:
 	} m;
 
 public:
-	SDD_CLASS( "Allows ungetting characters" )
-	
 	ReadUTF8WithUnget( Reader & reader_in )
 			: m( reader_in )
 		{}
 	
-	SDD_USES( ReadUTF8 )
-	SDD_CALLS( ReadUTF8, get )
-	SDD_METHOD( get, "Returns a UTF8 character that may previously have been ungot" )
 	int get();
 
-	SDD_METHOD( unget, "ungets a character" )
 	void unget( int c );
 	
 	void rewind();
