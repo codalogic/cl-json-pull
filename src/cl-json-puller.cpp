@@ -180,6 +180,17 @@ public:
 	{
 		return Parser::PR_FAIL;
 	}
+
+private:
+	int get() { return m.input.get(); }
+	void unget( int c ) { m.input.unget( c ); }
+	int get_non_ws()
+	{
+		int c = get();
+		while( isspace( c ) )
+			c = get();
+		return c;
+	}
 };
 
 //----------------------------------------------------------------------------
