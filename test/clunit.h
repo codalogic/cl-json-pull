@@ -71,7 +71,7 @@ main-test.cpp:
 	#define CLUNIT_HOME
 	#include "clunit.h"
 
-	void main()
+	int main()
 	{
 		TRUNALL();						// Run registered tests and print final pass/fail result
 	}
@@ -98,6 +98,23 @@ main-test.cpp:
 #endif
 
 namespace cl {
+
+#define TFUNCTION( x ) static void x(); TREGISTER( x ); void x()
+#define TREGISTER( x ) static cl::clunit x ## _registered_clunit_test( x );
+#define TBEGIN( x ) cl::clunit::tbegin( x, __FILE__, __LINE__ )
+#define TDOC( x ) cl::clunit::tdoc( x )
+#define TSETUP( x ) cl::clunit::tsetup_log( #x ); x
+#define TTODO( x ) cl::clunit::ttodo( x, __FILE__, __LINE__ )
+#define TTODON( n, x ) cl::clunit::ttodo( "[" #n "] " x, __FILE__, __LINE__ )
+#define TTODOX( x ) { cl::clunit::ttodox( #x, (x), __FILE__, __LINE__ ); }
+#define TTODOXN( n, x ) { cl::clunit::ttodox( "[" #n "] " #x, (x), __FILE__, __LINE__ ); }
+#define TTEST( x ) { cl::clunit::ttest( #x, (x), __FILE__, __LINE__ ); }
+#define TTESTN( n, x ) TTEST( x )
+#define TCRITICALTEST( x ) { if( ! cl::clunit::ttest( #x, (x), __FILE__, __LINE__ ) ) return; }
+#define TRUNALL() { cl::clunit::run(); size_t n_errors = cl::clunit::report(); if( n_errors > 255 ) return 255; return n_errors; }
+
+typedef void(*job_func_ptr)();
+typedef std::vector< job_func_ptr > job_list;
 
 class fixed_size_log
 {
@@ -134,23 +151,6 @@ public:
 	bool empty() const { return  n_items_logged == 0; }
 };
 
-#define TFUNCTION( x ) static void x(); TREGISTER( x ); void x()
-#define TREGISTER( x ) static cl::clunit x ## _registered_clunit_test( x );
-#define TBEGIN( x ) cl::clunit::tbegin( x, __FILE__, __LINE__ )
-#define TDOC( x ) cl::clunit::tdoc( x )
-#define TSETUP( x ) cl::clunit::tsetup_log( #x ); x
-#define TTODO( x ) cl::clunit::ttodo( x, __FILE__, __LINE__ )
-#define TTODON( n, x ) cl::clunit::ttodo( "[" #n "] " x, __FILE__, __LINE__ )
-#define TTODOX( x ) { cl::clunit::ttodox( #x, (x), __FILE__, __LINE__ ); }
-#define TTODOXN( n, x ) { cl::clunit::ttodox( "[" #n "] " #x, (x), __FILE__, __LINE__ ); }
-#define TTEST( x ) { cl::clunit::ttest( #x, (x), __FILE__, __LINE__ ); }
-#define TTESTN( n, x ) TTEST( x )
-#define TCRITICALTEST( x ) { if( ! cl::clunit::ttest( #x, (x), __FILE__, __LINE__ ) ) return; }
-#define TRUNALL() { cl::clunit::run(); size_t n_errors = cl::clunit::report(); if( n_errors > 255 ) return 255; return n_errors; }
-
-typedef void(*job_func_ptr)();
-typedef std::vector< job_func_ptr > job_list;
-
 class clunit
 {
 private:
@@ -182,7 +182,7 @@ private:
 		{
 			std::ostringstream documentation;
 			documentation << 
-					"    " << what << " [" << file << ":" << line << "]\n" <<
+					"    " << what << " [" << file_base( file ) << ":" << line << "]\n" <<
 					"    ==========================\n";
 			print_to_all_outputs( documentation.str() );
 		}
@@ -197,7 +197,7 @@ private:
 		void ttodo( const char * what, const char * file, int line )
 		{
 			std::ostringstream report;
-			report << "- " << what << " [" << file << ":" << line << "]\n";
+			report << "- " << what << " [" << file_base( file ) << ":" << line << "]\n";
 			todo_log.insert( report.str() );
 		}
 		void ttodox( const char * what, bool is_passed, const char * file, int line )
@@ -205,7 +205,7 @@ private:
 			std::ostringstream report;
 			report << "- " << 
 					what << ((is_passed)?" (passing)":" (failing)") << 
-					" [" << file << ":" << line << "]\n";
+					" [" << file_base( file ) << ":" << line << "]\n";
 			todo_log.insert( report.str() );
 		}
 		bool ttest( const char * what, bool is_passed, const char * file, int line )
@@ -305,6 +305,18 @@ private:
 			TVS_DEBUG_CONSOLE_OUT( message );
 		}
 		void clear() { get_jobs().clear(); }
+	private:
+		static const char * file_base( const char * p_file )
+		{
+			const char * p_base = p_file;
+			for( const char * p_seek = "/\\:"; *p_seek; ++p_seek )
+			{
+				const char * p_found = strrchr( p_base, *p_seek );
+				if( p_found && *(p_found + 1) )
+					p_base = p_found + 1;
+			}
+			return p_base;
+		}
 	};
 	
 	static singleton my_singleton;
