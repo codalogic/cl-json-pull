@@ -223,10 +223,18 @@ private:
 	struct Members {
 		std::vector< char > unget_buffer;
 		ReadUTF8 read_utf8;
+		
+		Members( Reader & reader_in )
+			: read_utf8( reader_in )
+		{}
 	} m;
 
 public:
 	SDD_CLASS( "Allows ungetting characters" )
+	
+	ReadUTF8WithUnget( Reader & reader_in )
+			: m( reader_in )
+		{}
 	
 	SDD_USES( ReadUTF8 )
 	SDD_CALLS( ReadUTF8, get )
@@ -243,8 +251,21 @@ public:
 
 class Parser
 {
+private:
+	struct Members {
+		ReadUTF8WithUnget input;
+		
+		Members( Reader & reader_in )
+			: input( reader_in )
+		{}
+	} m;
+
 public:
 	SDD_USES( ReadUTF8 )
+	
+	Parser( Reader & reader_in )
+		: m( reader_in )
+	{}
 
 	SDD_METHOD( get, "Reads the next name/value pair from input" )
 	SDD_METHOD( get_value, "Reads the next value from input. Used in arrays" )

@@ -35,28 +35,19 @@
 
 #include "cl-json-puller.h"
 
-TFUNCTION( UTFConverter )
-{
-	TTODO( "class UTFConverter" );
-}
+#include <string>
 
-TFUNCTION( ReadUTF8 )
+TFUNCTION( parser )
 {
-	TTODO( "class ReadUTF8" );
+	TDOC( "Basic Parser" );
 	
-	TTODO( "ReadUTF8: test reading in UTF8" );
-	TTODO( "ReadUTF8: test reading in UTF16LE" );
-	TTODO( "ReadUTF8: test reading in UTF16BE" );
-	TTODO( "ReadUTF8: test reading in UTF32LE" );
-	TTODO( "ReadUTF8: test reading in UTF32BE" );
-}
-
-TFUNCTION( ReadUTF8WithUnget )
-{
-	TTODO( "class ReadUTF8WithUnget" );
-}
-
-TFUNCTION( SmartParser )
-{
-	TTODO( "class SmartParser" );
+	TTODO( "class Parser" );
+	
+	std::string json( "{" );
+	
+	cljp::ReaderString reader( json );
+	
+	cljp::Parser parser( reader );
+	
+	cljp::Event event;
 }
