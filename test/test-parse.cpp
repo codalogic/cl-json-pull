@@ -64,7 +64,7 @@ struct Harness
 
 TFUNCTION( parser )
 {
-	TDOC( "Basic Parser" );
+	TBEGIN( "Basic Parser" );
 	
 	TTODO( "class Parser" );
 	

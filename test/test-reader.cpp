@@ -37,7 +37,7 @@
 
 TFUNCTION( reader_memory )
 {
-	TDOC( "reader_memory" );
+	TBEGIN( "reader_memory" );
 	
 	{
 	std::string in( "abc" );
@@ -62,7 +62,7 @@ TFUNCTION( reader_memory )
 
 TFUNCTION( reader_file )
 {
-	TDOC( "reader_file" );
+	TBEGIN( "reader_file" );
 
 	const char * p_test_file_name = "Reader-test-abc.txt";
 	
@@ -91,7 +91,7 @@ TFUNCTION( reader_file )
 
 TFUNCTION( ReadUTF8WithUnget )
 {
-	TDOC( "class ReadUTF8WithUnget" );
+	TBEGIN( "class ReadUTF8WithUnget" );
 	{
 	std::string in( "abc" );
 	

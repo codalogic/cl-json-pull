@@ -1,4 +1,4 @@
-Tests run on Thu Jun 20 10:44:04 2013
+Tests run on Thu Jun 20 10:46:25 2013
 
       json event
     ok: event.name() == ""
@@ -12,11 +12,13 @@ Tests run on Thu Jun 20 10:44:04 2013
     ok: event.type() == cljp::Event::T_UNKNOWN
     ok: ! _CrtMemDifference( &s3, &s1, &s2 )
 
-      Basic Parser
+    Basic Parser [test-parse.cpp:67]
+    ==========================
 not ok: harness.get_value() == cljp::Parser::PR_OK (74)
     ok: ! _CrtMemDifference( &s3, &s1, &s2 )
 
-      reader_memory
+    reader_memory [test-reader.cpp:40]
+    ==========================
     ok: reader.get() == 'a'
     ok: reader.get() == 'b'
     ok: reader.get() == 'c'
@@ -25,7 +27,8 @@ not ok: harness.get_value() == cljp::Parser::PR_OK (74)
     ok: reader.get() == cljp::Reader::EOM
     ok: ! _CrtMemDifference( &s3, &s1, &s2 )
 
-      reader_file
+    reader_file [test-reader.cpp:65]
+    ==========================
     ok: fout.is_open()
     ok: reader.is_open()
     ok: reader.get() == 'a'
@@ -36,7 +39,8 @@ not ok: harness.get_value() == cljp::Parser::PR_OK (74)
     ok: reader.get() == 'a'
     ok: ! _CrtMemDifference( &s3, &s1, &s2 )
 
-      class ReadUTF8WithUnget
+    class ReadUTF8WithUnget [test-reader.cpp:94]
+    ==========================
     ok: input.get() == 'a'
     ok: input.get() == 'b'
     ok: input.get() == 'f'
