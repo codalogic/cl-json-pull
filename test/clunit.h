@@ -158,6 +158,8 @@ private:
 	{
 	private:
 		bool is_first;
+		bool is_new_tout_section;
+		bool is_new_print_all_section;
 		int n_tests;
 		int n_errors;
 		fixed_size_log todo_log;
@@ -169,6 +171,8 @@ private:
 		singleton()
 			:
 			is_first( true ),
+			is_new_tout_section( false ),
+			is_new_print_all_section( false ),
 			n_tests( 0 ),
 			n_errors( 0 ),
 			todo_log( 10000 )
@@ -181,7 +185,7 @@ private:
 		void tbegin( const char * what, const char * file, int line )
 		{
 			std::ostringstream documentation;
-			documentation << 
+			documentation <<
 					"    " << what << " [" << file_base( file ) << ":" << line << "]\n" <<
 					"    ==========================\n";
 			print_to_all_outputs( documentation.str() );
@@ -210,20 +214,25 @@ private:
 		}
 		bool ttest( const char * what, bool is_passed, const char * file, int line )
 		{
+			std::ostringstream report;
 			if( ! is_passed )
 			{
-				tout() << "not ";
+				report << "not ";
 				++n_errors;
 			}
 			else
 			{
-				tout() << "    ";
+				report << "    ";
 			} 
 			++n_tests;
-			tout() << "ok: " << what;
+			report << "ok: " << what;
 			if( ! is_passed ) 
-				tout() << " (" << line << ")";
-			tout() << "\n";
+				report << " (" << line << ")";
+			report << "\n";
+			if( is_passed )
+				tout() << report.str();
+			else
+				print_to_all_outputs( report.str() );
 			return is_passed;
 		}
 		void run()
@@ -253,7 +262,7 @@ private:
 
 				try
 				{
-					print_to_all_outputs( "\n\n" );	// Make sure there's at least a gap between different test function outputs
+					is_new_tout_section = is_new_print_all_section = true;
 					(*task)(); 
 				}
 				catch(...)
@@ -300,6 +309,12 @@ private:
 		}
 		void print_to_all_outputs( const std::string & message )
 		{
+			if( is_new_print_all_section )
+			{
+				is_new_print_all_section = false;
+				std::cout << "\n";
+				TVS_DEBUG_CONSOLE_OUT( std::string( "\n" ) );
+			}
 			tout() << message;
 			std::cout << message;
 			TVS_DEBUG_CONSOLE_OUT( message );
@@ -365,6 +380,11 @@ public:
 			time_t t=time(NULL);
 			os << "Tests run on " << ctime(&t);
 			is_first = false;
+		}
+		if( is_new_tout_section )
+		{
+			is_new_tout_section = false;
+			os << "\n";
 		}
 		return os;
 	}
