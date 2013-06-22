@@ -50,10 +50,8 @@
 example-test.cpp:
 	#include "clunit.h"
 
-	TFUNCTION( example_test )			// A simpler way to both define and regsiter
+	TFEATURE( "Example tests" )			// Register test with descriptive name
 	{
-		TBEGIN( "Example tests" );		// Document the beginning of a test function
-
 		TDOC( "Test description" );		// Add any documentation (anywhere in function)
 		TSETUP( int t=1 );				// Do any lines needed to setup a test
 		int b=1;						// Use of TSETUP for test setup is optional
@@ -99,6 +97,12 @@ main-test.cpp:
 
 namespace cl {
 
+#define TCAT( x, y ) TCAT2( x, y )
+#define TCAT2( x, y ) x ## y
+
+#define TFEATURE( d ) TFEATURE_IMPL( d, TCAT( test_func_, __LINE__ ) )
+#define TFEATURE_IMPL( d, x ) static void x(); TREGISTERD( x, d ); void x()
+#define TREGISTERD( x, d ) static cl::clunit x ## _registered_clunit_test( x, d, __FILE__, __LINE__ );
 #define TFUNCTION( x ) static void x(); TREGISTER( x ); void x()
 #define TREGISTER( x ) static cl::clunit x ## _registered_clunit_test( x );
 #define TBEGIN( x ) cl::clunit::tbegin( x, __FILE__, __LINE__ )
@@ -114,7 +118,22 @@ namespace cl {
 #define TRUNALL() { cl::clunit::run(); size_t n_errors = cl::clunit::report(); if( n_errors > 255 ) return 255; return n_errors; }
 
 typedef void(*job_func_ptr)();
-typedef std::vector< job_func_ptr > job_list;
+struct job_description
+{
+	job_func_ptr job;
+	const char * p_description;
+	const char * p_file;
+	int line;
+	job_description( job_func_ptr job_in )
+		: job( job_in ), p_description( 0 ), p_file( 0 ), line( 0 )
+	{}
+	job_description( job_func_ptr job_in, const char * p_description_in,
+			const char * p_file_in, int line_in )
+		: job( job_in ), p_description( p_description_in ), 
+			p_file( p_file_in ), line( line_in )
+	{}
+};
+typedef std::vector< job_description > job_list;
 
 class fixed_size_log
 {
@@ -180,15 +199,22 @@ private:
 
 		void tregister( job_func_ptr job )
 		{
-			get_jobs().push_back( job );
+			get_jobs().push_back( job_description( job ) );
+		}
+		void tregister( job_func_ptr job, const char * p_description,
+				const char * p_file, int line )
+		{
+			get_jobs().push_back(
+					job_description( job, p_description, p_file, line ) );
 		}
 		void tbegin( const char * what, const char * file, int line )
 		{
+			std::string indent( "    " );
 			std::ostringstream documentation;
-			documentation <<
-					"    " << what << " [" << file_base( file ) << ":" << line << "]\n" <<
-					"    ==========================\n";
-			print_to_all_outputs( documentation.str() );
+			documentation << what << " [" << file_base( file ) << ":" << line << "]";
+			std::string heading( documentation.str() );
+			std::string underline( heading.size(), '=' );
+			print_to_all_outputs( indent + heading + "\n" + indent + underline + "\n" );
 		}
 		void tdoc( const char * what )
 		{
@@ -250,9 +276,9 @@ private:
 			tout() << "";
 			}
 
-			for( job_list::const_iterator task( get_jobs().begin() ), task_end( get_jobs().end() );
-					task != task_end;
-					++task )
+			for( job_list::const_iterator job( get_jobs().begin() ), job_end( get_jobs().end() );
+					job != job_end;
+					++job )
 			{ 
 #if defined( _MSC_VER ) && defined( _DEBUG )
 				_CrtMemState s1, s2, s3;
@@ -263,7 +289,9 @@ private:
 				try
 				{
 					is_new_tout_section = is_new_print_all_section = true;
-					(*task)(); 
+					if( job->p_description )
+						tbegin( job->p_description, job->p_file, job->line );
+					job->job(); 
 				}
 				catch(...)
 				{
@@ -339,8 +367,14 @@ private:
 public:
 	clunit( job_func_ptr job )
 		{ tregister( job ); }
+	clunit( job_func_ptr job, const char * p_description,
+				const char * p_file, int line )
+		{ tregister( job, p_description, p_file, line ); }
 	static void tregister( job_func_ptr job )
 		{ my_singleton.tregister( job ); }
+	static void tregister( job_func_ptr job, const char * p_description,
+				const char * p_file, int line )
+		{ my_singleton.tregister( job, p_description, p_file, line ); }
 	static void tbegin( const char * what, const char * file, int line )
 		{ my_singleton.tbegin( what, file, line ); }
 	static void tdoc( const char * what )
