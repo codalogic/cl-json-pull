@@ -35,10 +35,8 @@
 
 #include "cl-json-puller.h"
 
-TFUNCTION( reader_memory )
+TFEATURE( "class ReaderMemory" )
 {
-	TBEGIN( "reader_memory" );
-	
 	{
 	std::string in( "abc" );
 	
@@ -60,10 +58,8 @@ TFUNCTION( reader_memory )
 	}
 }
 
-TFUNCTION( reader_file )
+TFEATURE( "class ReaderFile" )
 {
-	TBEGIN( "reader_file" );
-
 	const char * p_test_file_name = "Reader-test-abc.txt";
 	
 	{
@@ -89,9 +85,8 @@ TFUNCTION( reader_file )
 	}
 }
 
-TFUNCTION( ReadUTF8WithUnget )
+TFEATURE( "class ReadUTF8WithUnget" )
 {
-	TBEGIN( "class ReadUTF8WithUnget" );
 	{
 	std::string in( "abc" );
 	

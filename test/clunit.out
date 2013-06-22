@@ -1,4 +1,4 @@
-Tests run on Thu Jun 20 10:46:25 2013
+Tests run on Sat Jun 22 16:10:42 2013
 
       json event
     ok: event.name() == ""
@@ -12,13 +12,13 @@ Tests run on Thu Jun 20 10:46:25 2013
     ok: event.type() == cljp::Event::T_UNKNOWN
     ok: ! _CrtMemDifference( &s3, &s1, &s2 )
 
-    Basic Parser [test-parse.cpp:67]
-    ==========================
-not ok: harness.get_value() == cljp::Parser::PR_OK (74)
+    Basic Parser [test-parse.cpp:65]
+    ================================
+not ok: harness.get_value() == cljp::Parser::PR_OK (73)
     ok: ! _CrtMemDifference( &s3, &s1, &s2 )
 
-    reader_memory [test-reader.cpp:40]
-    ==========================
+    class ReaderMemory [test-reader.cpp:38]
+    =======================================
     ok: reader.get() == 'a'
     ok: reader.get() == 'b'
     ok: reader.get() == 'c'
@@ -27,8 +27,8 @@ not ok: harness.get_value() == cljp::Parser::PR_OK (74)
     ok: reader.get() == cljp::Reader::EOM
     ok: ! _CrtMemDifference( &s3, &s1, &s2 )
 
-    reader_file [test-reader.cpp:65]
-    ==========================
+    class ReaderFile [test-reader.cpp:61]
+    =====================================
     ok: fout.is_open()
     ok: reader.is_open()
     ok: reader.get() == 'a'
@@ -39,8 +39,8 @@ not ok: harness.get_value() == cljp::Parser::PR_OK (74)
     ok: reader.get() == 'a'
     ok: ! _CrtMemDifference( &s3, &s1, &s2 )
 
-    class ReadUTF8WithUnget [test-reader.cpp:94]
-    ==========================
+    class ReadUTF8WithUnget [test-reader.cpp:88]
+    ============================================
     ok: input.get() == 'a'
     ok: input.get() == 'b'
     ok: input.get() == 'f'
@@ -65,7 +65,7 @@ not ok: harness.get_value() == cljp::Parser::PR_OK (74)
 
 TODOs (9):
 ------------------------
-- class Parser [test-parse.cpp:69]
+- class Parser [test-parse.cpp:68]
 - class UTFConverter [test-todo.cpp:40]
 - class ReadUTF8 [test-todo.cpp:45]
 - ReadUTF8: test reading in UTF8 [test-todo.cpp:47]

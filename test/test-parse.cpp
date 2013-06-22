@@ -62,9 +62,8 @@ struct Harness
 	}
 };
 
-TFUNCTION( parser )
+TFEATURE( "Basic Parser" )
 {
-	TBEGIN( "Basic Parser" );
 	
 	TTODO( "class Parser" );
 	
