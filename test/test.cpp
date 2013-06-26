@@ -38,5 +38,5 @@
 
 int main()
 {
-	TRUNALL();
+    TRUNALL();
 }
