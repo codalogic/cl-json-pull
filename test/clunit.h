@@ -62,6 +62,16 @@ example-test.cpp:
         TCRITICALTESTN( 2, 1 == 1 );    // Version of TCRITICALTEST() with depth indicator
     }
 */
+// A note can be made of features that need to be tested using the TFEATTODO()
+// macros.  These effectively create a test function containing a single 
+// TTODO() test description macro.
+//
+/* For example (not in a function):
+
+	TFEATTODO( "Feature Todo" );		// A quick way of recording a feature that needs testing
+
+	TFEATTODON( 2, "Feature N Todo" );	// As above but with a depth indicator
+*/
 //
 // The tests are initiated by calling the TRUNALL(); macro in the test
 // program's main() function.  Before doing #include "clunit.h" in the test
@@ -110,21 +120,23 @@ namespace cl {
 #define TCAT2( x, y ) x ## y
 
 #define TFEATURE( d ) TFEATURE_IMPL( d, TCAT( test_func_, __LINE__ ) )
-#define TFEATURE_IMPL( d, x ) static void x(); TREGISTERD( x, d ); void x()
-#define TREGISTERD( x, d ) static cl::clunit x ## _registered_clunit_test( x, d, __FILE__, __LINE__ );
-#define TFUNCTION( x ) static void x(); TREGISTER( x ); void x()
-#define TREGISTER( x ) static cl::clunit x ## _registered_clunit_test( x );
-#define TBEGIN( x ) cl::clunit::tbegin( x, __FILE__, __LINE__ )
-#define TDOC( x ) cl::clunit::tdoc( x )
+#define TFEATURE_IMPL( d, f ) static void f(); TREGISTERD( f, d ); void f()
+#define TREGISTERD( f, d ) static cl::clunit f ## _registered_clunit_test( f, d, __FILE__, __LINE__ );
+#define TFUNCTION( f ) static void f(); TREGISTER( f ); void f()
+#define TREGISTER( f ) static cl::clunit f ## _registered_clunit_test( f );
+#define TBEGIN( d ) cl::clunit::tbegin( d, __FILE__, __LINE__ )
+#define TDOC( d ) cl::clunit::tdoc( d )
 #define TSETUP( x ) cl::clunit::tsetup_log( #x ); x
-#define TTODO( x ) cl::clunit::ttodo( x, __FILE__, __LINE__ )
-#define TTODON( n, x ) cl::clunit::ttodo( "[" #n "] " x, __FILE__, __LINE__ )
+#define TTODO( d ) cl::clunit::ttodo( d, __FILE__, __LINE__ )
+#define TTODON( n, d ) cl::clunit::ttodo( "[" #n "] " d, __FILE__, __LINE__ )
 #define TTODOX( x ) { cl::clunit::ttodox( #x, (x), __FILE__, __LINE__ ); }
 #define TTODOXN( n, x ) { cl::clunit::ttodox( "[" #n "] " #x, (x), __FILE__, __LINE__ ); }
 #define TTEST( x ) { cl::clunit::ttest( #x, (x), __FILE__, __LINE__ ); }
 #define TTESTN( n, x ) TTEST( x )
 #define TCRITICALTEST( x ) { if( ! cl::clunit::ttest( #x, (x), __FILE__, __LINE__ ) ) return; }
 #define TCRITICALTESTN( n, x ) TCRITICALTEST( x )
+#define TFEATTODO( d ) TFUNCTION( TCAT( todo_function_, __LINE__ ) ) { TTODO( d ); }
+#define TFEATTODON( n, d ) TFUNCTION( TCAT( todo_function_, __LINE__ ) ) { TTODON( n, d ); }
 #define TRUNALL() { cl::clunit::run(); size_t n_errors = cl::clunit::report(); if( n_errors > 255 ) return 255; return n_errors; }
 
 typedef void(*job_func_ptr)();
