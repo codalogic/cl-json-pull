@@ -50,16 +50,6 @@ struct Harness
         reader( json ),
         parser( reader )
     {}
-
-    cljp::Parser::ParserResult get()
-    {
-        return parser.get( &event );
-    }
-
-    cljp::Parser::ParserResult get_value()
-    {
-        return parser.get_value( &event );
-    }
 };
 
 TFEATURE( "Basic Parser" )
@@ -67,8 +57,8 @@ TFEATURE( "Basic Parser" )
     TTODO( "class Parser" );
 
     {
-    Harness harness( "{" );
+    Harness h( "{" );
 
-    TTEST( harness.get_value() == cljp::Parser::PR_OK );
+    TTEST( h.parser.get_value( &h.event ) == cljp::Parser::PR_OK );
     }
 }

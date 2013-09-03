@@ -233,6 +233,7 @@ public:
         {}
 
     int get();
+    int get_non_ws();
 
     void unget( int c );
 

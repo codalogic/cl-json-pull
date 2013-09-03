@@ -124,4 +124,16 @@ TFEATURE( "class ReadUTF8WithUnget" )
 
     TTEST( input.get() == cljp::Reader::EOM );
     }
+
+    {
+    std::string in( "a  b\n\t c" );
+
+    cljp::ReaderString reader( in );
+
+    cljp::ReadUTF8WithUnget input( reader );
+
+    TTEST( input.get_non_ws() == 'a' );
+    TTEST( input.get_non_ws() == 'b' );
+    TTEST( input.get_non_ws() == 'c' );
+    }
 }

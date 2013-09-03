@@ -139,6 +139,15 @@ int ReadUTF8WithUnget::get()
     return m.read_utf8.get();
 }
 
+
+int ReadUTF8WithUnget::get_non_ws()
+{
+    int c = get();
+    while( isspace( c ) )
+        c = get();
+    return c;
+}
+
 void ReadUTF8WithUnget::unget( int c )
 {
     m.unget_buffer.push_back( c );
@@ -158,6 +167,7 @@ class ParserImpl
 private:
     struct Members {
         ReadUTF8WithUnget & input;
+        int c;
 
         Members( ReadUTF8WithUnget & input_in )
             : input( input_in )
@@ -172,25 +182,27 @@ public:
     SDD_METHOD( get, "Reads the next name/value pair from input" )
     Parser::ParserResult get( Event * p_event_out )
     {
+		p_event_out->clear();
         return Parser::PR_FAIL;
     }
 
     SDD_METHOD( get_value, "Reads the next value from input. Used in arrays" )
     Parser::ParserResult get_value( Event * p_event_out )
     {
+        // value = false / null / true / object / array / number / string
+		p_event_out->clear();
+		get_non_ws();
+		//if( is_delimited_type() )
+		
         return Parser::PR_FAIL;
     }
 
 private:
-    int get() { return m.input.get(); }
+    int get() { m.c = m.input.get(); return m.c; }
+    int get_non_ws() { m.c = m.input.get_non_ws(); return m.c; }
+    int c() { return m.c; }
     void unget( int c ) { m.input.unget( c ); }
-    int get_non_ws()
-    {
-        int c = get();
-        while( isspace( c ) )
-            c = get();
-        return c;
-    }
+    void unget() { m.input.unget( m.c ); }
 };
 
 //----------------------------------------------------------------------------
