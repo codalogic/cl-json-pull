@@ -193,7 +193,7 @@ public:
 		p_event_out->clear();
 		get_non_ws();
 		//if( is_delimited_type() )
-		
+
         return Parser::PR_FAIL;
     }
 

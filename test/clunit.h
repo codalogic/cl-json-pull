@@ -63,7 +63,7 @@ example-test.cpp:
     }
 */
 // A note can be made of features that need to be tested using the TFEATTODO()
-// macros.  These effectively create a test function containing a single 
+// macros.  These effectively create a test function containing a single
 // TTODO() test description macro.
 //
 /* For example (not in a function):
