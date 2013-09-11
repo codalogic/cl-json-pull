@@ -80,7 +80,7 @@ ReaderFile::ReaderFile( FILE * h_fin_in )
 
 ReaderFile::~ReaderFile()
 {
-    if( m.is_close_on_destruct_required )
+    if( m.h_fin && m.is_close_on_destruct_required )
         fclose( m.h_fin );
 }
 
