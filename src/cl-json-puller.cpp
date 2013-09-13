@@ -188,9 +188,9 @@ Parser::ParserResult Parser::get( Event * p_event_out )
 {
 	m.p_event_out =  p_event_out;
 	m.p_event_out->clear();
-	
+
 	get_non_ws();
-	
+
 	if( m.c == Reader::EOM )
 		return PR_END_OF_MESSAGE;
 
@@ -210,11 +210,11 @@ Parser::ParserResult Parser::get( Event * p_event_out )
 
 	case C_IN_ARRAY:
 		return get_in_array();
-		
+
 	case C_DONE:
 		return report_error( PR_READ_PAST_END_OF_MESSAGE );
 	}
-	
+
 	assert( 0 );	// Shouldn't get here
     return report_error( PR_UNDOCUMENTED_FAIL );
 }
@@ -257,7 +257,7 @@ Parser::ParserResult Parser::get_in_object()
 	{
 		return report_error( PR_EXPECTED_COMMA_OR_END_OF_ARRAY );
 	}
-	
+
 	return get_for_object();
 }
 
@@ -289,7 +289,7 @@ Parser::ParserResult Parser::get_in_array()
 	{
 		return report_error( PR_EXPECTED_COMMA_OR_END_OF_ARRAY );
 	}
-	
+
 	return get_for_array();
 }
 
@@ -317,7 +317,7 @@ Parser::ParserResult Parser::get_member()
 		m.p_event_out->type( Event::T_ARRAY_END );
 		return PR_OK;
 	}
-	
+
 	else	// TODO: other name-value pairs
 	{
 		return report_error( PR_UNDOCUMENTED_FAIL );
@@ -353,7 +353,7 @@ Parser::ParserResult Parser::get_value()
 		m.p_event_out->type( Event::T_ARRAY_END );
 		return PR_OK;
 	}
-	
+
 	else	// TODO: other values
 	{
 		return report_error( PR_UNDOCUMENTED_FAIL );

@@ -286,7 +286,7 @@ private:
 	#define CLJP_PARSER_PRIVATE
 	#endif
 	CLJP_PARSER_PRIVATE
-	
+
 	ParserResult report_error( ParserResult error )
 	{
 		#ifdef CLJP_THROW_ERRORS

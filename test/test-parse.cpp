@@ -160,7 +160,7 @@ TFEATURE( "Basic Parser" )
     TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
     TTEST( h.event.type() == cljp::Event::T_ARRAY_END );
     }
-    
+
 	TTODO( "Parser::get_in_object();" );
     TTODO( "Parser::get_value();" );
 }
