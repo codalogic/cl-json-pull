@@ -1,4 +1,4 @@
-Tests run on Fri Sep 13 17:23:37 2013
+Tests run on Fri Sep 13 17:26:20 2013
 
       json event
     ok: event.name() == ""

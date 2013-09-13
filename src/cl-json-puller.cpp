@@ -47,8 +47,8 @@
 	ParserResult get_for_array(); \
 	ParserResult get_member(); \
     ParserResult get_value(); \
-    ParserResult context_update_for_array(); \
 	ParserResult context_update_for_object(); \
+    ParserResult context_update_for_array(); \
 	void context_update_if_nesting(); \
 
 
@@ -362,26 +362,26 @@ Parser::ParserResult Parser::get_value()
     return report_error( PR_UNDOCUMENTED_FAIL );
 }
 
-Parser::ParserResult Parser::context_update_for_array()
-{
-	if( m.p_event_out->type() == Event::T_ARRAY_END )
-		m.context_stack.pop();
-	else if( m.p_event_out->type() == Event::T_OBJECT_END )
-		return report_error( PR_UNEXPECTED_OBJECT_CLOSE );
-	else
-		m.context_stack.top() = C_IN_ARRAY;
-
-	context_update_if_nesting();
-
-	return PR_OK;
-}
-
 Parser::ParserResult Parser::context_update_for_object()
 {
 	if( m.p_event_out->type() == Event::T_OBJECT_END )
 		m.context_stack.pop();
 	else if( m.p_event_out->type() == Event::T_ARRAY_END )
 		return report_error( PR_UNEXPECTED_ARRAY_CLOSE );
+	else
+		m.context_stack.top() = C_IN_OBJECT;
+
+	context_update_if_nesting();
+
+	return PR_OK;
+}
+
+Parser::ParserResult Parser::context_update_for_array()
+{
+	if( m.p_event_out->type() == Event::T_ARRAY_END )
+		m.context_stack.pop();
+	else if( m.p_event_out->type() == Event::T_OBJECT_END )
+		return report_error( PR_UNEXPECTED_OBJECT_CLOSE );
 	else
 		m.context_stack.top() = C_IN_ARRAY;
 
