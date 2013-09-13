@@ -37,11 +37,25 @@
     int c() { return m.c; } \
     void unget( int c ) { m.input.unget( c ); } \
     void unget() { m.input.unget( m.c ); } \
+    Context context() const { return m.context_stack.top(); } \
+	ParserResult get_outer(); \
+	ParserResult get_start_object(); \
+	ParserResult get_in_object(); \
+	ParserResult get_for_object(); \
+	ParserResult get_start_array(); \
+	ParserResult get_in_array(); \
+	ParserResult get_for_array(); \
+	ParserResult get_member(); \
+    ParserResult get_value(); \
+    ParserResult context_update_for_array(); \
+	ParserResult context_update_for_object(); \
+	void context_update_if_nesting(); \
 
 
 #include "cl-json-puller.h"
 
 #include <cstdio>
+#include <cassert>
 
 namespace cljp {    // Codalogic JSON Puller
 
@@ -172,18 +186,216 @@ void ReadUTF8WithUnget::rewind()
 
 Parser::ParserResult Parser::get( Event * p_event_out )
 {
-	p_event_out->clear();
-    return Parser::PR_FAIL;
+	m.p_event_out =  p_event_out;
+	m.p_event_out->clear();
+	
+	get_non_ws();
+	
+	if( m.c == Reader::EOM )
+		return PR_END_OF_MESSAGE;
+
+	switch( context() )
+	{
+	case C_OUTER:
+		return get_outer();
+
+	case C_START_OBJECT:
+		return get_start_object();
+
+	case C_IN_OBJECT:
+		return get_in_object();
+
+	case C_START_ARRAY:
+		return get_start_array();
+
+	case C_IN_ARRAY:
+		return get_in_array();
+		
+	case C_DONE:
+		return report_error( PR_READ_PAST_END_OF_MESSAGE );
+	}
+	
+	assert( 0 );	// Shouldn't get here
+    return report_error( PR_UNDOCUMENTED_FAIL );
 }
 
-Parser::ParserResult Parser::get_value( Event * p_event_out )
+Parser::ParserResult Parser::get_outer()
 {
-        // value = false / null / true / object / array / number / string
-		p_event_out->clear();
-		get_non_ws();
-		//if( is_delimited_type() )
+	// JSON-text = object / array
 
-        return Parser::PR_FAIL;
+	m.context_stack.top() = Parser::C_DONE;
+
+	if( m.c == '{' )
+	{
+		m.p_event_out->type( Event::T_OBJECT_START );
+		m.context_stack.push( C_START_OBJECT );
+		return PR_OK;
+	}
+
+	else if( m.c == '[' )
+	{
+		m.p_event_out->type( Event::T_ARRAY_START );
+		m.context_stack.push( C_START_ARRAY );
+		return PR_OK;
+	}
+
+    return report_error( PR_EXPECTED_OBJECT_OR_ARRAY );
+}
+
+Parser::ParserResult Parser::get_start_object()
+{
+	return get_for_object();
+}
+
+Parser::ParserResult Parser::get_in_object()
+{
+	if( m.c == ',' )
+	{
+		get_non_ws();
+	}
+	else if( m.c != '}' )
+	{
+		return report_error( PR_EXPECTED_COMMA_OR_END_OF_ARRAY );
+	}
+	
+	return get_for_object();
+}
+
+Parser::ParserResult Parser::get_for_object()
+{
+	ParserResult result = get_member();
+	if( result != PR_OK )
+		return result;
+
+	return context_update_for_object();
+}
+
+Parser::ParserResult Parser::get_start_array()
+{
+	ParserResult result = get_value();
+	if( result != PR_OK )
+		return result;
+
+	return context_update_for_array();
+}
+
+Parser::ParserResult Parser::get_in_array()
+{
+	if( m.c == ',' )
+	{
+		get_non_ws();
+	}
+	else if( m.c != ']' )
+	{
+		return report_error( PR_EXPECTED_COMMA_OR_END_OF_ARRAY );
+	}
+	
+	return get_for_array();
+}
+
+Parser::ParserResult Parser::get_for_array()
+{
+	ParserResult result = get_value();
+	if( result != PR_OK )
+		return result;
+
+	return context_update_for_array();
+}
+
+Parser::ParserResult Parser::get_member()
+{
+	// member = string name-separator value
+
+	if( m.c == '}' )
+	{
+		m.p_event_out->type( Event::T_OBJECT_END );
+		return PR_OK;
+	}
+
+	else if( m.c == ']' )
+	{
+		m.p_event_out->type( Event::T_ARRAY_END );
+		return PR_OK;
+	}
+	
+	else	// TODO: other name-value pairs
+	{
+		return report_error( PR_UNDOCUMENTED_FAIL );
+	}
+
+    return report_error( PR_UNDOCUMENTED_FAIL );
+}
+
+Parser::ParserResult Parser::get_value()
+{
+    // value = false / null / true / object (start) / array (start) / number / string
+
+	if( m.c == '{' )
+	{
+		m.p_event_out->type( Event::T_OBJECT_START );
+		return PR_OK;
+	}
+
+	else if( m.c == '}' )
+	{
+		m.p_event_out->type( Event::T_OBJECT_END );
+		return PR_OK;
+	}
+
+	else if( m.c == '[' )
+	{
+		m.p_event_out->type( Event::T_ARRAY_START );
+		return PR_OK;
+	}
+
+	else if( m.c == ']' )
+	{
+		m.p_event_out->type( Event::T_ARRAY_END );
+		return PR_OK;
+	}
+	
+	else	// TODO: other values
+	{
+		return report_error( PR_UNDOCUMENTED_FAIL );
+	}
+
+    return report_error( PR_UNDOCUMENTED_FAIL );
+}
+
+Parser::ParserResult Parser::context_update_for_array()
+{
+	if( m.p_event_out->type() == Event::T_ARRAY_END )
+		m.context_stack.pop();
+	else if( m.p_event_out->type() == Event::T_OBJECT_END )
+		return report_error( PR_UNEXPECTED_OBJECT_CLOSE );
+	else
+		m.context_stack.top() = C_IN_ARRAY;
+
+	context_update_if_nesting();
+
+	return PR_OK;
+}
+
+Parser::ParserResult Parser::context_update_for_object()
+{
+	if( m.p_event_out->type() == Event::T_OBJECT_END )
+		m.context_stack.pop();
+	else if( m.p_event_out->type() == Event::T_ARRAY_END )
+		return report_error( PR_UNEXPECTED_ARRAY_CLOSE );
+	else
+		m.context_stack.top() = C_IN_ARRAY;
+
+	context_update_if_nesting();
+
+	return PR_OK;
+}
+
+void Parser::context_update_if_nesting()
+{
+	if( m.p_event_out->type() == Event::T_ARRAY_START )
+		m.context_stack.push( C_START_ARRAY );
+	else if( m.p_event_out->type() == Event::T_OBJECT_START )
+		m.context_stack.push( C_START_OBJECT );
 }
 
 //----------------------------------------------------------------------------

@@ -37,46 +37,11 @@
 #include <string>
 #include <vector>
 #include <cstdio>
+#include <stack>
 
 #include "../test/sdd.h"    // Temporary inclusion while being designed
 
 namespace cljp {    // Codalogic JSON Puller
-
-//----------------------------------------------------------------------------
-//                             class Event
-//----------------------------------------------------------------------------
-
-class Event
-{
-public:
-    enum Type { T_UNKNOWN, T_STRING, T_NUMBER, T_OBJECT_START, T_OBJECT_END,
-            T_ARRAY_START, T_ARRAY_END, T_BOOLEAN, T_NULL };
-
-private:
-    struct Members {
-        std::string name;
-        std::string value;
-        Type type;
-
-        Members() : type( T_UNKNOWN ) {}
-    } m;
-
-public:
-    // Event() = default;
-    // Event( const Event & ) = default;
-    // Event & operator = ( const Event & ) = default;
-
-    const std::string & name() const { return m.name; }
-    void name( const std::string & r_name_in ) { m.name = r_name_in; }
-
-    const std::string & value() const { return m.value; }
-    void value( const std::string & r_value_in ) { m.value = r_value_in; }
-
-    Type type() const { return m.type; }
-    void type( Type type_in ) { m.type = type_in; }
-
-    void clear() { m.name.clear(); m.value.clear(); m.type = T_UNKNOWN; }   // Don't do m = Members(); because we want to preserve any memory allocated by the strings
-};
 
 //----------------------------------------------------------------------------
 //                             class Reader
@@ -241,38 +206,94 @@ public:
 };
 
 //----------------------------------------------------------------------------
+//                             class Event
+//----------------------------------------------------------------------------
+
+class Event
+{
+public:
+    enum Type { T_UNKNOWN, T_STRING, T_NUMBER, T_OBJECT_START, T_OBJECT_END,
+            T_ARRAY_START, T_ARRAY_END, T_BOOLEAN, T_NULL };
+
+private:
+    struct Members {
+        std::string name;
+        std::string value;
+        Type type;
+
+        Members() : type( T_UNKNOWN ) {}
+    } m;
+
+public:
+    // Event() = default;
+    // Event( const Event & ) = default;
+    // Event & operator = ( const Event & ) = default;
+
+    const std::string & name() const { return m.name; }
+    void name( const std::string & r_name_in ) { m.name = r_name_in; }
+
+    const std::string & value() const { return m.value; }
+    void value( const std::string & r_value_in ) { m.value = r_value_in; }
+
+    Type type() const { return m.type; }
+    void type( Type type_in ) { m.type = type_in; }
+
+    void clear() { m.name.clear(); m.value.clear(); m.type = T_UNKNOWN; }   // Don't do m = Members(); because we want to preserve any memory allocated by the strings
+};
+
+//----------------------------------------------------------------------------
 //                               class Parser
 //----------------------------------------------------------------------------
 
 class Parser
 {
 private:
+    enum Context {
+			C_OUTER, C_DONE, C_START_OBJECT, C_IN_OBJECT, C_START_ARRAY, C_IN_ARRAY };
+
     struct Members {
         ReadUTF8WithUnget input;
         int c;
+        std::stack< Context > context_stack;
+        Event * p_event_out;
 
         Members( Reader & reader_in )
-            : input( reader_in ), c( ' ' )
-        {}
+            : input( reader_in ), c( ' ' ), p_event_out( 0 )
+        {
+			context_stack.push( C_OUTER );
+        }
     } m;
 
 public:
-    enum ParserResult { PR_OK, PR_FAIL };
+    enum ParserResult {
+			PR_OK,
+			PR_UNDOCUMENTED_FAIL,
+			PR_END_OF_MESSAGE,
+			PR_EXPECTED_OBJECT_OR_ARRAY,
+			PR_UNEXPECTED_OBJECT_CLOSE,
+			PR_UNEXPECTED_ARRAY_CLOSE,
+			PR_EXPECTED_COMMA_OR_END_OF_ARRAY,
+			PR_READ_PAST_END_OF_MESSAGE };
 
     Parser( Reader & reader_in )
         : m( reader_in )
     {}
 
-    SDD_METHOD( get, "Reads the next name/value pair from input" )
     ParserResult get( Event * p_event_out );
-    SDD_METHOD( get_value, "Reads the next value from input. Used in arrays" )
-    ParserResult get_value( Event * p_event_out );
 
 private:
 	#ifndef CLJP_PARSER_PRIVATE
 	#define CLJP_PARSER_PRIVATE
 	#endif
 	CLJP_PARSER_PRIVATE
+	
+	ParserResult report_error( ParserResult error )
+	{
+		#ifdef CLJP_THROW_ERRORS
+			throw( error );
+		#endif;
+		return error;
+	}
 };
 
 //----------------------------------------------------------------------------
