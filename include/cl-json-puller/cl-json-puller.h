@@ -249,9 +249,10 @@ class Parser
 private:
     struct Members {
         ReadUTF8WithUnget input;
+        int c;
 
         Members( Reader & reader_in )
-            : input( reader_in )
+            : input( reader_in ), c( ' ' )
         {}
     } m;
 
@@ -266,6 +267,12 @@ public:
     ParserResult get( Event * p_event_out );
     SDD_METHOD( get_value, "Reads the next value from input. Used in arrays" )
     ParserResult get_value( Event * p_event_out );
+
+private:
+	#ifndef CLJP_PARSER_PRIVATE
+	#define CLJP_PARSER_PRIVATE
+	#endif
+	CLJP_PARSER_PRIVATE
 };
 
 //----------------------------------------------------------------------------

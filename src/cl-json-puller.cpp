@@ -31,6 +31,14 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //----------------------------------------------------------------------------
 
+#define CLJP_PARSER_PRIVATE \
+    int get() { m.c = m.input.get(); return m.c; } \
+    int get_non_ws() { m.c = m.input.get_non_ws(); return m.c; } \
+    int c() { return m.c; } \
+    void unget( int c ) { m.input.unget( c ); } \
+    void unget() { m.input.unget( m.c ); } \
+
+
 #include "cl-json-puller.h"
 
 #include <cstdio>
@@ -159,59 +167,23 @@ void ReadUTF8WithUnget::rewind()
 }
 
 //----------------------------------------------------------------------------
-//                          local class ParserImpl
+//                               class Parser
 //----------------------------------------------------------------------------
 
-class ParserImpl
+Parser::ParserResult Parser::get( Event * p_event_out )
 {
-private:
-    struct Members {
-        ReadUTF8WithUnget & input;
-        int c;
+	p_event_out->clear();
+    return Parser::PR_FAIL;
+}
 
-        Members( ReadUTF8WithUnget & input_in )
-            : input( input_in )
-        {}
-    } m;
-
-public:
-    ParserImpl( ReadUTF8WithUnget & input_in )
-        : m( input_in )
-    {}
-
-    SDD_METHOD( get, "Reads the next name/value pair from input" )
-    Parser::ParserResult get( Event * p_event_out )
-    {
-		p_event_out->clear();
-        return Parser::PR_FAIL;
-    }
-
-    SDD_METHOD( get_value, "Reads the next value from input. Used in arrays" )
-    Parser::ParserResult get_value( Event * p_event_out )
-    {
+Parser::ParserResult Parser::get_value( Event * p_event_out )
+{
         // value = false / null / true / object / array / number / string
 		p_event_out->clear();
 		get_non_ws();
 		//if( is_delimited_type() )
 
         return Parser::PR_FAIL;
-    }
-
-private:
-    int get() { m.c = m.input.get(); return m.c; }
-    int get_non_ws() { m.c = m.input.get_non_ws(); return m.c; }
-    int c() { return m.c; }
-    void unget( int c ) { m.input.unget( c ); }
-    void unget() { m.input.unget( m.c ); }
-};
-
-//----------------------------------------------------------------------------
-//                               class Parser
-//----------------------------------------------------------------------------
-
-Parser::ParserResult Parser::get_value( Event * p_event_out )
-{
-    return ParserImpl( m.input ).get_value( p_event_out );
 }
 
 //----------------------------------------------------------------------------
