@@ -34,6 +34,8 @@
 #ifndef CL_JSON_PULLER_H
 #define CL_JSON_PULLER_H
 
+#include "cl-json-puller-config.h"
+
 #include <string>
 #include <vector>
 #include <cstdio>
@@ -289,7 +291,7 @@ private:
 
 	ParserResult report_error( ParserResult error )
 	{
-		#ifdef CLJP_THROW_ERRORS
+		#if CLJP_THROW_ERRORS == 1
 			throw( error );
 		#endif;
 		return error;
