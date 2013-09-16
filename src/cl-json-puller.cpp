@@ -51,8 +51,13 @@
 	ParserResult get_false(); \
 	ParserResult get_true(); \
 	ParserResult get_null(); \
+	ParserResult get_constant_string( \
+							const char * const p_chars_start, \
+							Event::Type on_success_type, \
+							ParserResult on_error_code ); \
 	bool is_number_start_char(); \
 	ParserResult get_number(); \
+	bool is_at_separator(); \
 	ParserResult context_update_for_object(); \
     ParserResult context_update_for_array(); \
 	void context_update_if_nesting(); \
@@ -250,19 +255,27 @@ Parser::ParserResult Parser::get_outer()
 
 Parser::ParserResult Parser::get_start_object()
 {
+	if( m.c == '}' )
+	{
+		m.p_event_out->type( Event::T_OBJECT_END );
+		return context_update_for_object();
+	}
+
 	return get_for_object();
 }
 
 Parser::ParserResult Parser::get_in_object()
 {
-	if( m.c == ',' )
+	if( m.c == '}' )
 	{
-		get_non_ws();
+		m.p_event_out->type( Event::T_OBJECT_END );
+		return context_update_for_object();
 	}
-	else if( m.c != '}' )
-	{
+
+	if( m.c != ',' )
 		return report_error( PR_EXPECTED_COMMA_OR_END_OF_ARRAY );
-	}
+
+	get_non_ws();
 
 	return get_for_object();
 }
@@ -278,6 +291,12 @@ Parser::ParserResult Parser::get_for_object()
 
 Parser::ParserResult Parser::get_start_array()
 {
+	if( m.c == ']' )
+	{
+		m.p_event_out->type( Event::T_ARRAY_END );
+		return context_update_for_array();
+	}
+
 	ParserResult result = get_value();
 	if( result != PR_OK )
 		return result;
@@ -287,14 +306,16 @@ Parser::ParserResult Parser::get_start_array()
 
 Parser::ParserResult Parser::get_in_array()
 {
-	if( m.c == ',' )
+	if( m.c == ']' )
 	{
-		get_non_ws();
+		m.p_event_out->type( Event::T_ARRAY_END );
+		return context_update_for_array();
 	}
-	else if( m.c != ']' )
-	{
+
+	if( m.c != ',' )
 		return report_error( PR_EXPECTED_COMMA_OR_END_OF_ARRAY );
-	}
+
+	get_non_ws();
 
 	return get_for_array();
 }
@@ -336,31 +357,7 @@ Parser::ParserResult Parser::get_value()
 {
     // value = false / null / true / object (start) / array (start) / number / string
 
-	if( m.c == '{' )
-	{
-		m.p_event_out->type( Event::T_OBJECT_START );
-		return PR_OK;
-	}
-
-	else if( m.c == '}' )
-	{
-		m.p_event_out->type( Event::T_OBJECT_END );
-		return PR_OK;
-	}
-
-	else if( m.c == '[' )
-	{
-		m.p_event_out->type( Event::T_ARRAY_START );
-		return PR_OK;
-	}
-
-	else if( m.c == ']' )
-	{
-		m.p_event_out->type( Event::T_ARRAY_END );
-		return PR_OK;
-	}
-
-	else if( m.c == '"' )
+	if( m.c == '"' )
 		return get_string();
 
 	else if( m.c == 'f' )
@@ -375,6 +372,24 @@ Parser::ParserResult Parser::get_value()
 	else if( is_number_start_char() )
 		return get_number();
 
+	else if( m.c == '{' )
+	{
+		m.p_event_out->type( Event::T_OBJECT_START );
+		return PR_OK;
+	}
+
+	else if( m.c == '[' )
+	{
+		m.p_event_out->type( Event::T_ARRAY_START );
+		return PR_OK;
+	}
+
+	else if( m.c == '}' )
+		return PR_UNEXPECTED_OBJECT_CLOSE;
+
+	else if( m.c == ']' )
+		return PR_UNEXPECTED_ARRAY_CLOSE;
+
 	return report_error( PR_UNRECOGNISED_VALUE_FORMAT );
 }
 
@@ -385,17 +400,40 @@ Parser::ParserResult Parser::get_string()
 
 Parser::ParserResult Parser::get_false()
 {
-	return report_error( PR_BAD_FORMAT_FALSE );
+	return get_constant_string( "false", Event::T_BOOLEAN, PR_BAD_FORMAT_FALSE );
 }
 
 Parser::ParserResult Parser::get_true()
 {
-	return report_error( PR_BAD_FORMAT_TRUE );
+	return get_constant_string( "true", Event::T_BOOLEAN, PR_BAD_FORMAT_TRUE );
 }
 
 Parser::ParserResult Parser::get_null()
 {
-	return report_error( PR_BAD_FORMAT_NULL );
+	return get_constant_string( "null", Event::T_NULL, PR_BAD_FORMAT_NULL );
+}
+
+Parser::ParserResult Parser::get_constant_string(
+										const char * const p_chars_start,
+										Event::Type on_success_type,
+										ParserResult on_error_code )
+{
+	const char * p_chars = p_chars_start;
+
+	++p_chars;	// We've already tested the first char as part of deciding the constant we're trying to read
+
+	while( *p_chars != '\0' )
+	{
+		if( get() != *p_chars++ )
+			return report_error( on_error_code );
+	}
+
+	if( ! is_at_separator() )
+		return report_error( on_error_code );
+
+	m.p_event_out->type( on_success_type );
+	m.p_event_out->value( p_chars_start );
+	return PR_OK;
 }
 
 bool Parser::is_number_start_char()
@@ -409,6 +447,17 @@ bool Parser::is_number_start_char()
 Parser::ParserResult Parser::get_number()
 {
 	return report_error( PR_BAD_FORMAT_NUMBER );
+}
+
+bool Parser::is_at_separator()
+{
+	get();
+
+	if( ! (isspace( m.c ) || m.c == ',' || m.c == ']' || m.c == '}' || m.c == Reader::EOM) )
+		return false;
+
+	unget();
+	return true;
 }
 
 Parser::ParserResult Parser::context_update_for_object()
