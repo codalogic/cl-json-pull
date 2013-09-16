@@ -47,6 +47,12 @@
 	ParserResult get_for_array(); \
 	ParserResult get_member(); \
     ParserResult get_value(); \
+	ParserResult get_string(); \
+	ParserResult get_false(); \
+	ParserResult get_true(); \
+	ParserResult get_null(); \
+	bool is_number_start_char(); \
+	ParserResult get_number(); \
 	ParserResult context_update_for_object(); \
     ParserResult context_update_for_array(); \
 	void context_update_if_nesting(); \
@@ -354,12 +360,55 @@ Parser::ParserResult Parser::get_value()
 		return PR_OK;
 	}
 
-	else	// TODO: other values
-	{
-		return report_error( PR_UNDOCUMENTED_FAIL );
-	}
+	else if( m.c == '"' )
+		return get_string();
 
-    return report_error( PR_UNDOCUMENTED_FAIL );
+	else if( m.c == 'f' )
+		return get_false();
+
+	else if( m.c == 't' )
+		return get_true();
+
+	else if( m.c == 'n' )
+		return get_null();
+
+	else if( is_number_start_char() )
+		return get_number();
+
+	return report_error( PR_UNRECOGNISED_VALUE_FORMAT );
+}
+
+Parser::ParserResult Parser::get_string()
+{
+	return report_error( PR_BAD_FORMAT_STRING );
+}
+
+Parser::ParserResult Parser::get_false()
+{
+	return report_error( PR_BAD_FORMAT_FALSE );
+}
+
+Parser::ParserResult Parser::get_true()
+{
+	return report_error( PR_BAD_FORMAT_TRUE );
+}
+
+Parser::ParserResult Parser::get_null()
+{
+	return report_error( PR_BAD_FORMAT_NULL );
+}
+
+bool Parser::is_number_start_char()
+{
+	// number = [ minus ] int [ frac ] [ exp ]
+    // int = zero / ( digit1-9 *DIGIT )
+
+	return m.c == '-' || (m.c >= '0' && m.c <= '9');
+}
+
+Parser::ParserResult Parser::get_number()
+{
+	return report_error( PR_BAD_FORMAT_NUMBER );
 }
 
 Parser::ParserResult Parser::context_update_for_object()

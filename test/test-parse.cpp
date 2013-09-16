@@ -162,5 +162,18 @@ TFEATURE( "Basic Parser" )
     }
 
 	TTODO( "Parser::get_in_object();" );
-    TTODO( "Parser::get_value();" );
+}
+
+TFEATURE( "Parser truncated input" )
+{
+	TTODO( "Parser truncated input" );	// Put in a sample of test progressively long bits
+}
+
+TFEATURE( "Parser Reading values" )
+{
+	TTODO( "Parser::get_false()" );
+	TTODO( "Parser::get_true()" );
+	TTODO( "Parser::get_null()" );
+	TTODO( "Parser::get_number()" );
+	TTODO( "Parser::get_string()" );
 }
