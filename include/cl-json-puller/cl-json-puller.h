@@ -237,6 +237,7 @@ public:
     const std::string & value() const { return m.value; }
     void value( const std::string & r_value_in ) { m.value = r_value_in; }
     void value( const char * p_value_in ) { m.value = p_value_in; }
+    void value_append( int c ) { m.value += c; }
 
     Type type() const { return m.type; }
     void type( Type type_in ) { m.type = type_in; }
