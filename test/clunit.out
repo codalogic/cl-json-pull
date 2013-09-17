@@ -1,4 +1,4 @@
-Tests run on Tue Sep 17 16:51:21 2013
+Tests run on Tue Sep 17 17:26:40 2013
 
       json event
     ok: event.name == ""
@@ -309,8 +309,10 @@ Tests run on Tue Sep 17 16:51:21 2013
     ok: ! _CrtMemDifference( &s3, &s1, &s2 )
     ok: _CrtCheckMemory() != 0
 
-TODOs (14):
+TODOs (16):
 ------------------------
+- Test Event::as_bool() [test-event.cpp:62]
+- Test Event::as_number() [test-event.cpp:63]
 - Parser::get_in_object(); [test-parse.cpp:179]
 - Parser truncated input [test-parse.cpp:184]
 - Parser::get_true() [test-parse.cpp:231]
@@ -326,4 +328,4 @@ TODOs (14):
 - ReadUTF8: test reading in UTF32BE [test-todo.cpp:51]
 - class SmartParser [test-todo.cpp:56]
 
-0 error(s), 14 todo(s), 244 test(s)
+0 error(s), 16 todo(s), 244 test(s)

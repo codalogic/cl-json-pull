@@ -58,4 +58,7 @@ TFUNCTION( json_event )
     TTEST( event.name == "" );
     TTEST( event.value == "" );
     TTEST( event.type == cljp::Event::T_UNKNOWN );
+    
+    TTODO( "Test Event::as_bool()" );
+    TTODO( "Test Event::as_number()" );
 }
