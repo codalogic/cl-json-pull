@@ -57,7 +57,8 @@
 							ParserResult on_error_code ); \
 	bool is_number_start_char(); \
 	ParserResult get_number(); \
-	bool is_at_separator(); \
+	void read_to_non_quoted_value_end(); \
+	bool is_separator(); \
 	ParserResult context_update_for_object(); \
     ParserResult context_update_for_array(); \
 	void context_update_if_nesting(); \
@@ -390,6 +391,8 @@ Parser::ParserResult Parser::get_value()
 	else if( m.c == ']' )
 		return PR_UNEXPECTED_ARRAY_CLOSE;
 
+	read_to_non_quoted_value_end();
+
 	return report_error( PR_UNRECOGNISED_VALUE_FORMAT );
 }
 
@@ -418,21 +421,12 @@ Parser::ParserResult Parser::get_constant_string(
 										Event::Type on_success_type,
 										ParserResult on_error_code )
 {
-	const char * p_chars = p_chars_start;
-
-	++p_chars;	// We've already tested the first char as part of deciding the constant we're trying to read
-
-	while( *p_chars != '\0' )
-	{
-		if( get() != *p_chars++ )
-			return report_error( on_error_code );
-	}
-
-	if( ! is_at_separator() )
+	read_to_non_quoted_value_end();
+	
+	if( m.p_event_out->value != p_chars_start )
 		return report_error( on_error_code );
 
 	m.p_event_out->type = on_success_type;
-	m.p_event_out->value = p_chars_start;
 	return PR_OK;
 }
 
@@ -449,15 +443,17 @@ Parser::ParserResult Parser::get_number()
 	return report_error( PR_BAD_FORMAT_NUMBER );
 }
 
-bool Parser::is_at_separator()
+void Parser::read_to_non_quoted_value_end()
 {
-	get();
-
-	if( ! (isspace( m.c ) || m.c == ',' || m.c == ']' || m.c == '}' || m.c == Reader::EOM) )
-		return false;
-
+	m.p_event_out->value += m.c;
+	while( get(), ! is_separator() )
+		m.p_event_out->value += m.c;
 	unget();
-	return true;
+}
+
+bool Parser::is_separator()
+{
+	return isspace( m.c ) || m.c == ',' || m.c == ']' || m.c == '}' || m.c == Reader::EOM;
 }
 
 Parser::ParserResult Parser::context_update_for_object()
