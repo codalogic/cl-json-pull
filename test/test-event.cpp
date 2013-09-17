@@ -35,10 +35,8 @@
 
 #include "cl-json-puller.h"
 
-TFUNCTION( json_event )
+TFEATURE( "struct Event" )
 {
-    TDOC( "json event" );
-
     cljp::Event event;
 
     TTEST( event.name == "" );

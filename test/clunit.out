@@ -1,6 +1,7 @@
-Tests run on Tue Sep 17 17:26:40 2013
+Tests run on Tue Sep 17 18:47:31 2013
 
-      json event
+    struct Event [test-event.cpp:38]
+    ================================
     ok: event.name == ""
     ok: event.value == ""
     ok: event.type == cljp::Event::T_UNKNOWN
@@ -311,8 +312,8 @@ Tests run on Tue Sep 17 17:26:40 2013
 
 TODOs (16):
 ------------------------
-- Test Event::as_bool() [test-event.cpp:62]
-- Test Event::as_number() [test-event.cpp:63]
+- Test Event::as_bool() [test-event.cpp:60]
+- Test Event::as_number() [test-event.cpp:61]
 - Parser::get_in_object(); [test-parse.cpp:179]
 - Parser truncated input [test-parse.cpp:184]
 - Parser::get_true() [test-parse.cpp:231]
