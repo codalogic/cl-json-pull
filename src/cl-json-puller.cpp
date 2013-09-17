@@ -238,14 +238,14 @@ Parser::ParserResult Parser::get_outer()
 
 	if( m.c == '{' )
 	{
-		m.p_event_out->type( Event::T_OBJECT_START );
+		m.p_event_out->type = Event::T_OBJECT_START;
 		m.context_stack.push( C_START_OBJECT );
 		return PR_OK;
 	}
 
 	else if( m.c == '[' )
 	{
-		m.p_event_out->type( Event::T_ARRAY_START );
+		m.p_event_out->type = Event::T_ARRAY_START;
 		m.context_stack.push( C_START_ARRAY );
 		return PR_OK;
 	}
@@ -257,7 +257,7 @@ Parser::ParserResult Parser::get_start_object()
 {
 	if( m.c == '}' )
 	{
-		m.p_event_out->type( Event::T_OBJECT_END );
+		m.p_event_out->type = Event::T_OBJECT_END;
 		return context_update_for_object();
 	}
 
@@ -268,7 +268,7 @@ Parser::ParserResult Parser::get_in_object()
 {
 	if( m.c == '}' )
 	{
-		m.p_event_out->type( Event::T_OBJECT_END );
+		m.p_event_out->type = Event::T_OBJECT_END;
 		return context_update_for_object();
 	}
 
@@ -293,7 +293,7 @@ Parser::ParserResult Parser::get_start_array()
 {
 	if( m.c == ']' )
 	{
-		m.p_event_out->type( Event::T_ARRAY_END );
+		m.p_event_out->type = Event::T_ARRAY_END;
 		return context_update_for_array();
 	}
 
@@ -308,7 +308,7 @@ Parser::ParserResult Parser::get_in_array()
 {
 	if( m.c == ']' )
 	{
-		m.p_event_out->type( Event::T_ARRAY_END );
+		m.p_event_out->type = Event::T_ARRAY_END;
 		return context_update_for_array();
 	}
 
@@ -335,13 +335,13 @@ Parser::ParserResult Parser::get_member()
 
 	if( m.c == '}' )
 	{
-		m.p_event_out->type( Event::T_OBJECT_END );
+		m.p_event_out->type = Event::T_OBJECT_END;
 		return PR_OK;
 	}
 
 	else if( m.c == ']' )
 	{
-		m.p_event_out->type( Event::T_ARRAY_END );
+		m.p_event_out->type = Event::T_ARRAY_END;
 		return PR_OK;
 	}
 
@@ -374,13 +374,13 @@ Parser::ParserResult Parser::get_value()
 
 	else if( m.c == '{' )
 	{
-		m.p_event_out->type( Event::T_OBJECT_START );
+		m.p_event_out->type = Event::T_OBJECT_START;
 		return PR_OK;
 	}
 
 	else if( m.c == '[' )
 	{
-		m.p_event_out->type( Event::T_ARRAY_START );
+		m.p_event_out->type = Event::T_ARRAY_START;
 		return PR_OK;
 	}
 
@@ -431,8 +431,8 @@ Parser::ParserResult Parser::get_constant_string(
 	if( ! is_at_separator() )
 		return report_error( on_error_code );
 
-	m.p_event_out->type( on_success_type );
-	m.p_event_out->value( p_chars_start );
+	m.p_event_out->type = on_success_type;
+	m.p_event_out->value = p_chars_start;
 	return PR_OK;
 }
 
@@ -462,9 +462,9 @@ bool Parser::is_at_separator()
 
 Parser::ParserResult Parser::context_update_for_object()
 {
-	if( m.p_event_out->type() == Event::T_OBJECT_END )
+	if( m.p_event_out->type == Event::T_OBJECT_END )
 		m.context_stack.pop();
-	else if( m.p_event_out->type() == Event::T_ARRAY_END )
+	else if( m.p_event_out->type == Event::T_ARRAY_END )
 		return report_error( PR_UNEXPECTED_ARRAY_CLOSE );
 	else
 		m.context_stack.top() = C_IN_OBJECT;
@@ -476,9 +476,9 @@ Parser::ParserResult Parser::context_update_for_object()
 
 Parser::ParserResult Parser::context_update_for_array()
 {
-	if( m.p_event_out->type() == Event::T_ARRAY_END )
+	if( m.p_event_out->type == Event::T_ARRAY_END )
 		m.context_stack.pop();
-	else if( m.p_event_out->type() == Event::T_OBJECT_END )
+	else if( m.p_event_out->type == Event::T_OBJECT_END )
 		return report_error( PR_UNEXPECTED_OBJECT_CLOSE );
 	else
 		m.context_stack.top() = C_IN_ARRAY;
@@ -490,9 +490,9 @@ Parser::ParserResult Parser::context_update_for_array()
 
 void Parser::context_update_if_nesting()
 {
-	if( m.p_event_out->type() == Event::T_ARRAY_START )
+	if( m.p_event_out->type == Event::T_ARRAY_START )
 		m.context_stack.push( C_START_ARRAY );
-	else if( m.p_event_out->type() == Event::T_OBJECT_START )
+	else if( m.p_event_out->type == Event::T_OBJECT_START )
 		m.context_stack.push( C_START_OBJECT );
 }
 

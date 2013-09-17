@@ -41,21 +41,21 @@ TFUNCTION( json_event )
 
     cljp::Event event;
 
-    TTEST( event.name() == "" );
-    TTEST( event.value() == "" );
-    TTEST( event.type() == cljp::Event::T_UNKNOWN );
+    TTEST( event.name == "" );
+    TTEST( event.value == "" );
+    TTEST( event.type == cljp::Event::T_UNKNOWN );
 
-    event.name( "name" );
-    event.value( "value" );
-    event.type( cljp::Event::T_STRING );
+    event.name = "name";
+    event.value = "value";
+    event.type = cljp::Event::T_STRING;
 
-    TTEST( event.name() == "name" );
-    TTEST( event.value() == "value" );
-    TTEST( event.type() == cljp::Event::T_STRING );
+    TTEST( event.name == "name" );
+    TTEST( event.value == "value" );
+    TTEST( event.type == cljp::Event::T_STRING );
 
     event.clear();
 
-    TTEST( event.name() == "" );
-    TTEST( event.value() == "" );
-    TTEST( event.type() == cljp::Event::T_UNKNOWN );
+    TTEST( event.name == "" );
+    TTEST( event.value == "" );
+    TTEST( event.type == cljp::Event::T_UNKNOWN );
 }

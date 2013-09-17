@@ -211,38 +211,20 @@ public:
 //                             class Event
 //----------------------------------------------------------------------------
 
-class Event
+struct Event
 {
-public:
     enum Type { T_UNKNOWN, T_STRING, T_NUMBER, T_OBJECT_START, T_OBJECT_END,
             T_ARRAY_START, T_ARRAY_END, T_BOOLEAN, T_NULL };
 
-private:
-    struct Members {
-        std::string name;
-        std::string value;
-        Type type;
+    std::string name;
+    std::string value;
+    Type type;
 
-        Members() : type( T_UNKNOWN ) {}
-    } m;
-
-public:
-    // Event() = default;
+    Event() : type( T_UNKNOWN ) {}
     // Event( const Event & ) = default;
     // Event & operator = ( const Event & ) = default;
 
-    const std::string & name() const { return m.name; }
-    void name( const std::string & r_name_in ) { m.name = r_name_in; }
-
-    const std::string & value() const { return m.value; }
-    void value( const std::string & r_value_in ) { m.value = r_value_in; }
-    void value( const char * p_value_in ) { m.value = p_value_in; }
-    void value_append( int c ) { m.value += c; }
-
-    Type type() const { return m.type; }
-    void type( Type type_in ) { m.type = type_in; }
-
-    void clear() { m.name.clear(); m.value.clear(); m.type = T_UNKNOWN; }   // Don't do m = Members(); because we want to preserve any memory allocated by the strings
+    void clear() { name.clear(); value.clear(); type = T_UNKNOWN; }
 };
 
 //----------------------------------------------------------------------------

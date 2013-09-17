@@ -60,34 +60,34 @@ TFEATURE( "Basic Parser" )
     Harness h( "{" );
 
     TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
-    TTEST( h.event.type() == cljp::Event::T_OBJECT_START );
+    TTEST( h.event.type == cljp::Event::T_OBJECT_START );
     }
 
     {
     Harness h( " [" );
 
     TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
-    TTEST( h.event.type() == cljp::Event::T_ARRAY_START );
+    TTEST( h.event.type == cljp::Event::T_ARRAY_START );
     }
 
     {
     Harness h( "[ ]" );
 
     TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
-    TTEST( h.event.type() == cljp::Event::T_ARRAY_START );
+    TTEST( h.event.type == cljp::Event::T_ARRAY_START );
 
     TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
-    TTEST( h.event.type() == cljp::Event::T_ARRAY_END );
+    TTEST( h.event.type == cljp::Event::T_ARRAY_END );
     }
 
     {
     Harness h( "[ ]" );
 
     TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
-    TTEST( h.event.type() == cljp::Event::T_ARRAY_START );
+    TTEST( h.event.type == cljp::Event::T_ARRAY_START );
 
     TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
-    TTEST( h.event.type() == cljp::Event::T_ARRAY_END );
+    TTEST( h.event.type == cljp::Event::T_ARRAY_END );
 
     TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_END_OF_MESSAGE );
     }
@@ -96,10 +96,10 @@ TFEATURE( "Basic Parser" )
     Harness h( "[ ]]" );	// Error case
 
     TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
-    TTEST( h.event.type() == cljp::Event::T_ARRAY_START );
+    TTEST( h.event.type == cljp::Event::T_ARRAY_START );
 
     TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
-    TTEST( h.event.type() == cljp::Event::T_ARRAY_END );
+    TTEST( h.event.type == cljp::Event::T_ARRAY_END );
 
     TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_READ_PAST_END_OF_MESSAGE );
     }
@@ -108,7 +108,7 @@ TFEATURE( "Basic Parser" )
     Harness h( "[ }" );	// Error case
 
     TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
-    TTEST( h.event.type() == cljp::Event::T_ARRAY_START );
+    TTEST( h.event.type == cljp::Event::T_ARRAY_START );
 
     TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_UNEXPECTED_OBJECT_CLOSE );
     }
@@ -117,7 +117,7 @@ TFEATURE( "Basic Parser" )
     Harness h( " {]" );	// Error case
 
     TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
-    TTEST( h.event.type() == cljp::Event::T_OBJECT_START );
+    TTEST( h.event.type == cljp::Event::T_OBJECT_START );
 
     TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_UNEXPECTED_ARRAY_CLOSE );
     }
@@ -127,51 +127,51 @@ TFEATURE( "Basic Parser" )
     Harness h( "[{}]" );
 
     TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
-    TTEST( h.event.type() == cljp::Event::T_ARRAY_START );
+    TTEST( h.event.type == cljp::Event::T_ARRAY_START );
 
     TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
-    TTEST( h.event.type() == cljp::Event::T_OBJECT_START );
+    TTEST( h.event.type == cljp::Event::T_OBJECT_START );
 
     TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
-    TTEST( h.event.type() == cljp::Event::T_OBJECT_END );
+    TTEST( h.event.type == cljp::Event::T_OBJECT_END );
 
     TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
-    TTEST( h.event.type() == cljp::Event::T_ARRAY_END );
+    TTEST( h.event.type == cljp::Event::T_ARRAY_END );
     }
 
     {
     Harness h( "[{},{}]" );
 
     TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
-    TTEST( h.event.type() == cljp::Event::T_ARRAY_START );
+    TTEST( h.event.type == cljp::Event::T_ARRAY_START );
 
     TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
-    TTEST( h.event.type() == cljp::Event::T_OBJECT_START );
+    TTEST( h.event.type == cljp::Event::T_OBJECT_START );
 
     TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
-    TTEST( h.event.type() == cljp::Event::T_OBJECT_END );
+    TTEST( h.event.type == cljp::Event::T_OBJECT_END );
 
     TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
-    TTEST( h.event.type() == cljp::Event::T_OBJECT_START );
+    TTEST( h.event.type == cljp::Event::T_OBJECT_START );
 
     TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
-    TTEST( h.event.type() == cljp::Event::T_OBJECT_END );
+    TTEST( h.event.type == cljp::Event::T_OBJECT_END );
 
     TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
-    TTEST( h.event.type() == cljp::Event::T_ARRAY_END );
+    TTEST( h.event.type == cljp::Event::T_ARRAY_END );
     }
 
     {
     Harness h( "[{},]" );	// Error case
 
     TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
-    TTEST( h.event.type() == cljp::Event::T_ARRAY_START );
+    TTEST( h.event.type == cljp::Event::T_ARRAY_START );
 
     TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
-    TTEST( h.event.type() == cljp::Event::T_OBJECT_START );
+    TTEST( h.event.type == cljp::Event::T_OBJECT_START );
 
     TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
-    TTEST( h.event.type() == cljp::Event::T_OBJECT_END );
+    TTEST( h.event.type == cljp::Event::T_OBJECT_END );
 
     TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_UNEXPECTED_ARRAY_CLOSE );
     }
@@ -201,13 +201,13 @@ void value_test(
     Harness h( composed_input );
 
     TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
-    TTEST( h.event.type() == cljp::Event::T_ARRAY_START );
+    TTEST( h.event.type == cljp::Event::T_ARRAY_START );
 
     TTEST( h.parser.get( &h.event ) == expected_result );
     if( expected_result == cljp::Parser::PR_OK )
     {
-		TTEST( h.event.type() == expected_type );
-		TTEST( h.event.value() == p_expected_value );
+		TTEST( h.event.type == expected_type );
+		TTEST( h.event.value == p_expected_value );
     }
 }
 
