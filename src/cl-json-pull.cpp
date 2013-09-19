@@ -69,7 +69,7 @@
 #include <cstdio>
 #include <cassert>
 
-namespace cljpp {    // Codalogic JSON Pull Parser
+namespace cljp {    // Codalogic JSON Pull Parser
 
 //----------------------------------------------------------------------------
 //                             class Reader

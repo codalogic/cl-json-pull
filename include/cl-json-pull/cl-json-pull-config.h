@@ -38,8 +38,8 @@
 //              are not lost when you migrate.
 //----------------------------------------------------------------------------
 
-#ifndef CL_JSON_PULLER_CONFIG_H
-#define CL_JSON_PULLER_CONFIG_H
+#ifndef CL_JSON_PULL_CONFIG_H
+#define CL_JSON_PULL_CONFIG_H
 
 //----------------------------------------------------------------------------
 // Config:  Error handling - Set CLJP_THROW_ERRORS to 0 to return error codes
@@ -50,4 +50,4 @@
 #define CLJP_THROW_ERRORS 0
 #endif
 
-#endif  // CL_JSON_PULLER_H
+#endif  // CL_JSON_PULL_H

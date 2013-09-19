@@ -40,9 +40,9 @@
 struct Harness
 {
     std::string json;
-    cljpp::ReaderString reader;
-    cljpp::Parser parser;
-    cljpp::Event event;
+    cljp::ReaderString reader;
+    cljp::Parser parser;
+    cljp::Event event;
 
     Harness( const std::string & r_json_in )
         :
@@ -59,121 +59,121 @@ TFEATURE( "Basic Parser" )
     {
     Harness h( "{" );
 
-    TTEST( h.parser.get( &h.event ) == cljpp::Parser::PR_OK );
-    TTEST( h.event.type == cljpp::Event::T_OBJECT_START );
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
+    TTEST( h.event.type == cljp::Event::T_OBJECT_START );
     }
 
     {
     Harness h( " [" );
 
-    TTEST( h.parser.get( &h.event ) == cljpp::Parser::PR_OK );
-    TTEST( h.event.type == cljpp::Event::T_ARRAY_START );
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
+    TTEST( h.event.type == cljp::Event::T_ARRAY_START );
     }
 
     {
     Harness h( "[ ]" );
 
-    TTEST( h.parser.get( &h.event ) == cljpp::Parser::PR_OK );
-    TTEST( h.event.type == cljpp::Event::T_ARRAY_START );
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
+    TTEST( h.event.type == cljp::Event::T_ARRAY_START );
 
-    TTEST( h.parser.get( &h.event ) == cljpp::Parser::PR_OK );
-    TTEST( h.event.type == cljpp::Event::T_ARRAY_END );
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
+    TTEST( h.event.type == cljp::Event::T_ARRAY_END );
     }
 
     {
     Harness h( "[ ]" );
 
-    TTEST( h.parser.get( &h.event ) == cljpp::Parser::PR_OK );
-    TTEST( h.event.type == cljpp::Event::T_ARRAY_START );
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
+    TTEST( h.event.type == cljp::Event::T_ARRAY_START );
 
-    TTEST( h.parser.get( &h.event ) == cljpp::Parser::PR_OK );
-    TTEST( h.event.type == cljpp::Event::T_ARRAY_END );
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
+    TTEST( h.event.type == cljp::Event::T_ARRAY_END );
 
-    TTEST( h.parser.get( &h.event ) == cljpp::Parser::PR_END_OF_MESSAGE );
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_END_OF_MESSAGE );
     }
 
     {
     Harness h( "[ ]]" );    // Error case
 
-    TTEST( h.parser.get( &h.event ) == cljpp::Parser::PR_OK );
-    TTEST( h.event.type == cljpp::Event::T_ARRAY_START );
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
+    TTEST( h.event.type == cljp::Event::T_ARRAY_START );
 
-    TTEST( h.parser.get( &h.event ) == cljpp::Parser::PR_OK );
-    TTEST( h.event.type == cljpp::Event::T_ARRAY_END );
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
+    TTEST( h.event.type == cljp::Event::T_ARRAY_END );
 
-    TTEST( h.parser.get( &h.event ) == cljpp::Parser::PR_READ_PAST_END_OF_MESSAGE );
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_READ_PAST_END_OF_MESSAGE );
     }
 
     {
     Harness h( "[ }" ); // Error case
 
-    TTEST( h.parser.get( &h.event ) == cljpp::Parser::PR_OK );
-    TTEST( h.event.type == cljpp::Event::T_ARRAY_START );
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
+    TTEST( h.event.type == cljp::Event::T_ARRAY_START );
 
-    TTEST( h.parser.get( &h.event ) == cljpp::Parser::PR_UNEXPECTED_OBJECT_CLOSE );
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_UNEXPECTED_OBJECT_CLOSE );
     }
 
     {
     Harness h( " {]" ); // Error case
 
-    TTEST( h.parser.get( &h.event ) == cljpp::Parser::PR_OK );
-    TTEST( h.event.type == cljpp::Event::T_OBJECT_START );
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
+    TTEST( h.event.type == cljp::Event::T_OBJECT_START );
 
-    TTEST( h.parser.get( &h.event ) == cljpp::Parser::PR_UNEXPECTED_ARRAY_CLOSE );
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_UNEXPECTED_ARRAY_CLOSE );
     }
 
     TDOC( "Parser::get_in_array();" );
     {
     Harness h( "[{}]" );
 
-    TTEST( h.parser.get( &h.event ) == cljpp::Parser::PR_OK );
-    TTEST( h.event.type == cljpp::Event::T_ARRAY_START );
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
+    TTEST( h.event.type == cljp::Event::T_ARRAY_START );
 
-    TTEST( h.parser.get( &h.event ) == cljpp::Parser::PR_OK );
-    TTEST( h.event.type == cljpp::Event::T_OBJECT_START );
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
+    TTEST( h.event.type == cljp::Event::T_OBJECT_START );
 
-    TTEST( h.parser.get( &h.event ) == cljpp::Parser::PR_OK );
-    TTEST( h.event.type == cljpp::Event::T_OBJECT_END );
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
+    TTEST( h.event.type == cljp::Event::T_OBJECT_END );
 
-    TTEST( h.parser.get( &h.event ) == cljpp::Parser::PR_OK );
-    TTEST( h.event.type == cljpp::Event::T_ARRAY_END );
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
+    TTEST( h.event.type == cljp::Event::T_ARRAY_END );
     }
 
     {
     Harness h( "[{},{}]" );
 
-    TTEST( h.parser.get( &h.event ) == cljpp::Parser::PR_OK );
-    TTEST( h.event.type == cljpp::Event::T_ARRAY_START );
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
+    TTEST( h.event.type == cljp::Event::T_ARRAY_START );
 
-    TTEST( h.parser.get( &h.event ) == cljpp::Parser::PR_OK );
-    TTEST( h.event.type == cljpp::Event::T_OBJECT_START );
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
+    TTEST( h.event.type == cljp::Event::T_OBJECT_START );
 
-    TTEST( h.parser.get( &h.event ) == cljpp::Parser::PR_OK );
-    TTEST( h.event.type == cljpp::Event::T_OBJECT_END );
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
+    TTEST( h.event.type == cljp::Event::T_OBJECT_END );
 
-    TTEST( h.parser.get( &h.event ) == cljpp::Parser::PR_OK );
-    TTEST( h.event.type == cljpp::Event::T_OBJECT_START );
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
+    TTEST( h.event.type == cljp::Event::T_OBJECT_START );
 
-    TTEST( h.parser.get( &h.event ) == cljpp::Parser::PR_OK );
-    TTEST( h.event.type == cljpp::Event::T_OBJECT_END );
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
+    TTEST( h.event.type == cljp::Event::T_OBJECT_END );
 
-    TTEST( h.parser.get( &h.event ) == cljpp::Parser::PR_OK );
-    TTEST( h.event.type == cljpp::Event::T_ARRAY_END );
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
+    TTEST( h.event.type == cljp::Event::T_ARRAY_END );
     }
 
     {
     Harness h( "[{},]" );   // Error case
 
-    TTEST( h.parser.get( &h.event ) == cljpp::Parser::PR_OK );
-    TTEST( h.event.type == cljpp::Event::T_ARRAY_START );
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
+    TTEST( h.event.type == cljp::Event::T_ARRAY_START );
 
-    TTEST( h.parser.get( &h.event ) == cljpp::Parser::PR_OK );
-    TTEST( h.event.type == cljpp::Event::T_OBJECT_START );
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
+    TTEST( h.event.type == cljp::Event::T_OBJECT_START );
 
-    TTEST( h.parser.get( &h.event ) == cljpp::Parser::PR_OK );
-    TTEST( h.event.type == cljpp::Event::T_OBJECT_END );
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
+    TTEST( h.event.type == cljp::Event::T_OBJECT_END );
 
-    TTEST( h.parser.get( &h.event ) == cljpp::Parser::PR_UNEXPECTED_ARRAY_CLOSE );
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_UNEXPECTED_ARRAY_CLOSE );
     }
 
     TTODO( "Parser::get_in_object();" );
@@ -187,8 +187,8 @@ TFEATURE( "Parser truncated input" )
 void value_test(
         int test_line,
         const char * p_input,
-        cljpp::Parser::ParserResult expected_result,
-        cljpp::Event::Type expected_type,
+        cljp::Parser::ParserResult expected_result,
+        cljp::Event::Type expected_type,
         const char * p_expected_value )
 {
     char c_doc[256];
@@ -200,11 +200,11 @@ void value_test(
 
     Harness h( composed_input );
 
-    TTEST( h.parser.get( &h.event ) == cljpp::Parser::PR_OK );
-    TTEST( h.event.type == cljpp::Event::T_ARRAY_START );
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
+    TTEST( h.event.type == cljp::Event::T_ARRAY_START );
 
     TTEST( h.parser.get( &h.event ) == expected_result );
-    if( expected_result == cljpp::Parser::PR_OK )
+    if( expected_result == cljp::Parser::PR_OK )
     {
         TTEST( h.event.type == expected_type );
         TTEST( h.event.value == p_expected_value );
@@ -214,49 +214,49 @@ void value_test(
 TFEATURE( "Parser Reading constant values" )
 {
     TDOC( "Parser::get_false()" );
-    value_test( __LINE__, "false", cljpp::Parser::PR_OK, cljpp::Event::T_BOOLEAN, "false" );
-    value_test( __LINE__, " false", cljpp::Parser::PR_OK, cljpp::Event::T_BOOLEAN, "false" );
-    value_test( __LINE__, "false,", cljpp::Parser::PR_OK, cljpp::Event::T_BOOLEAN, "false" );
-    value_test( __LINE__, "false", cljpp::Parser::PR_OK, cljpp::Event::T_BOOLEAN, "false" );
-    value_test( __LINE__, "false ", cljpp::Parser::PR_OK, cljpp::Event::T_BOOLEAN, "false" );
-    value_test( __LINE__, "false]", cljpp::Parser::PR_OK, cljpp::Event::T_BOOLEAN, "false" );
-    value_test( __LINE__, "false}", cljpp::Parser::PR_OK, cljpp::Event::T_BOOLEAN, "false" );
+    value_test( __LINE__, "false", cljp::Parser::PR_OK, cljp::Event::T_BOOLEAN, "false" );
+    value_test( __LINE__, " false", cljp::Parser::PR_OK, cljp::Event::T_BOOLEAN, "false" );
+    value_test( __LINE__, "false,", cljp::Parser::PR_OK, cljp::Event::T_BOOLEAN, "false" );
+    value_test( __LINE__, "false", cljp::Parser::PR_OK, cljp::Event::T_BOOLEAN, "false" );
+    value_test( __LINE__, "false ", cljp::Parser::PR_OK, cljp::Event::T_BOOLEAN, "false" );
+    value_test( __LINE__, "false]", cljp::Parser::PR_OK, cljp::Event::T_BOOLEAN, "false" );
+    value_test( __LINE__, "false}", cljp::Parser::PR_OK, cljp::Event::T_BOOLEAN, "false" );
 
     // Error cases
-    value_test( __LINE__, "f", cljpp::Parser::PR_BAD_FORMAT_FALSE, cljpp::Event::T_BOOLEAN, "false" );
-    value_test( __LINE__, "fal", cljpp::Parser::PR_BAD_FORMAT_FALSE, cljpp::Event::T_BOOLEAN, "false" );
-    value_test( __LINE__, "falsey", cljpp::Parser::PR_BAD_FORMAT_FALSE, cljpp::Event::T_BOOLEAN, "false" );
-    value_test( __LINE__, "false:", cljpp::Parser::PR_BAD_FORMAT_FALSE, cljpp::Event::T_BOOLEAN, "false" );
+    value_test( __LINE__, "f", cljp::Parser::PR_BAD_FORMAT_FALSE, cljp::Event::T_BOOLEAN, "false" );
+    value_test( __LINE__, "fal", cljp::Parser::PR_BAD_FORMAT_FALSE, cljp::Event::T_BOOLEAN, "false" );
+    value_test( __LINE__, "falsey", cljp::Parser::PR_BAD_FORMAT_FALSE, cljp::Event::T_BOOLEAN, "false" );
+    value_test( __LINE__, "false:", cljp::Parser::PR_BAD_FORMAT_FALSE, cljp::Event::T_BOOLEAN, "false" );
 
     TTODO( "Parser::get_true()" );
-    value_test( __LINE__, "true", cljpp::Parser::PR_OK, cljpp::Event::T_BOOLEAN, "true" );
-    value_test( __LINE__, " true", cljpp::Parser::PR_OK, cljpp::Event::T_BOOLEAN, "true" );
-    value_test( __LINE__, "true,", cljpp::Parser::PR_OK, cljpp::Event::T_BOOLEAN, "true" );
-    value_test( __LINE__, "true", cljpp::Parser::PR_OK, cljpp::Event::T_BOOLEAN, "true" );
-    value_test( __LINE__, "true ", cljpp::Parser::PR_OK, cljpp::Event::T_BOOLEAN, "true" );
-    value_test( __LINE__, "true]", cljpp::Parser::PR_OK, cljpp::Event::T_BOOLEAN, "true" );
-    value_test( __LINE__, "true}", cljpp::Parser::PR_OK, cljpp::Event::T_BOOLEAN, "true" );
+    value_test( __LINE__, "true", cljp::Parser::PR_OK, cljp::Event::T_BOOLEAN, "true" );
+    value_test( __LINE__, " true", cljp::Parser::PR_OK, cljp::Event::T_BOOLEAN, "true" );
+    value_test( __LINE__, "true,", cljp::Parser::PR_OK, cljp::Event::T_BOOLEAN, "true" );
+    value_test( __LINE__, "true", cljp::Parser::PR_OK, cljp::Event::T_BOOLEAN, "true" );
+    value_test( __LINE__, "true ", cljp::Parser::PR_OK, cljp::Event::T_BOOLEAN, "true" );
+    value_test( __LINE__, "true]", cljp::Parser::PR_OK, cljp::Event::T_BOOLEAN, "true" );
+    value_test( __LINE__, "true}", cljp::Parser::PR_OK, cljp::Event::T_BOOLEAN, "true" );
 
     // Error cases
-    value_test( __LINE__, "t", cljpp::Parser::PR_BAD_FORMAT_TRUE, cljpp::Event::T_BOOLEAN, "true" );
-    value_test( __LINE__, "tru", cljpp::Parser::PR_BAD_FORMAT_TRUE, cljpp::Event::T_BOOLEAN, "true" );
-    value_test( __LINE__, "truey", cljpp::Parser::PR_BAD_FORMAT_TRUE, cljpp::Event::T_BOOLEAN, "true" );
-    value_test( __LINE__, "true:", cljpp::Parser::PR_BAD_FORMAT_TRUE, cljpp::Event::T_BOOLEAN, "true" );
+    value_test( __LINE__, "t", cljp::Parser::PR_BAD_FORMAT_TRUE, cljp::Event::T_BOOLEAN, "true" );
+    value_test( __LINE__, "tru", cljp::Parser::PR_BAD_FORMAT_TRUE, cljp::Event::T_BOOLEAN, "true" );
+    value_test( __LINE__, "truey", cljp::Parser::PR_BAD_FORMAT_TRUE, cljp::Event::T_BOOLEAN, "true" );
+    value_test( __LINE__, "true:", cljp::Parser::PR_BAD_FORMAT_TRUE, cljp::Event::T_BOOLEAN, "true" );
 
     TTODO( "Parser::get_null()" );
-    value_test( __LINE__, "null", cljpp::Parser::PR_OK, cljpp::Event::T_NULL, "null" );
-    value_test( __LINE__, " null", cljpp::Parser::PR_OK, cljpp::Event::T_NULL, "null" );
-    value_test( __LINE__, "null,", cljpp::Parser::PR_OK, cljpp::Event::T_NULL, "null" );
-    value_test( __LINE__, "null", cljpp::Parser::PR_OK, cljpp::Event::T_NULL, "null" );
-    value_test( __LINE__, "null ", cljpp::Parser::PR_OK, cljpp::Event::T_NULL, "null" );
-    value_test( __LINE__, "null]", cljpp::Parser::PR_OK, cljpp::Event::T_NULL, "null" );
-    value_test( __LINE__, "null}", cljpp::Parser::PR_OK, cljpp::Event::T_NULL, "null" );
+    value_test( __LINE__, "null", cljp::Parser::PR_OK, cljp::Event::T_NULL, "null" );
+    value_test( __LINE__, " null", cljp::Parser::PR_OK, cljp::Event::T_NULL, "null" );
+    value_test( __LINE__, "null,", cljp::Parser::PR_OK, cljp::Event::T_NULL, "null" );
+    value_test( __LINE__, "null", cljp::Parser::PR_OK, cljp::Event::T_NULL, "null" );
+    value_test( __LINE__, "null ", cljp::Parser::PR_OK, cljp::Event::T_NULL, "null" );
+    value_test( __LINE__, "null]", cljp::Parser::PR_OK, cljp::Event::T_NULL, "null" );
+    value_test( __LINE__, "null}", cljp::Parser::PR_OK, cljp::Event::T_NULL, "null" );
 
     // Error cases
-    value_test( __LINE__, "n", cljpp::Parser::PR_BAD_FORMAT_NULL, cljpp::Event::T_NULL, "null" );
-    value_test( __LINE__, "nul", cljpp::Parser::PR_BAD_FORMAT_NULL, cljpp::Event::T_NULL, "null" );
-    value_test( __LINE__, "nully", cljpp::Parser::PR_BAD_FORMAT_NULL, cljpp::Event::T_NULL, "null" );
-    value_test( __LINE__, "null:", cljpp::Parser::PR_BAD_FORMAT_NULL, cljpp::Event::T_NULL, "null" );
+    value_test( __LINE__, "n", cljp::Parser::PR_BAD_FORMAT_NULL, cljp::Event::T_NULL, "null" );
+    value_test( __LINE__, "nul", cljp::Parser::PR_BAD_FORMAT_NULL, cljp::Event::T_NULL, "null" );
+    value_test( __LINE__, "nully", cljp::Parser::PR_BAD_FORMAT_NULL, cljp::Event::T_NULL, "null" );
+    value_test( __LINE__, "null:", cljp::Parser::PR_BAD_FORMAT_NULL, cljp::Event::T_NULL, "null" );
 }
 
 TFEATURE( "Parser Reading number values" )

@@ -31,8 +31,8 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //----------------------------------------------------------------------------
 
-#ifndef CL_JSON_PULLER_H
-#define CL_JSON_PULLER_H
+#ifndef CL_JSON_PULL_H
+#define CL_JSON_PULL_H
 
 #include "cl-json-pull-config.h"
 
@@ -43,7 +43,7 @@
 
 #include "../test/sdd.h"    // Temporary inclusion while being designed
 
-namespace cljpp {    // Codalogic JSON Pull Parser
+namespace cljp {    // Codalogic JSON Pull Parser
 
 //----------------------------------------------------------------------------
 //                             class Reader
@@ -304,4 +304,4 @@ public:
 
 }   // End of namespace cljp
 
-#endif  // CL_JSON_PULLER_H
+#endif  // CL_JSON_PULL_H
