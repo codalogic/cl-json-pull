@@ -32,18 +32,18 @@
 //----------------------------------------------------------------------------
 
 //----------------------------------------------------------------------------
-// Description:	This config file allows configuration of JSON Puller features.
-//				When moving to a new release you should keep your old version
-//				of this file so that your configuration settings are not lost
-//				when you migrate.
+// Description: This config file allows configuration of JSON Pull Parser
+//              features.  When moving to a new release you should keep your
+//              old version of this file so that your configuration settings
+//              are not lost when you migrate.
 //----------------------------------------------------------------------------
 
 #ifndef CL_JSON_PULLER_CONFIG_H
 #define CL_JSON_PULLER_CONFIG_H
 
 //----------------------------------------------------------------------------
-// Config:	Error handling - Set CLJP_THROW_ERRORS to 0 to return error codes
-//			when parsing errors are found and 1 to throw exceptions.
+// Config:  Error handling - Set CLJP_THROW_ERRORS to 0 to return error codes
+//          when parsing errors are found and 1 to throw exceptions.
 //----------------------------------------------------------------------------
 
 #ifndef CLJP_THROW_ERRORS

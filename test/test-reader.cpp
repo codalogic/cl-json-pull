@@ -40,21 +40,21 @@ TFEATURE( "class ReaderMemory" )
     {
     std::string in( "abc" );
 
-    cljp::ReaderString reader( in );
+    cljpp::ReaderString reader( in );
 
     TTEST( reader.get() == 'a' );
     TTEST( reader.get() == 'b' );
     TTEST( reader.get() == 'c' );
-    TTEST( reader.get() == cljp::Reader::EOM );
-    TTEST( reader.get() == cljp::Reader::EOM );
+    TTEST( reader.get() == cljpp::Reader::EOM );
+    TTEST( reader.get() == cljpp::Reader::EOM );
     }
 
     {
     std::string in( "" );
 
-    cljp::ReaderString reader( in );
+    cljpp::ReaderString reader( in );
 
-    TTEST( reader.get() == cljp::Reader::EOM );
+    TTEST( reader.get() == cljpp::Reader::EOM );
     }
 }
 
@@ -70,7 +70,7 @@ TFEATURE( "class ReaderFile" )
     }
 
     {
-    cljp::ReaderFile reader( p_test_file_name );
+    cljpp::ReaderFile reader( p_test_file_name );
 
     TCRITICALTEST( reader.is_open() );
 
@@ -78,7 +78,7 @@ TFEATURE( "class ReaderFile" )
     TTEST( reader.get() == 'b' );
     TTEST( reader.get() == 'c' );
     TTEST( reader.get() == 0x00f2 );
-    TTEST( reader.get() == cljp::Reader::EOM );
+    TTEST( reader.get() == cljpp::Reader::EOM );
 
     reader.rewind();
     TTEST( reader.get() == 'a' );
@@ -90,9 +90,9 @@ TFEATURE( "class ReadUTF8WithUnget" )
     {
     std::string in( "abc" );
 
-    cljp::ReaderString reader( in );
+    cljpp::ReaderString reader( in );
 
-    cljp::ReadUTF8WithUnget input( reader );
+    cljpp::ReadUTF8WithUnget input( reader );
 
     TTEST( input.get() == 'a' );
     TTEST( input.get() == 'b' );
@@ -103,34 +103,34 @@ TFEATURE( "class ReadUTF8WithUnget" )
     TTEST( input.get() == 'h' );
     TTEST( input.get() == 'g' );
     TTEST( input.get() == 'c' );
-    TTEST( input.get() == cljp::Reader::EOM );
-    TTEST( input.get() == cljp::Reader::EOM );
-    input.unget( cljp::Reader::EOM );
-    TTEST( input.get() == cljp::Reader::EOM );
+    TTEST( input.get() == cljpp::Reader::EOM );
+    TTEST( input.get() == cljpp::Reader::EOM );
+    input.unget( cljpp::Reader::EOM );
+    TTEST( input.get() == cljpp::Reader::EOM );
 
     input.unget( 'g' );
     input.unget( 'h' );
     TTEST( input.get() == 'h' );
     TTEST( input.get() == 'g' );
-    TTEST( input.get() == cljp::Reader::EOM );
+    TTEST( input.get() == cljpp::Reader::EOM );
     }
 
     {
     std::string in( "" );
 
-    cljp::ReaderString reader( in );
+    cljpp::ReaderString reader( in );
 
-    cljp::ReadUTF8WithUnget input( reader );
+    cljpp::ReadUTF8WithUnget input( reader );
 
-    TTEST( input.get() == cljp::Reader::EOM );
+    TTEST( input.get() == cljpp::Reader::EOM );
     }
 
     {
     std::string in( "a  b\n\t c" );
 
-    cljp::ReaderString reader( in );
+    cljpp::ReaderString reader( in );
 
-    cljp::ReadUTF8WithUnget input( reader );
+    cljpp::ReadUTF8WithUnget input( reader );
 
     TTEST( input.get_non_ws() == 'a' );
     TTEST( input.get_non_ws() == 'b' );

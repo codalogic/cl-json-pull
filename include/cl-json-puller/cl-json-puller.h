@@ -43,7 +43,7 @@
 
 #include "../test/sdd.h"    // Temporary inclusion while being designed
 
-namespace cljp {    // Codalogic JSON Puller
+namespace cljpp {    // Codalogic JSON Pull Parser
 
 //----------------------------------------------------------------------------
 //                             class Reader
@@ -235,7 +235,7 @@ class Parser
 {
 private:
     enum Context {
-			C_OUTER, C_DONE, C_START_OBJECT, C_IN_OBJECT, C_START_ARRAY, C_IN_ARRAY };
+            C_OUTER, C_DONE, C_START_OBJECT, C_IN_OBJECT, C_START_ARRAY, C_IN_ARRAY };
 
     struct Members {
         ReadUTF8WithUnget input;
@@ -246,27 +246,27 @@ private:
         Members( Reader & reader_in )
             : input( reader_in ), c( ' ' ), p_event_out( 0 )
         {
-			context_stack.push( C_OUTER );
+            context_stack.push( C_OUTER );
         }
     } m;
 
 public:
     enum ParserResult {
-			PR_OK,
-			PR_UNDOCUMENTED_FAIL,
-			PR_END_OF_MESSAGE,
-			PR_READ_PAST_END_OF_MESSAGE,
-			PR_EXPECTED_OBJECT_OR_ARRAY,
-			PR_UNEXPECTED_OBJECT_CLOSE,
-			PR_UNEXPECTED_ARRAY_CLOSE,
-			PR_EXPECTED_COMMA_OR_END_OF_ARRAY,
-			PR_UNRECOGNISED_VALUE_FORMAT,
-			PR_BAD_FORMAT_STRING,
-			PR_BAD_FORMAT_FALSE,
-			PR_BAD_FORMAT_TRUE,
-			PR_BAD_FORMAT_NULL,
-			PR_BAD_FORMAT_NUMBER
-			};
+            PR_OK,
+            PR_UNDOCUMENTED_FAIL,
+            PR_END_OF_MESSAGE,
+            PR_READ_PAST_END_OF_MESSAGE,
+            PR_EXPECTED_OBJECT_OR_ARRAY,
+            PR_UNEXPECTED_OBJECT_CLOSE,
+            PR_UNEXPECTED_ARRAY_CLOSE,
+            PR_EXPECTED_COMMA_OR_END_OF_ARRAY,
+            PR_UNRECOGNISED_VALUE_FORMAT,
+            PR_BAD_FORMAT_STRING,
+            PR_BAD_FORMAT_FALSE,
+            PR_BAD_FORMAT_TRUE,
+            PR_BAD_FORMAT_NULL,
+            PR_BAD_FORMAT_NUMBER
+            };
 
     Parser( Reader & reader_in )
         : m( reader_in )
@@ -275,18 +275,18 @@ public:
     ParserResult get( Event * p_event_out );
 
 private:
-	#ifndef CLJP_PARSER_PRIVATE
-	#define CLJP_PARSER_PRIVATE
-	#endif
-	CLJP_PARSER_PRIVATE
+    #ifndef CLJP_PARSER_PRIVATE
+    #define CLJP_PARSER_PRIVATE
+    #endif
+    CLJP_PARSER_PRIVATE
 
-	ParserResult report_error( ParserResult error )
-	{
-		#if CLJP_THROW_ERRORS == 1
-			throw( error );
-		#endif;
-		return error;
-	}
+    ParserResult report_error( ParserResult error )
+    {
+        #if CLJP_THROW_ERRORS == 1
+            throw( error );
+        #endif;
+        return error;
+    }
 };
 
 //----------------------------------------------------------------------------
