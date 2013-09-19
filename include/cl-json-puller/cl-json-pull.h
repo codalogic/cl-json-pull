@@ -34,7 +34,7 @@
 #ifndef CL_JSON_PULLER_H
 #define CL_JSON_PULLER_H
 
-#include "cl-json-puller-config.h"
+#include "cl-json-pull-config.h"
 
 #include <string>
 #include <vector>
