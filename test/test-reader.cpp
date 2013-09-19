@@ -33,7 +33,7 @@
 
 #include "clunit.h"
 
-#include "cl-json-puller.h"
+#include "cl-json-pull.h"
 
 TFEATURE( "class ReaderMemory" )
 {
