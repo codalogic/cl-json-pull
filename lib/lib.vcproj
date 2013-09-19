@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../include/cl-json-puller"
+				AdditionalIncludeDirectories="../include/cl-json-pull"
 				PreprocessorDefinitions="WIN32;_DEBUG;_LIB"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -107,7 +107,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="../include/cl-json-puller"
+				AdditionalIncludeDirectories="../include/cl-json-pull"
 				PreprocessorDefinitions="WIN32;NDEBUG;_LIB"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
@@ -165,11 +165,11 @@
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
 			<File
-				RelativePath="..\include\cl-json-puller\cl-json-pull-config.h"
+				RelativePath="..\include\cl-json-pull\cl-json-pull-config.h"
 				>
 			</File>
 			<File
-				RelativePath="..\include\cl-json-puller\cl-json-pull.h"
+				RelativePath="..\include\cl-json-pull\cl-json-pull.h"
 				>
 			</File>
 		</Filter>
