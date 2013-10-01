@@ -228,7 +228,7 @@ TFEATURE( "Parser Reading constant values" )
     value_test( __LINE__, "falsey", cljp::Parser::PR_BAD_FORMAT_FALSE, cljp::Event::T_BOOLEAN, "false" );
     value_test( __LINE__, "false:", cljp::Parser::PR_BAD_FORMAT_FALSE, cljp::Event::T_BOOLEAN, "false" );
 
-    TTODO( "Parser::get_true()" );
+    TDOC( "Parser::get_true()" );
     value_test( __LINE__, "true", cljp::Parser::PR_OK, cljp::Event::T_BOOLEAN, "true" );
     value_test( __LINE__, " true", cljp::Parser::PR_OK, cljp::Event::T_BOOLEAN, "true" );
     value_test( __LINE__, "true,", cljp::Parser::PR_OK, cljp::Event::T_BOOLEAN, "true" );
@@ -243,7 +243,7 @@ TFEATURE( "Parser Reading constant values" )
     value_test( __LINE__, "truey", cljp::Parser::PR_BAD_FORMAT_TRUE, cljp::Event::T_BOOLEAN, "true" );
     value_test( __LINE__, "true:", cljp::Parser::PR_BAD_FORMAT_TRUE, cljp::Event::T_BOOLEAN, "true" );
 
-    TTODO( "Parser::get_null()" );
+    TDOC( "Parser::get_null()" );
     value_test( __LINE__, "null", cljp::Parser::PR_OK, cljp::Event::T_NULL, "null" );
     value_test( __LINE__, " null", cljp::Parser::PR_OK, cljp::Event::T_NULL, "null" );
     value_test( __LINE__, "null,", cljp::Parser::PR_OK, cljp::Event::T_NULL, "null" );
@@ -259,9 +259,35 @@ TFEATURE( "Parser Reading constant values" )
     value_test( __LINE__, "null:", cljp::Parser::PR_BAD_FORMAT_NULL, cljp::Event::T_NULL, "null" );
 }
 
+void number_ok_test(
+        int test_line,
+        const char * p_input )
+{
+    value_test( test_line, p_input, cljp::Parser::PR_OK, cljp::Event::T_NUMBER, p_input );
+}
+
+void number_fail_test(
+        int test_line,
+        const char * p_input )
+{
+    value_test( test_line, p_input, cljp::Parser::PR_BAD_FORMAT_NUMBER, cljp::Event::T_NUMBER, p_input );
+}
+
 TFEATURE( "Parser Reading number values" )
 {
     TTODO( "Parser::get_number()" );
+
+    number_ok_test( __LINE__, "1" );
+    number_ok_test( __LINE__, "12" );
+
+    number_ok_test( __LINE__, "-1" );
+    number_ok_test( __LINE__, "-12" );
+    number_fail_test( __LINE__, "-" );
+    value_test( __LINE__, "+1", cljp::Parser::PR_UNRECOGNISED_VALUE_FORMAT, cljp::Event::T_NUMBER, "+1" );
+
+    number_ok_test( __LINE__, "0" );
+    number_ok_test( __LINE__, "-0" );
+    number_fail_test( __LINE__, "00" );
 }
 
 TFEATURE( "Parser Reading string values" )

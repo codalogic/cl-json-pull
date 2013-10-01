@@ -1,4 +1,4 @@
-Tests run on Thu Sep 19 17:36:57 2013
+Tests run on Tue Oct 01 17:54:07 2013
 
     struct Event [test-event.cpp:38]
     ================================
@@ -135,6 +135,7 @@ Tests run on Thu Sep 19 17:36:57 2013
     ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
     ok: h.parser.get( &h.event ) == expected_result
+      Parser::get_true()
       Line: 232, input: true
     ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
@@ -193,6 +194,7 @@ Tests run on Thu Sep 19 17:36:57 2013
     ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
     ok: h.parser.get( &h.event ) == expected_result
+      Parser::get_null()
       Line: 247, input: null
     ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
@@ -253,11 +255,59 @@ Tests run on Thu Sep 19 17:36:57 2013
     ok: h.parser.get( &h.event ) == expected_result
     ok: ! _CrtMemDifference( &s3, &s1, &s2 )
 
-    Parser Reading number values [test-parse.cpp:262]
+    Parser Reading number values [test-parse.cpp:276]
     =================================================
+      Line: 280, input: 1
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_START
+    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.event.type == expected_type
+    ok: h.event.value == p_expected_value
+      Line: 281, input: 12
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_START
+    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.event.type == expected_type
+    ok: h.event.value == p_expected_value
+      Line: 283, input: -1
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_START
+    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.event.type == expected_type
+    ok: h.event.value == p_expected_value
+      Line: 284, input: -12
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_START
+    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.event.type == expected_type
+    ok: h.event.value == p_expected_value
+      Line: 285, input: -
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_START
+    ok: h.parser.get( &h.event ) == expected_result
+      Line: 286, input: +1
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_START
+    ok: h.parser.get( &h.event ) == expected_result
+      Line: 288, input: 0
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_START
+    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.event.type == expected_type
+    ok: h.event.value == p_expected_value
+      Line: 289, input: -0
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_START
+    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.event.type == expected_type
+    ok: h.event.value == p_expected_value
+      Line: 290, input: 00
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_START
+    ok: h.parser.get( &h.event ) == expected_result
     ok: ! _CrtMemDifference( &s3, &s1, &s2 )
 
-    Parser Reading string values [test-parse.cpp:267]
+    Parser Reading string values [test-parse.cpp:293]
     =================================================
     ok: ! _CrtMemDifference( &s3, &s1, &s2 )
 
@@ -310,16 +360,14 @@ Tests run on Thu Sep 19 17:36:57 2013
     ok: ! _CrtMemDifference( &s3, &s1, &s2 )
     ok: _CrtCheckMemory() != 0
 
-TODOs (16):
+TODOs (14):
 ------------------------
 - Test Event::as_bool() [test-event.cpp:60]
 - Test Event::as_number() [test-event.cpp:61]
 - Parser::get_in_object(); [test-parse.cpp:179]
 - Parser truncated input [test-parse.cpp:184]
-- Parser::get_true() [test-parse.cpp:231]
-- Parser::get_null() [test-parse.cpp:246]
-- Parser::get_number() [test-parse.cpp:264]
-- Parser::get_string() [test-parse.cpp:269]
+- Parser::get_number() [test-parse.cpp:278]
+- Parser::get_string() [test-parse.cpp:295]
 - class UTFConverter [test-todo.cpp:40]
 - class ReadUTF8 [test-todo.cpp:45]
 - ReadUTF8: test reading in UTF8 [test-todo.cpp:47]
@@ -329,4 +377,4 @@ TODOs (16):
 - ReadUTF8: test reading in UTF32BE [test-todo.cpp:51]
 - class SmartParser [test-todo.cpp:56]
 
-0 error(s), 16 todo(s), 244 test(s)
+0 error(s), 14 todo(s), 283 test(s)
