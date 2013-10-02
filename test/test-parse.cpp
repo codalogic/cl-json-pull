@@ -356,7 +356,39 @@ TFEATURE( "Parser Back-to-back numbers" )
     }
 }
 
+void string_ok_test(
+        int test_line,
+        const char * p_input,
+        const char * p_expected_value )
+{
+    char c_doc[256];
+    sprintf( c_doc, "Line: %d, input: %s", test_line, p_input );
+    TDOC( c_doc );
+
+    std::string composed_input( "[\"" );
+    composed_input.append( p_input );
+    composed_input.append( "\"" );
+
+    Harness h( composed_input );
+
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
+    TTEST( h.event.type == cljp::Event::T_ARRAY_START );
+
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
+    TTEST( h.event.type == cljp::Event::T_STRING );
+    TTEST( h.event.value == p_expected_value );
+}
+
+void string_ok_test(
+        int test_line,
+        const char * p_input )
+{
+	string_ok_test( test_line, p_input, p_input );
+}
+
 TFEATURE( "Parser Reading string values" )
 {
     TTODO( "Parser::get_string()" );
+    
+    string_ok_test( __LINE__, "Fred" );
 }

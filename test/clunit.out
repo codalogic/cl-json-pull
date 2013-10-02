@@ -1,4 +1,4 @@
-Tests run on Wed Oct 02 12:31:56 2013
+Tests run on Wed Oct 02 18:04:41 2013
 
     struct Event [test-event.cpp:38]
     ================================
@@ -425,8 +425,14 @@ Tests run on Wed Oct 02 12:31:56 2013
     ok: h.event.type == cljp::Event::T_ARRAY_END
     ok: ! _CrtMemDifference( &s3, &s1, &s2 )
 
-    Parser Reading string values [test-parse.cpp:359]
+    Parser Reading string values [test-parse.cpp:389]
     =================================================
+      Line: 393, input: Fred
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_START
+not ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK (377)
+not ok: h.event.type == cljp::Event::T_STRING (378)
+not ok: h.event.value == p_expected_value (379)
     ok: ! _CrtMemDifference( &s3, &s1, &s2 )
 
     class ReaderMemory [test-reader.cpp:38]
@@ -485,7 +491,7 @@ TODOs (14):
 - Parser::get_in_object(); [test-parse.cpp:179]
 - Parser truncated input [test-parse.cpp:184]
 - Parser::get_number() [test-parse.cpp:286]
-- Parser::get_string() [test-parse.cpp:361]
+- Parser::get_string() [test-parse.cpp:391]
 - class UTFConverter [test-todo.cpp:40]
 - class ReadUTF8 [test-todo.cpp:45]
 - ReadUTF8: test reading in UTF8 [test-todo.cpp:47]
@@ -495,4 +501,4 @@ TODOs (14):
 - ReadUTF8: test reading in UTF32BE [test-todo.cpp:51]
 - class SmartParser [test-todo.cpp:56]
 
-0 error(s), 14 todo(s), 381 test(s)
+3 error(s), 14 todo(s), 386 test(s)

@@ -47,7 +47,6 @@
     ParserResult get_for_array(); \
     ParserResult get_member(); \
     ParserResult get_value(); \
-    ParserResult get_string(); \
     ParserResult get_false(); \
     ParserResult get_true(); \
     ParserResult get_null(); \
@@ -57,6 +56,7 @@
                             ParserResult on_error_code ); \
     bool is_number_start_char(); \
     ParserResult get_number(); \
+    ParserResult get_string(); \
     void read_to_non_quoted_value_end(); \
     bool is_separator(); \
     ParserResult context_update_for_object(); \
@@ -406,11 +406,6 @@ Parser::ParserResult Parser::get_value()
     return report_error( PR_UNRECOGNISED_VALUE_FORMAT );
 }
 
-Parser::ParserResult Parser::get_string()
-{
-    return report_error( PR_BAD_FORMAT_STRING );
-}
-
 Parser::ParserResult Parser::get_false()
 {
     return get_constant_string( "false", Event::T_BOOLEAN, PR_BAD_FORMAT_FALSE );
@@ -467,7 +462,7 @@ public:
     NumberReader( ReadUTF8WithUnget & r_input_in, int c_in, Event * p_event_out )
         : m( r_input_in, c_in, p_event_out )
     {
-        // From RFC4627 (re-ordered):
+        // From RFC4627:
         // number = [ minus ] int [ frac ] [ exp ]
 
         if( optional_minus() &&
@@ -583,7 +578,66 @@ Parser::ParserResult Parser::get_number()
     if( result != PR_OK )
         return report_error( result );
 
-    return report_error( PR_OK );
+    return PR_OK;
+}
+
+class StringReader
+{
+private:
+    struct Members {
+        ReadUTF8WithUnget & r_input;
+        int c;
+        Event * p_event;
+        Parser::ParserResult result;
+
+        Members( ReadUTF8WithUnget & r_input_in, int c_in, Event * p_event_out )
+            : r_input( r_input_in ), c( c_in ), p_event( p_event_out ),
+                result( Parser::PR_BAD_FORMAT_STRING )
+        {}
+    } m;
+
+public:
+    StringReader( ReadUTF8WithUnget & r_input_in, int c_in, Event * p_event_out )
+        : m( r_input_in, c_in, p_event_out )
+    {
+		// string = quotation-mark *char quotation-mark
+		// char = unescaped /
+		//       escape (
+		//           %x22 /          ; "    quotation mark  U+0022
+		//           %x5C /          ; \    reverse solidus U+005C
+		//           %x2F /          ; /    solidus         U+002F
+		//           %x62 /          ; b    backspace       U+0008
+		//           %x66 /          ; f    form feed       U+000C
+		//           %x6E /          ; n    line feed       U+000A
+		//           %x72 /          ; r    carriage return U+000D
+		//           %x74 /          ; t    tab             U+0009
+		//           %x75 4HEXDIG )  ; uXXXX                U+XXXX
+		// escape = %x5C              ; \
+		// quotation-mark = %x22      ; "
+		// unescaped = %x20-21 / %x23-5B / %x5D-10FFFF
+
+        if( is_separator( m.c ) )
+            m.r_input.unget( m.c );
+    }
+    Parser::ParserResult result() const { return m.result; }
+    operator Parser::ParserResult() const { return result(); }
+
+private:
+    void accept_and_get()
+    {
+        m.p_event->value += m.c;
+        m.c = m.r_input.get();
+    }
+};
+
+Parser::ParserResult Parser::get_string()
+{
+    Parser::ParserResult result = StringReader( m.input, m.c, m.p_event_out );
+
+    if( result != PR_OK )
+        return report_error( result );
+
+    return PR_OK;
 }
 
 void Parser::read_to_non_quoted_value_end()
