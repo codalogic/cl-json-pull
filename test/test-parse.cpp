@@ -261,9 +261,17 @@ TFEATURE( "Parser Reading constant values" )
 
 void number_ok_test(
         int test_line,
+        const char * p_input,
+        const char * p_expected_value )
+{
+    value_test( test_line, p_input, cljp::Parser::PR_OK, cljp::Event::T_NUMBER, p_expected_value );
+}
+
+void number_ok_test(
+        int test_line,
         const char * p_input )
 {
-    value_test( test_line, p_input, cljp::Parser::PR_OK, cljp::Event::T_NUMBER, p_input );
+    number_ok_test( test_line, p_input, p_input );
 }
 
 void number_fail_test(
@@ -279,6 +287,8 @@ TFEATURE( "Parser Reading number values" )
 
     number_ok_test( __LINE__, "1" );
     number_ok_test( __LINE__, "12" );
+    number_ok_test( __LINE__, "12,", "12" );
+    number_ok_test( __LINE__, "12 ", "12" );
 
     number_ok_test( __LINE__, "-1" );
     number_ok_test( __LINE__, "-12" );
@@ -288,6 +298,62 @@ TFEATURE( "Parser Reading number values" )
     number_ok_test( __LINE__, "0" );
     number_ok_test( __LINE__, "-0" );
     number_fail_test( __LINE__, "00" );
+
+    number_ok_test( __LINE__, "1.1" );
+    number_ok_test( __LINE__, "12.12" );
+    number_ok_test( __LINE__, "-12.12" );
+    number_fail_test( __LINE__, "1." );
+
+    number_ok_test( __LINE__, "1e1" );
+    number_ok_test( __LINE__, "1e+12" );
+    number_ok_test( __LINE__, "12e+12" );
+    number_ok_test( __LINE__, "1e-12" );
+    number_ok_test( __LINE__, "12e-12" );
+    number_ok_test( __LINE__, "1.1e+12" );
+    number_ok_test( __LINE__, "12.12e-12" );
+    number_ok_test( __LINE__, "-12.12e-12" );
+    number_fail_test( __LINE__, "1.e" );
+    number_fail_test( __LINE__, "1e" );
+    number_fail_test( __LINE__, "1e+ " );
+}
+
+TFEATURE( "Parser Back-to-back numbers" )
+{
+    {
+    Harness h( "[12.3, 4.2e+6]" );
+
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
+    TTEST( h.event.type == cljp::Event::T_ARRAY_START );
+
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
+    TTEST( h.event.type == cljp::Event::T_NUMBER );
+    TTEST( h.event.value == "12.3" );
+
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
+    TTEST( h.event.type == cljp::Event::T_NUMBER );
+    TTEST( h.event.value == "4.2e+6" );
+
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
+    TTEST( h.event.type == cljp::Event::T_ARRAY_END );
+    }
+
+    {
+    Harness h( "[ 12.3 , 4.2e+6 ]" );
+
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
+    TTEST( h.event.type == cljp::Event::T_ARRAY_START );
+
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
+    TTEST( h.event.type == cljp::Event::T_NUMBER );
+    TTEST( h.event.value == "12.3" );
+
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
+    TTEST( h.event.type == cljp::Event::T_NUMBER );
+    TTEST( h.event.value == "4.2e+6" );
+
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
+    TTEST( h.event.type == cljp::Event::T_ARRAY_END );
+    }
 }
 
 TFEATURE( "Parser Reading string values" )

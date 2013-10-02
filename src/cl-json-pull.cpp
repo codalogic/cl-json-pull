@@ -455,40 +455,36 @@ private:
         ReadUTF8WithUnget & r_input;
         int c;
         Event * p_event;
+        Parser::ParserResult result;
 
         Members( ReadUTF8WithUnget & r_input_in, int c_in, Event * p_event_out )
-            : r_input( r_input_in ), c( c_in ), p_event( p_event_out )
+            : r_input( r_input_in ), c( c_in ), p_event( p_event_out ),
+                result( Parser::PR_BAD_FORMAT_NUMBER )
         {}
     } m;
 
 public:
     NumberReader( ReadUTF8WithUnget & r_input_in, int c_in, Event * p_event_out )
         : m( r_input_in, c_in, p_event_out )
-    {}
-    Parser::ParserResult read()
     {
         // From RFC4627 (re-ordered):
         // number = [ minus ] int [ frac ] [ exp ]
-        // minus = %x2D               ; -
-        // int = zero / ( digit1-9 *DIGIT )
-        // zero = %x30                ; 0
-        // digit1-9 = %x31-39         ; 1-9
-        // frac = decimal-point 1*DIGIT
-        // decimal-point = %x2E       ; .
-        // exp = e [ minus / plus ] 1*DIGIT
-        // e = %x65 / %x45            ; e E
-        // plus = %x2B                ; +
 
         if( optional_minus() &&
                 integer() &&
+                optional_frac() &&
+                optional_exp() &&
                 done() )
         {
             m.p_event->type = Event::T_NUMBER;
-            return Parser::PR_OK;
+            m.result = Parser::PR_OK;
         }
 
-        return Parser::PR_BAD_FORMAT_NUMBER;
+        if( is_separator( m.c ) )
+            m.r_input.unget( m.c );
     }
+    Parser::ParserResult result() const { return m.result; }
+    operator Parser::ParserResult() const { return result(); }
 
 private:
     void accept_and_get()
@@ -509,6 +505,8 @@ private:
     bool integer()
     {
         // int = zero / ( digit1-9 *DIGIT )
+        // zero = %x30                ; 0
+        // digit1-9 = %x31-39         ; 1-9
 
         if( m.c == '0' )
             accept_and_get();
@@ -525,6 +523,53 @@ private:
         return true;
     }
 
+    bool optional_frac()
+    {
+        // frac = decimal-point 1*DIGIT
+        // decimal-point = %x2E       ; .
+
+        if( m.c == '.' )
+        {
+            accept_and_get();
+            return one_or_more_digits();
+        }
+
+        return true;
+    }
+
+    bool one_or_more_digits()
+    {
+        if( ! isdigit( m.c ) )
+            return false;
+        while( isdigit( m.c ) )
+            accept_and_get();
+        return true;
+    }
+
+    bool optional_exp()
+    {
+        // exp = e [ minus / plus ] 1*DIGIT
+        // e = %x65 / %x45            ; e E
+        // minus = %x2D               ; -
+        // plus = %x2B                ; +
+
+        if( m.c == 'e' || m.c == 'E' )
+        {
+            accept_and_get();
+            if( optional_sign() && one_or_more_digits() )
+                return true;
+            return false;
+        }
+        return true;
+    }
+
+    bool optional_sign()
+    {
+        if( m.c == '-' || m.c == '+' )
+            accept_and_get();
+        return true;
+    }
+
     bool done()
     {
         return is_separator( m.c );
@@ -533,7 +578,7 @@ private:
 
 Parser::ParserResult Parser::get_number()
 {
-    Parser::ParserResult result = NumberReader( m.input, m.c, m.p_event_out ).read();
+    Parser::ParserResult result = NumberReader( m.input, m.c, m.p_event_out );
 
     if( result != PR_OK )
         return report_error( result );
