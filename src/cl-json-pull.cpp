@@ -214,7 +214,11 @@ Parser::ParserResult Parser::get( Event * p_event_out )
     get_non_ws();
 
     if( m.c == Reader::EOM )
-        return PR_END_OF_MESSAGE;
+    {
+        if( context() == C_DONE )
+            return PR_END_OF_MESSAGE;
+        return PR_UNEXPECTED_END_OF_MESSAGE;
+    }
 
     switch( context() )
     {
@@ -592,7 +596,7 @@ private:
 
         Members( ReadUTF8WithUnget & r_input_in, int c_in, Event * p_event_out )
             : r_input( r_input_in ), c( c_in ), p_event( p_event_out ),
-                result( Parser::PR_BAD_FORMAT_STRING )
+                result( Parser::PR_OK )
         {}
     } m;
 
@@ -600,33 +604,125 @@ public:
     StringReader( ReadUTF8WithUnget & r_input_in, int c_in, Event * p_event_out )
         : m( r_input_in, c_in, p_event_out )
     {
-		// string = quotation-mark *char quotation-mark
-		// char = unescaped /
-		//       escape (
-		//           %x22 /          ; "    quotation mark  U+0022
-		//           %x5C /          ; \    reverse solidus U+005C
-		//           %x2F /          ; /    solidus         U+002F
-		//           %x62 /          ; b    backspace       U+0008
-		//           %x66 /          ; f    form feed       U+000C
-		//           %x6E /          ; n    line feed       U+000A
-		//           %x72 /          ; r    carriage return U+000D
-		//           %x74 /          ; t    tab             U+0009
-		//           %x75 4HEXDIG )  ; uXXXX                U+XXXX
-		// escape = %x5C              ; \
-		// quotation-mark = %x22      ; "
-		// unescaped = %x20-21 / %x23-5B / %x5D-10FFFF
+        // string = quotation-mark *char quotation-mark
 
-        if( is_separator( m.c ) )
-            m.r_input.unget( m.c );
+        m.p_event->type = Event::T_STRING;
+
+        skip_opening_quotes();
+
+        parse_string();
     }
+
     Parser::ParserResult result() const { return m.result; }
     operator Parser::ParserResult() const { return result(); }
 
 private:
+    void get()
+    {
+        m.c = m.r_input.get();
+    }
+
     void accept_and_get()
     {
         m.p_event->value += m.c;
         m.c = m.r_input.get();
+    }
+
+    void skip_opening_quotes()
+    {
+        get();
+    }
+
+    void parse_string()
+    {
+        // char = unescaped /
+        //       escape (
+        //           %x22 /          ; "    quotation mark  U+0022
+        //           %x5C /          ; \    reverse solidus U+005C
+        //           %x2F /          ; /    solidus         U+002F
+        //           %x62 /          ; b    backspace       U+0008
+        //           %x66 /          ; f    form feed       U+000C
+        //           %x6E /          ; n    line feed       U+000A
+        //           %x72 /          ; r    carriage return U+000D
+        //           %x74 /          ; t    tab             U+0009
+        //           %x75 4HEXDIG )  ; uXXXX                U+XXXX
+        // escape = %x5C              ; \
+        // quotation-mark = %x22      ; "
+
+        while( m.c != '"' )
+        {
+            if( m.c == Reader::EOM )
+            {
+                m.result = Parser::PR_UNEXPECTED_END_OF_MESSAGE;
+                break;
+            }
+            else if( m.c != '\\' )
+            {
+                if( ! handled_unescaped() )
+                    break;
+            }
+            else
+            {
+                if( ! handled_escaped() )
+                    break;
+            }
+        }
+    }
+
+    bool handled_unescaped()
+    {
+        // unescaped = %x20-21 / %x23-5B / %x5D-10FFFF
+        accept_and_get();
+        return true;
+    }
+
+    bool handled_escaped()
+    {
+        //           %x22 /          ; "    quotation mark  U+0022
+        //           %x5C /          ; \    reverse solidus U+005C
+        //           %x2F /          ; /    solidus         U+002F
+        //           %x62 /          ; b    backspace       U+0008
+        //           %x66 /          ; f    form feed       U+000C
+        //           %x6E /          ; n    line feed       U+000A
+        //           %x72 /          ; r    carriage return U+000D
+        //           %x74 /          ; t    tab             U+0009
+        //           %x75 4HEXDIG )  ; uXXXX                U+XXXX
+
+        get();
+
+        if( try_mapping( '"', '"' ) ||
+                try_mapping( '\\', '\\' ) ||
+                try_mapping( '/', '/' ) ||
+                try_mapping( 'b', '\b' ) ||
+                try_mapping( 'f', '\f' ) ||
+                try_mapping( 'n', '\n' ) ||
+                try_mapping( 'r', '\r' ) ||
+                try_mapping( 't', '\t' ) ||
+                try_mapping_unicode_escape() )
+            return true;
+
+        m.result = Parser::PR_BAD_FORMAT_STRING;
+
+        if( m.c == Reader::EOM )
+            m.result = Parser::PR_UNEXPECTED_END_OF_MESSAGE;
+
+        return false;
+    }
+
+    bool try_mapping( int escape_code_in, int mapped_char_in )
+    {
+        if( m.c == escape_code_in )
+        {
+            m.p_event->value += mapped_char_in;
+            get();
+            return true;
+        }
+        return false;
+    }
+
+    bool try_mapping_unicode_escape()
+    {
+        return false;
     }
 };
 

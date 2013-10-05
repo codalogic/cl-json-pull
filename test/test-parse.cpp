@@ -383,12 +383,60 @@ void string_ok_test(
         int test_line,
         const char * p_input )
 {
-	string_ok_test( test_line, p_input, p_input );
+    string_ok_test( test_line, p_input, p_input );
+}
+
+void string_fail_test(
+        int test_line,
+        const char * p_input,
+        cljp::Parser::ParserResult expected_error_code )
+{
+    char c_doc[256];
+    sprintf( c_doc, "Line: %d, input: %s", test_line, p_input );
+    TDOC( c_doc );
+
+    std::string composed_input( "[\"" );
+    composed_input.append( p_input );
+    composed_input.append( "\"" );
+
+    Harness h( composed_input );
+
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
+    TTEST( h.event.type == cljp::Event::T_ARRAY_START );
+
+    TTEST( h.parser.get( &h.event ) == expected_error_code );
 }
 
 TFEATURE( "Parser Reading string values" )
 {
-    TTODO( "Parser::get_string()" );
-    
+    TDOC( "Parser::get_string()" );
+
     string_ok_test( __LINE__, "Fred" );
+        //           %x22 /          ; "    quotation mark  U+0022
+        //           %x5C /          ; \    reverse solidus U+005C
+        //           %x2F /          ; /    solidus         U+002F
+        //           %x62 /          ; b    backspace       U+0008
+        //           %x66 /          ; f    form feed       U+000C
+        //           %x6E /          ; n    line feed       U+000A
+        //           %x72 /          ; r    carriage return U+000D
+        //           %x74 /          ; t    tab             U+0009
+    string_ok_test( __LINE__, "Say \\\"Fred\\\"", "Say \"Fred\"" );
+    string_ok_test( __LINE__, "Say \\nFred\\n", "Say \nFred\n" );
+
+    string_ok_test( __LINE__, "Say \\\\Fred\\/", "Say \\Fred/" );
+    string_ok_test( __LINE__, "Say \\bFred\\f", "Say \bFred\f" );
+    string_ok_test( __LINE__, "Say \\nFred\\r", "Say \nFred\r" );
+    string_ok_test( __LINE__, "Say \\tFred\\t", "Say \tFred\t" );
+
+    string_fail_test( __LINE__, "Say \\qFred", cljp::Parser::PR_BAD_FORMAT_STRING );
+}
+
+TFEATURE( "Parser Reading string unexpected EOF" )
+{
+    Harness h( "[\"Fred" );
+
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
+    TTEST( h.event.type == cljp::Event::T_ARRAY_START );
+
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_UNEXPECTED_END_OF_MESSAGE );
 }

@@ -255,6 +255,7 @@ public:
             PR_OK,
             PR_UNDOCUMENTED_FAIL,
             PR_END_OF_MESSAGE,
+            PR_UNEXPECTED_END_OF_MESSAGE,
             PR_READ_PAST_END_OF_MESSAGE,
             PR_EXPECTED_OBJECT_OR_ARRAY,
             PR_UNEXPECTED_OBJECT_CLOSE,
