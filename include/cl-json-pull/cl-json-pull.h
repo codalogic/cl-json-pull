@@ -266,7 +266,8 @@ public:
             PR_BAD_FORMAT_FALSE,
             PR_BAD_FORMAT_TRUE,
             PR_BAD_FORMAT_NULL,
-            PR_BAD_FORMAT_NUMBER
+            PR_BAD_FORMAT_NUMBER,
+            PR_BAD_UNICODE_ESCAPE
             };
 
     Parser( Reader & reader_in )

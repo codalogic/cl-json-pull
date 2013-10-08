@@ -193,7 +193,64 @@ void ReadUTF8WithUnget::rewind()
 }
 
 //----------------------------------------------------------------------------
-//                        Parser utility functions
+//                           Unicode functions
+//----------------------------------------------------------------------------
+
+class UTF8Sequence
+{
+private:
+    char utf8[6];
+
+public:
+    UTF8Sequence( int codepoint )
+    {
+        // From rfc3629:
+        // Char. number range  |        UTF-8 octet sequence
+        //   (hexadecimal)    |              (binary)
+        // --------------------+---------------------------------------------
+        // 0000 0000-0000 007F | 0xxxxxxx
+        // 0000 0080-0000 07FF | 110xxxxx 10xxxxxx
+        // 0000 0800-0000 FFFF | 1110xxxx 10xxxxxx 10xxxxxx
+        // 0001 0000-0010 FFFF | 11110xxx 10xxxxxx 10xxxxxx 10xxxxxx
+
+        if( codepoint < 0x7f )
+            pack_ascii( codepoint );
+        else if( codepoint > 0x10000 )
+            pack( '\xf0', 4, codepoint );
+        else if( codepoint > 0x080 )
+            pack( '\xe0', 3, codepoint );
+        else if( codepoint > 0x080 )
+            pack( '\xc0', 2, codepoint );
+        else
+            utf8[0] = '\0';
+    };
+    operator const char * () const { return utf8; }
+    char operator [] ( size_t index ) const { return utf8[index]; }
+    char & operator [] ( size_t index ) { return utf8[index]; }
+
+private:
+    void pack_ascii( int codepoint )
+    {
+        utf8[0] = codepoint;
+        utf8[1] = '\0';
+    }
+
+    void pack( char marker, size_t length, int codepoint )
+    {
+        utf8[length] = '\0';
+        int scaled_codepoint = codepoint;
+        for( int i = length-1; i >= 0; --i )
+        {
+            utf8[i] = scaled_codepoint & 0x3f;
+            utf8[i] |= 0x80;
+            scaled_codepoint >>= 6;
+        }
+        utf8[0] |= marker;
+    }
+};
+
+//----------------------------------------------------------------------------
+//                   Parser utility functions and classes
 //----------------------------------------------------------------------------
 
 inline bool is_separator( int c )
@@ -201,6 +258,36 @@ inline bool is_separator( int c )
     return isspace( c ) || c == ',' || c == ']' || c == '}' ||
             c == Reader::EOM;
 }
+
+class HexAccumulator
+{
+private:
+    struct Members {
+        int code_point;
+        bool is_ok;
+        Members() : code_point( 0 ), is_ok( true ) {}
+    } m;
+
+public:
+    HexAccumulator() {}
+    bool accumulate( int c )
+    {
+        int new_value = 0;
+        if( isdigit( c ) )
+            new_value = c - '0';
+        else if( c >= 'a' && c <= 'f' )
+            new_value = c - 'a' + 10;
+        else if( c >= 'A' && c <= 'F' )
+            new_value = c - 'A' + 10;
+        else
+            m.is_ok = false;
+        m.code_point = m.code_point * 16 + new_value;
+        return m.is_ok;
+    }
+
+    int code_point() const { return m.code_point; }
+    bool is_ok() const { return m.is_ok; }
+};
 
 //----------------------------------------------------------------------------
 //                               class Parser
@@ -297,11 +384,14 @@ Parser::ParserResult Parser::get_in_object()
 
 Parser::ParserResult Parser::get_for_object()
 {
-    ParserResult result = get_member();
-    if( result != PR_OK )
-        return result;
+    ParserResult get_member_result = get_member();
 
-    return context_update_for_object();
+    ParserResult context_update_result = context_update_for_object();
+
+    if( get_member_result != PR_OK )
+        return get_member_result;
+
+    return context_update_result;
 }
 
 Parser::ParserResult Parser::get_start_array()
@@ -312,11 +402,7 @@ Parser::ParserResult Parser::get_start_array()
         return context_update_for_array();
     }
 
-    ParserResult result = get_value();
-    if( result != PR_OK )
-        return result;
-
-    return context_update_for_array();
+    return get_for_array();
 }
 
 Parser::ParserResult Parser::get_in_array()
@@ -337,11 +423,14 @@ Parser::ParserResult Parser::get_in_array()
 
 Parser::ParserResult Parser::get_for_array()
 {
-    ParserResult result = get_value();
-    if( result != PR_OK )
-        return result;
+    ParserResult get_value_result = get_value();
 
-    return context_update_for_array();
+    ParserResult context_update_result = context_update_for_array();
+
+    if( get_value_result != PR_OK )
+        return get_value_result;
+
+    return context_update_result;
 }
 
 Parser::ParserResult Parser::get_member()
@@ -649,34 +738,30 @@ private:
         // escape = %x5C              ; \
         // quotation-mark = %x22      ; "
 
-        while( m.c != '"' )
+        while( m.c != '"' && m.c != Reader::EOM )
         {
-            if( m.c == Reader::EOM )
-            {
-                m.result = Parser::PR_UNEXPECTED_END_OF_MESSAGE;
-                break;
-            }
-            else if( m.c != '\\' )
-            {
-                if( ! handled_unescaped() )
-                    break;
-            }
+            if( m.c != '\\' )
+                handled_unescaped();
             else
-            {
-                if( ! handled_escaped() )
-                    break;
-            }
+                handled_escaped();
         }
+
+        if( m.c == Reader::EOM )
+            m.result = Parser::PR_UNEXPECTED_END_OF_MESSAGE;
     }
 
-    bool handled_unescaped()
+    void handled_unescaped()
     {
         // unescaped = %x20-21 / %x23-5B / %x5D-10FFFF
+        // %x22 = ", %x5c = \ which are already handled elsewhere
+
+        if( m.c < 0x20 )
+            m.result = Parser::PR_BAD_FORMAT_STRING;
+
         accept_and_get();
-        return true;
     }
 
-    bool handled_escaped()
+    void handled_escaped()
     {
         //           %x22 /          ; "    quotation mark  U+0022
         //           %x5C /          ; \    reverse solidus U+005C
@@ -699,14 +784,15 @@ private:
                 try_mapping( 'r', '\r' ) ||
                 try_mapping( 't', '\t' ) ||
                 try_mapping_unicode_escape() )
-            return true;
+            return; // Success
 
-        m.result = Parser::PR_BAD_FORMAT_STRING;
+        else
+        {
+            record_first_error( Parser::PR_BAD_FORMAT_STRING );
 
-        if( m.c == Reader::EOM )
-            m.result = Parser::PR_UNEXPECTED_END_OF_MESSAGE;
-
-        return false;
+            if( m.c == Reader::EOM )
+                m.result = Parser::PR_UNEXPECTED_END_OF_MESSAGE;
+        }
     }
 
     bool try_mapping( int escape_code_in, int mapped_char_in )
@@ -720,9 +806,135 @@ private:
         return false;
     }
 
+    class UnicodeCodepointReader
+    {
+        struct Members {
+            ReadUTF8WithUnget & r_input;
+            int c;
+            Parser::ParserResult result;
+            int code_point;
+
+            Members( ReadUTF8WithUnget & r_input_in )
+                :
+                r_input( r_input_in ),
+                c( '\0' ),
+                result( Parser::PR_OK ),
+                code_point( 0 )
+            {}
+        } m;
+
+    public:
+        UnicodeCodepointReader( ReadUTF8WithUnget & r_input_in )
+            : m( r_input_in )
+        {
+            //           %x75 4HEXDIG )  ; uXXXX                U+XXXX
+            // We have read "\u" already.  We may have a surrogate
+            // -which requires reading 1234\u5678 and converting to UTF-8
+
+            if( read_code_point_code() )
+            {
+                if( is_low_surrogate() )
+                    report_bad_unicode_escape();
+                else if( is_high_surrogate() )
+                    combine_low_surrogate();
+            }
+        }
+
+        Parser::ParserResult result() const { return m.result; }
+        operator Parser::ParserResult() const { return result(); }
+        int code_point() const { return m.code_point; }
+        UTF8Sequence as_utf8() const { return UTF8Sequence( m.code_point ); }
+
+    private:
+        int get()
+        {
+            m.c = m.r_input.get();
+            return m.c;
+        }
+
+        bool read_code_point_code()
+        {
+            HexAccumulator accumulator;
+            for( size_t i=0; i<4; ++i )
+                if( ! accumulator.accumulate( get() ) )
+                    break;
+            if( ! accumulator.is_ok() )
+            {
+                m.result = Parser::PR_BAD_UNICODE_ESCAPE;
+                if( m.c == Reader::EOM )
+                    m.result = Parser::PR_UNEXPECTED_END_OF_MESSAGE;
+                else if( m.c == '"' )
+                    m.r_input.unget( m.c );     // Push back quote so end-of-string can be found later
+                return false;
+            }
+            m.code_point = accumulator.code_point();
+            return true;
+        }
+
+        bool is_high_surrogate()
+        {
+            return m.code_point >= 0xD800 && m.code_point <= 0xDBFF;
+        }
+
+        bool is_low_surrogate()
+        {
+            return m.code_point >= 0xDC00 && m.code_point <= 0xDFFF;
+        }
+
+        void combine_low_surrogate()
+        {
+            int high_surrogate = m.code_point;
+
+            if( get() == '\\' && get() == 'u' && read_code_point_code() )
+            {
+                if( is_low_surrogate() )
+                    make_code_point( high_surrogate, m.code_point );
+                else
+                    report_bad_unicode_escape();
+            }
+            else
+            {
+                report_bad_unicode_escape();
+            }
+        }
+
+        void make_code_point( int high_surrogate, int low_surrogate )
+        {
+            m.code_point = ((high_surrogate & 0x3ff) << 10) + (low_surrogate & 0x3ff) + 0x10000;
+        }
+
+        void report_bad_unicode_escape()
+        {
+            if( m.result == Parser::PR_OK )     // Don't overwrite an already recorded error
+                m.result = Parser::PR_BAD_UNICODE_ESCAPE;
+        }
+    };
+
     bool try_mapping_unicode_escape()
     {
-        return false;
+        //           %x75 4HEXDIG )  ; uXXXX                U+XXXX
+        if( m.c != 'u' )
+            return false;
+
+        UnicodeCodepointReader codepoint_reader( m.r_input );
+
+        // Allow for a successful operation, without overwriting the error code of a previous unsuccessful operation
+        Parser::ParserResult current_result = codepoint_reader.result();
+        get();
+
+        record_first_error( current_result );
+
+        if( current_result != Parser::PR_OK )
+            return false;
+
+        m.p_event->value += codepoint_reader.as_utf8();
+        return true;
+    }
+
+    void record_first_error( Parser::ParserResult current_result )
+    {
+        if( m.result == Parser::PR_OK )
+            m.result = current_result;
     }
 };
 

@@ -283,8 +283,6 @@ void number_fail_test(
 
 TFEATURE( "Parser Reading number values" )
 {
-    TTODO( "Parser::get_number()" );
-
     number_ok_test( __LINE__, "1" );
     number_ok_test( __LINE__, "12" );
     number_ok_test( __LINE__, "12,", "12" );
@@ -429,6 +427,80 @@ TFEATURE( "Parser Reading string values" )
     string_ok_test( __LINE__, "Say \\tFred\\t", "Say \tFred\t" );
 
     string_fail_test( __LINE__, "Say \\qFred", cljp::Parser::PR_BAD_FORMAT_STRING );
+
+    TDOC( "Parser::get_string() - char outside unescaped = %x20-21 / %x23-5B / %x5D-10FFFF fails" );
+    string_fail_test( __LINE__, "Say \x01 Fred", cljp::Parser::PR_BAD_FORMAT_STRING );
+}
+
+TFEATURE( "Parser Reading string Unicode escapes" )
+{
+    string_ok_test( __LINE__, "Say \\u002fFred", "Say /Fred" );
+
+    TDOC( "Parser::get_string() - truncated BMP unicode escape fails" );
+    string_fail_test( __LINE__, "Say \\u002 Fred", cljp::Parser::PR_BAD_UNICODE_ESCAPE );
+    string_fail_test( __LINE__, "Say \\u002QFred", cljp::Parser::PR_BAD_UNICODE_ESCAPE );
+
+    // From rfc3629
+    string_ok_test( __LINE__, "\\u65E5\\u672C\\u8A9E", "\xE6\x97\xA5\xE6\x9C\xAC\xE8\xAA\x9E" );
+
+    // From rfc2781
+    TDOC( "Parser::get_string() - Surrogates unicode escape" );
+    string_ok_test( __LINE__, "\\uD808\\uDF45=Ra", "\xF0\x92\x8D\x85=Ra" );
+
+    TDOC( "Parser::get_string() - High surrogate without following low surrogate fails" );
+    string_fail_test( __LINE__, "\\uD808Fred", cljp::Parser::PR_BAD_UNICODE_ESCAPE );
+    string_fail_test( __LINE__, "\\uD808\\u0022", cljp::Parser::PR_BAD_UNICODE_ESCAPE );
+
+    TDOC( "Parser::get_string() - Low surrogate without preceeding high surrogate fails" );
+    string_fail_test( __LINE__, "\\uDF45Fred", cljp::Parser::PR_BAD_UNICODE_ESCAPE );
+    string_fail_test( __LINE__, "\\uDF45\\u0022", cljp::Parser::PR_BAD_UNICODE_ESCAPE );
+}
+
+void string_fail_allows_follow_on_pulls_test(
+        int test_line,
+        const char * p_input )
+{
+    char c_doc[256];
+    sprintf( c_doc, "Line: %d, input: %s", test_line, p_input );
+    TDOC( c_doc );
+
+    std::string composed_input( "[\"" );
+    composed_input.append( p_input );
+    composed_input.append( "Fred\", \"Bill\"" );
+
+    Harness h( composed_input );
+
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
+    TTEST( h.event.type == cljp::Event::T_ARRAY_START );
+
+    TTEST( h.parser.get( &h.event ) != cljp::Parser::PR_OK );
+    TTEST( h.event.type == cljp::Event::T_STRING );
+    TTEST( h.event.value.find( "Fred" ) != std::string::npos );
+
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
+    TTEST( h.event.type == cljp::Event::T_STRING );
+    TTEST( h.event.value == "Bill" );
+}
+
+TFEATURE( "Parser Reading string with bad Unicode escapes, check parsing not terminated mid-string" )
+{
+    string_fail_allows_follow_on_pulls_test( __LINE__, " \\u002 " );
+}
+
+TFEATURE( "Parser::get_string() - String end quote in middle of unicode escape code" )
+{
+    Harness h( "[ \" Fred\\u00\", \"Bill\"" );
+
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
+    TTEST( h.event.type == cljp::Event::T_ARRAY_START );
+
+    TTEST( h.parser.get( &h.event ) != cljp::Parser::PR_OK );
+    TTEST( h.event.type == cljp::Event::T_STRING );
+    TTEST( h.event.value.find( "Fred" ) != std::string::npos );
+
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
+    TTEST( h.event.type == cljp::Event::T_STRING );
+    TTEST( h.event.value == "Bill" );
 }
 
 TFEATURE( "Parser Reading string unexpected EOF" )
