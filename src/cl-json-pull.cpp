@@ -395,22 +395,20 @@ private:
     struct Members {
         ReadUTF8WithUnget & r_input;
         int c;
-        Event * p_event;
+        std::string * p_string;
         Parser::ParserResult result;
 
-        Members( ReadUTF8WithUnget & r_input_in, int c_in, Event * p_event_out )
-            : r_input( r_input_in ), c( c_in ), p_event( p_event_out ),
+        Members( ReadUTF8WithUnget & r_input_in, int c_in, std::string * p_string_out )
+            : r_input( r_input_in ), c( c_in ), p_string( p_string_out ),
                 result( Parser::PR_OK )
         {}
     } m;
 
 public:
-    StringReader( ReadUTF8WithUnget & r_input_in, int c_in, Event * p_event_out )
-        : m( r_input_in, c_in, p_event_out )
+    StringReader( ReadUTF8WithUnget & r_input_in, int c_in, std::string * p_string_out )
+        : m( r_input_in, c_in, p_string_out )
     {
         // string = quotation-mark *char quotation-mark
-
-        m.p_event->type = Event::T_STRING;
 
         skip_opening_quotes();
 
@@ -428,7 +426,7 @@ private:
 
     void accept_and_get()
     {
-        m.p_event->value += m.c;
+        *m.p_string += m.c;
         m.c = m.r_input.get();
     }
 
@@ -514,7 +512,7 @@ private:
     {
         if( m.c == escape_code_in )
         {
-            m.p_event->value += mapped_char_in;
+            *m.p_string += mapped_char_in;
             get();
             return true;
         }
@@ -538,7 +536,7 @@ private:
         if( current_result != Parser::PR_OK )
             return false;
 
-        m.p_event->value += codepoint_reader.as_utf8();
+        *m.p_string += codepoint_reader.as_utf8();
         return true;
     }
 
@@ -936,7 +934,9 @@ Parser::ParserResult Parser::get_number()
 
 Parser::ParserResult Parser::get_string()
 {
-    Parser::ParserResult result = StringReader( m.input, m.c, m.p_event_out );
+    m.p_event_out->type = Event::T_STRING;
+
+    Parser::ParserResult result = StringReader( m.input, m.c, &m.p_event_out->value );
 
     if( result != PR_OK )
         return report_error( result );
