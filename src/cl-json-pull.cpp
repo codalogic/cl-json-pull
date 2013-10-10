@@ -561,8 +561,8 @@ Parser::ParserResult Parser::get( Event * p_event_out )
     if( m.c == Reader::EOM )
     {
         if( context() == C_DONE )
-            return PR_END_OF_MESSAGE;
-        return PR_UNEXPECTED_END_OF_MESSAGE;
+            return report_error( PR_END_OF_MESSAGE );
+        return report_error( PR_UNEXPECTED_END_OF_MESSAGE );
     }
 
     switch( context() )
@@ -747,10 +747,10 @@ Parser::ParserResult Parser::get_value()
     }
 
     else if( m.c == '}' )
-        return PR_UNEXPECTED_OBJECT_CLOSE;
+        return report_error( PR_UNEXPECTED_OBJECT_CLOSE );
 
     else if( m.c == ']' )
-        return PR_UNEXPECTED_ARRAY_CLOSE;
+        return report_error( PR_UNEXPECTED_ARRAY_CLOSE );
 
     read_to_non_quoted_value_end();
 
