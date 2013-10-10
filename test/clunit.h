@@ -60,17 +60,18 @@ example-test.cpp:
         TTESTN( 2, 1 != 0 );            // A version of TTEST() to mirror TTODOXN()
         TCRITICALTEST( 1 == 1 );        // Return from function immediately if test fails
         TCRITICALTESTN( 2, 1 == 1 );    // Version of TCRITICALTEST() with depth indicator
+        TCALL( func( 12, "y", "y" ) );  // Call a test function
     }
 */
 // A note can be made of features that need to be tested using the TFEATTODO()
-// macros.  These effectively create a test function containing a single
+// macros.  These effectively create a test function containing a single 
 // TTODO() test description macro.
 //
 /* For example (not in a function):
 
-    TFEATTODO( "Feature Todo" );        // A quick way of recording a feature that needs testing
+	TFEATTODO( "Feature Todo" );		// A quick way of recording a feature that needs testing
 
-    TFEATTODON( 2, "Feature N Todo" );  // As above but with a depth indicator
+	TFEATTODON( 2, "Feature N Todo" );	// As above but with a depth indicator
 */
 //
 // The tests are initiated by calling the TRUNALL(); macro in the test
@@ -135,6 +136,7 @@ namespace cl {
 #define TTESTN( n, x ) TTEST( x )
 #define TCRITICALTEST( x ) { if( ! cl::clunit::ttest( #x, (x), __FILE__, __LINE__ ) ) return; }
 #define TCRITICALTESTN( n, x ) TCRITICALTEST( x )
+#define TCALL( x ) { cl::clunit::tcall( #x, __FILE__, __LINE__ ); (x); }
 #define TFEATTODO( d ) TFUNCTION( TCAT( todo_function_, __LINE__ ) ) { TTODO( d ); }
 #define TFEATTODON( n, d ) TFUNCTION( TCAT( todo_function_, __LINE__ ) ) { TTODON( n, d ); }
 #define TRUNALL() { cl::clunit::run(); size_t n_errors = cl::clunit::report(); if( n_errors > 255 ) return 255; return n_errors; }
@@ -283,6 +285,10 @@ private:
                 print_to_all_outputs( report.str() );
             return is_passed;
         }
+        void tcall( const char * what, const char * file, int line )
+        {
+            tout() << "      Calling: " << what << " (" << line << ")" << "\n";
+        }
         void run()
         {
             {
@@ -409,6 +415,8 @@ public:
         { my_singleton.ttodox( what, is_passed, file, line ); }
     static bool ttest( const char * what, bool is_passed, const char * file, int line )
         { return my_singleton.ttest( what, is_passed, file, line ); }
+    static void tcall( const char * what, const char * file, int line )
+        { my_singleton.tcall( what, file, line ); }
     static void run()
         { my_singleton.run(); }
     static size_t report()
