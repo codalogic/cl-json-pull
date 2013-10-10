@@ -434,26 +434,26 @@ TFEATURE( "Parser Reading string values" )
 
 TFEATURE( "Parser Reading string Unicode escapes" )
 {
-    string_ok_test( __LINE__, "Say \\u002fFred", "Say /Fred" );
+    TCALL( string_ok_test( __LINE__, "Say \\u002fFred", "Say /Fred" ) );
 
     TDOC( "Parser::get_string() - truncated BMP unicode escape fails" );
-    string_fail_test( __LINE__, "Say \\u002 Fred", cljp::Parser::PR_BAD_UNICODE_ESCAPE );
-    string_fail_test( __LINE__, "Say \\u002QFred", cljp::Parser::PR_BAD_UNICODE_ESCAPE );
+    TCALL( string_fail_test( __LINE__, "Say \\u002 Fred", cljp::Parser::PR_BAD_UNICODE_ESCAPE ) );
+    TCALL( string_fail_test( __LINE__, "Say \\u002QFred", cljp::Parser::PR_BAD_UNICODE_ESCAPE ) );
 
     // From rfc3629
-    string_ok_test( __LINE__, "\\u65E5\\u672C\\u8A9E", "\xE6\x97\xA5\xE6\x9C\xAC\xE8\xAA\x9E" );
+    TCALL( string_ok_test( __LINE__, "\\u65E5\\u672C\\u8A9E", "\xE6\x97\xA5\xE6\x9C\xAC\xE8\xAA\x9E" ) );
 
     // From rfc2781
     TDOC( "Parser::get_string() - Surrogates unicode escape" );
-    string_ok_test( __LINE__, "\\uD808\\uDF45=Ra", "\xF0\x92\x8D\x85=Ra" );
+    TCALL( string_ok_test( __LINE__, "\\uD808\\uDF45=Ra", "\xF0\x92\x8D\x85=Ra" ) );
 
     TDOC( "Parser::get_string() - High surrogate without following low surrogate fails" );
-    string_fail_test( __LINE__, "\\uD808Fred", cljp::Parser::PR_BAD_UNICODE_ESCAPE );
-    string_fail_test( __LINE__, "\\uD808\\u0022", cljp::Parser::PR_BAD_UNICODE_ESCAPE );
+    TCALL( string_fail_test( __LINE__, "\\uD808Fred", cljp::Parser::PR_BAD_UNICODE_ESCAPE ) );
+    TCALL( string_fail_test( __LINE__, "\\uD808\\u0022", cljp::Parser::PR_BAD_UNICODE_ESCAPE ) );
 
     TDOC( "Parser::get_string() - Low surrogate without preceeding high surrogate fails" );
-    string_fail_test( __LINE__, "\\uDF45Fred", cljp::Parser::PR_BAD_UNICODE_ESCAPE );
-    string_fail_test( __LINE__, "\\uDF45\\u0022", cljp::Parser::PR_BAD_UNICODE_ESCAPE );
+    TCALL( string_fail_test( __LINE__, "\\uDF45Fred", cljp::Parser::PR_BAD_UNICODE_ESCAPE ) );
+    TCALL( string_fail_test( __LINE__, "\\uDF45\\u0022", cljp::Parser::PR_BAD_UNICODE_ESCAPE ) );
 }
 
 void string_fail_allows_follow_on_pulls_test(
