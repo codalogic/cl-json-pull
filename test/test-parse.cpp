@@ -513,7 +513,7 @@ TFEATURE( "Parser Reading string unexpected EOF" )
 
 TFEATURE( "Parser Read member" )
 {
-	{
+    {
     Harness h( "{ \"Field\" : 12 }" );
 
     TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
@@ -528,7 +528,7 @@ TFEATURE( "Parser Read member" )
     TTEST( h.event.type == cljp::Event::T_OBJECT_END );
     }
 
-	{
+    {
     Harness h( "{ \"Field\" : 12, \"Jam\":\"High\" }" );
 
     TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );

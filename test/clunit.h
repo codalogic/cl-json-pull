@@ -64,14 +64,14 @@ example-test.cpp:
     }
 */
 // A note can be made of features that need to be tested using the TFEATTODO()
-// macros.  These effectively create a test function containing a single 
+// macros.  These effectively create a test function containing a single
 // TTODO() test description macro.
 //
 /* For example (not in a function):
 
-	TFEATTODO( "Feature Todo" );		// A quick way of recording a feature that needs testing
+    TFEATTODO( "Feature Todo" );        // A quick way of recording a feature that needs testing
 
-	TFEATTODON( 2, "Feature N Todo" );	// As above but with a depth indicator
+    TFEATTODON( 2, "Feature N Todo" );  // As above but with a depth indicator
 */
 //
 // The tests are initiated by calling the TRUNALL(); macro in the test

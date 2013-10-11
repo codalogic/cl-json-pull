@@ -711,13 +711,13 @@ Parser::ParserResult Parser::get_member()
 
     else
     {
-		ParserResult result = get_name();
+        ParserResult result = get_name();
 
-		if( result == PR_OK )
-			result = skip_name_separator();
+        if( result == PR_OK )
+            result = skip_name_separator();
 
-		if( result == PR_OK )
-			result = get_value();
+        if( result == PR_OK )
+            result = get_value();
 
         return result;
     }
@@ -737,17 +737,17 @@ Parser::ParserResult Parser::get_name()
 
 Parser::ParserResult Parser::skip_name_separator()
 {
-	get_non_ws();
+    get_non_ws();
 
-	if( m.c != ':' )
-		return report_error( PR_EXPECTED_COLON_NAME_SEPARATOR );
+    if( m.c != ':' )
+        return report_error( PR_EXPECTED_COLON_NAME_SEPARATOR );
 
-	get_non_ws();
+    get_non_ws();
 
-	if( m.c == Reader::EOM )
-		return report_error( PR_UNEXPECTED_END_OF_MESSAGE );
-	
-	return PR_OK;
+    if( m.c == Reader::EOM )
+        return report_error( PR_UNEXPECTED_END_OF_MESSAGE );
+
+    return PR_OK;
 }
 
 Parser::ParserResult Parser::get_value()
