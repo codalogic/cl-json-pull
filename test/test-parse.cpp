@@ -175,8 +175,6 @@ TFEATURE( "Basic Parser" )
 
     TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_UNEXPECTED_ARRAY_CLOSE );
     }
-
-    TTODO( "Parser::get_in_object();" );
 }
 
 TFEATURE( "Parser truncated input" )
@@ -511,4 +509,42 @@ TFEATURE( "Parser Reading string unexpected EOF" )
     TTEST( h.event.type == cljp::Event::T_ARRAY_START );
 
     TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_UNEXPECTED_END_OF_MESSAGE );
+}
+
+TFEATURE( "Parser Read member" )
+{
+	{
+    Harness h( "{ \"Field\" : 12 }" );
+
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
+    TTEST( h.event.type == cljp::Event::T_OBJECT_START );
+
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
+    TTEST( h.event.name == "Field" );
+    TTEST( h.event.type == cljp::Event::T_NUMBER );
+    TTEST( h.event.value == "12" );
+
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
+    TTEST( h.event.type == cljp::Event::T_OBJECT_END );
+    }
+
+	{
+    Harness h( "{ \"Field\" : 12, \"Jam\":\"High\" }" );
+
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
+    TTEST( h.event.type == cljp::Event::T_OBJECT_START );
+
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
+    TTEST( h.event.name == "Field" );
+    TTEST( h.event.type == cljp::Event::T_NUMBER );
+    TTEST( h.event.value == "12" );
+
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
+    TTEST( h.event.name == "Jam" );
+    TTEST( h.event.type == cljp::Event::T_STRING );
+    TTEST( h.event.value == "High" );
+
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
+    TTEST( h.event.type == cljp::Event::T_OBJECT_END );
+    }
 }

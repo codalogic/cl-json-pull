@@ -56,7 +56,14 @@ TFEATURE( "struct Event" )
     TTEST( event.name == "" );
     TTEST( event.value == "" );
     TTEST( event.type == cljp::Event::T_UNKNOWN );
+}
 
+TFEATURE( "Event converters" )
+{
     TTODO( "Test Event::as_bool()" );
+    TTODO( "Test Event::is_true()" );
+    TTODO( "Test Event::is_false()" );
+
     TTODO( "Test Event::as_number()" );
+    TTODO( "Test Event::is_int()" );
 }

@@ -46,6 +46,8 @@
     ParserResult get_in_array(); \
     ParserResult get_for_array(); \
     ParserResult get_member(); \
+    ParserResult get_name(); \
+    ParserResult skip_name_separator(); \
     ParserResult get_value(); \
     ParserResult get_false(); \
     ParserResult get_true(); \
@@ -707,12 +709,45 @@ Parser::ParserResult Parser::get_member()
         return PR_OK;
     }
 
-    else    // TODO: other name-value pairs
+    else
     {
-        return report_error( PR_UNDOCUMENTED_FAIL );
+		ParserResult result = get_name();
+
+		if( result == PR_OK )
+			result = skip_name_separator();
+
+		if( result == PR_OK )
+			result = get_value();
+
+        return result;
     }
 
     return report_error( PR_UNDOCUMENTED_FAIL );
+}
+
+Parser::ParserResult Parser::get_name()
+{
+    Parser::ParserResult result = StringReader( m.input, m.c, &m.p_event_out->name );
+
+    if( result != PR_OK )
+        return report_error( result );
+
+    return PR_OK;
+}
+
+Parser::ParserResult Parser::skip_name_separator()
+{
+	get_non_ws();
+
+	if( m.c != ':' )
+		return report_error( PR_EXPECTED_COLON_NAME_SEPARATOR );
+
+	get_non_ws();
+
+	if( m.c == Reader::EOM )
+		return report_error( PR_UNEXPECTED_END_OF_MESSAGE );
+	
+	return PR_OK;
 }
 
 Parser::ParserResult Parser::get_value()
