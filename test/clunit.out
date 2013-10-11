@@ -1,4 +1,4 @@
-Tests run on Fri Oct 11 18:31:37 2013
+Tests run on Fri Oct 11 21:56:14 2013
 
     struct Event [test-event.cpp:38]
     ================================
@@ -15,6 +15,10 @@ Tests run on Fri Oct 11 18:31:37 2013
 
     Event converters [test-event.cpp:61]
     ====================================
+    ok: ! _CrtMemDifference( &s3, &s1, &s2 )
+
+    Messages [test-messages.cpp:38]
+    ===============================
     ok: ! _CrtMemDifference( &s3, &s1, &s2 )
 
     Basic Parser [test-parse.cpp:55]
@@ -646,30 +650,31 @@ Tests run on Fri Oct 11 18:31:37 2013
     ===============================
     ok: ! _CrtMemDifference( &s3, &s1, &s2 )
 
-    ReadUTF8 [test-todo.cpp:43]
-    ===========================
+    JSON Text can just be a value [test-todo.cpp:43]
+    ================================================
     ok: ! _CrtMemDifference( &s3, &s1, &s2 )
 
-    Messages [test-messages.cpp:38]
-    ===============================
+    ReadUTF8 [test-todo.cpp:48]
+    ===========================
     ok: ! _CrtMemDifference( &s3, &s1, &s2 )
     ok: _CrtCheckMemory() != 0
 
-TODOs (14):
+TODOs (15):
 ------------------------
 - Test Event::as_bool() [test-event.cpp:63]
 - Test Event::is_true() [test-event.cpp:64]
 - Test Event::is_false() [test-event.cpp:65]
 - Test Event::as_number() [test-event.cpp:67]
 - Test Event::is_int() [test-event.cpp:68]
+- Reading whole messages using compound reader [test-messages.cpp:40]
 - Parser truncated input [test-parse.cpp:182]
 - class UTFConverter [test-todo.cpp:40]
-- class ReadUTF8 [test-todo.cpp:45]
-- ReadUTF8: test reading in UTF8 [test-todo.cpp:47]
-- ReadUTF8: test reading in UTF16LE [test-todo.cpp:48]
-- ReadUTF8: test reading in UTF16BE [test-todo.cpp:49]
-- ReadUTF8: test reading in UTF32LE [test-todo.cpp:50]
-- ReadUTF8: test reading in UTF32BE [test-todo.cpp:51]
-- Reading whole messages using compound reader [test-messages.cpp:40]
+- JSON Text can just be a value [test-todo.cpp:45]
+- class ReadUTF8 [test-todo.cpp:50]
+- ReadUTF8: test reading in UTF8 [test-todo.cpp:52]
+- ReadUTF8: test reading in UTF16LE [test-todo.cpp:53]
+- ReadUTF8: test reading in UTF16BE [test-todo.cpp:54]
+- ReadUTF8: test reading in UTF32LE [test-todo.cpp:55]
+- ReadUTF8: test reading in UTF32BE [test-todo.cpp:56]
 
-0 error(s), 14 todo(s), 500 test(s)
+0 error(s), 15 todo(s), 501 test(s)

@@ -40,6 +40,11 @@ TFEATURE( "UTFConverter" )
     TTODO( "class UTFConverter" );
 }
 
+TFEATURE( "JSON Text can just be a value" )
+{
+	TTODO( "JSON Text can just be a value" );
+}
+
 TFEATURE( "ReadUTF8" )
 {
     TTODO( "class ReadUTF8" );
