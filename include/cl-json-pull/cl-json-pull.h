@@ -213,8 +213,8 @@ public:
 
 struct Event
 {
-    enum Type { T_UNKNOWN, T_STRING, T_NUMBER, T_OBJECT_START, T_OBJECT_END,
-            T_ARRAY_START, T_ARRAY_END, T_BOOLEAN, T_NULL };
+    enum Type { T_UNKNOWN, T_STRING, T_NUMBER, T_BOOLEAN, T_NULL, 
+			T_OBJECT_START, T_OBJECT_END, T_ARRAY_START, T_ARRAY_END };
 
     std::string name;
     std::string value;
@@ -225,6 +225,30 @@ struct Event
     // Event & operator = ( const Event & ) = default;
 
     void clear() { name.clear(); value.clear(); type = T_UNKNOWN; }
+    
+    // Convenience methods
+    bool is_unknown() const { return type == T_UNKNOWN; }	// For completeness
+    bool is_string() const { return type == T_STRING; }
+    bool is_number() const { return type == T_NUMBER; }
+    bool is_boolean() const { return type == T_BOOLEAN; }
+    bool is_bool() const { return is_boolean(); }			// For convenience
+    bool is_null() const { return type == T_NULL; }
+    bool is_object_start() const { return type == T_OBJECT_START; }
+    bool is_object_end() const { return type == T_OBJECT_END; }
+    bool is_array_start() const { return type == T_ARRAY_START; }
+    bool is_array_end() const { return type == T_ARRAY_END; }
+
+    // is_true() and is_false() don't do implicit type casting
+    bool is_true() const { return type == T_BOOLEAN && value == "true"; }
+    bool is_false() const { return type == T_BOOLEAN && value == "false"; }
+    
+    bool is_int() const;
+    bool is_float() const { return is_number(); }			// For convenience
+    
+    bool to_bool() const;
+    double to_float() const;
+    int to_int() const;
+    long to_long() const;
 };
 
 //----------------------------------------------------------------------------

@@ -550,6 +550,58 @@ private:
 };
 
 //----------------------------------------------------------------------------
+//                             class Event
+//----------------------------------------------------------------------------
+
+bool Event::is_int() const
+{
+	// Assumes that during parsing format has been validated as a number
+	return is_number() && value.find_first_of( ".eE" ) == std::string::npos;
+}
+
+bool Event::to_bool() const
+{
+	switch( type )
+	{
+	case T_BOOLEAN:
+		return value != "false";
+	case T_STRING:
+		return ! value.empty();
+	case T_NUMBER:
+		return to_float() != 0.0;
+	case T_NULL:
+	case T_OBJECT_START:
+	case T_OBJECT_END:
+	case T_ARRAY_START:
+	case T_ARRAY_END:
+	case T_UNKNOWN:
+	default:	// In case we extend teh types later
+		return false;
+	}
+}
+
+double Event::to_float() const
+{
+	switch( type )
+	{
+	case T_NUMBER:
+		return atof( value.c_str() );
+	default:
+		return to_bool() ? 1.0 : 0.0;
+	}
+}
+
+int Event::to_int() const
+{
+	return static_cast<int>( to_float() );
+}
+
+long Event::to_long() const
+{
+	return static_cast<long>( to_float() );
+}
+
+//----------------------------------------------------------------------------
 //                               class Parser
 //----------------------------------------------------------------------------
 

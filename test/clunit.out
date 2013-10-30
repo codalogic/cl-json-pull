@@ -1,4 +1,4 @@
-Tests run on Tue Oct 29 22:19:34 2013
+Tests run on Wed Oct 30 18:17:33 2013
 
     struct Event [test-event.cpp:38]
     ================================
@@ -13,8 +13,71 @@ Tests run on Tue Oct 29 22:19:34 2013
     ok: event.type == cljp::Event::T_UNKNOWN
     ok: ! _CrtMemDifference( &s3, &s1, &s2 )
 
-    Event converters [test-event.cpp:61]
-    ====================================
+    Event simple / convenience is_XXX methods [test-event.cpp:61]
+    =============================================================
+    ok: event.is_boolean()
+    ok: event.is_bool()
+    ok: event.is_number()
+    ok: ! _CrtMemDifference( &s3, &s1, &s2 )
+
+    Event::is_true and is_false [test-event.cpp:74]
+    ===============================================
+      Test Event::is_true()
+    ok: event.is_true() == true
+    ok: event.is_true() == false
+    ok: event.is_true() == false
+    ok: event.is_true() == false
+      Test Event::is_false()
+    ok: event.is_false() == true
+    ok: event.is_false() == false
+    ok: event.is_false() == false
+    ok: ! _CrtMemDifference( &s3, &s1, &s2 )
+
+    Event::is_int [test-event.cpp:113]
+    ==================================
+    ok: event.is_int() == true
+    ok: event.is_int() == true
+    ok: event.is_int() == true
+    ok: event.is_int() == true
+    ok: event.is_int() == false
+    ok: event.is_int() == false
+    ok: event.is_int() == false
+    ok: event.is_int() == false
+    ok: ! _CrtMemDifference( &s3, &s1, &s2 )
+
+    Event::to_bool [test-event.cpp:144]
+    ===================================
+      Test Event::to_bool() for booleans
+    ok: event.to_bool() == false
+    ok: event.to_bool() == true
+      Test Event::to_bool() for strings
+    ok: event.to_bool() == true
+    ok: event.to_bool() == true
+    ok: event.to_bool() == false
+      Test Event::to_bool() for numbers
+    ok: event.to_bool() == false
+    ok: event.to_bool() == false
+    ok: event.to_bool() == false
+    ok: event.to_bool() == true
+      Test Event::to_bool() for null
+    ok: event.to_bool() == false
+    ok: ! _CrtMemDifference( &s3, &s1, &s2 )
+
+    Event to_float, to_int [test-event.cpp:201]
+    ===========================================
+    ok: event.to_float() == 1.0
+    ok: event.to_float() == 1.5
+    ok: event.to_int() == 1
+    ok: event.to_long() == 1
+    ok: event.to_float() == -11.5
+    ok: event.to_int() == -11
+    ok: event.to_long() == -11
+    ok: event.to_float() == 1.0
+    ok: event.to_float() == 1.0
+    ok: event.to_float() == 0.0
+    ok: event.to_int() == 1
+    ok: event.to_int() == 1
+    ok: event.to_int() == 0
     ok: ! _CrtMemDifference( &s3, &s1, &s2 )
 
     Messages [test-messages.cpp:38]
@@ -659,13 +722,8 @@ Tests run on Tue Oct 29 22:19:34 2013
     ok: ! _CrtMemDifference( &s3, &s1, &s2 )
     ok: _CrtCheckMemory() != 0
 
-TODOs (15):
+TODOs (10):
 ------------------------
-- Test Event::as_bool() [test-event.cpp:63]
-- Test Event::is_true() [test-event.cpp:64]
-- Test Event::is_false() [test-event.cpp:65]
-- Test Event::as_number() [test-event.cpp:67]
-- Test Event::is_int() [test-event.cpp:68]
 - Reading whole messages using compound reader [test-messages.cpp:40]
 - Parser truncated input [test-parse.cpp:182]
 - class UTFConverter [test-todo.cpp:40]
@@ -677,4 +735,4 @@ TODOs (15):
 - ReadUTF8: test reading in UTF32LE [test-todo.cpp:55]
 - ReadUTF8: test reading in UTF32BE [test-todo.cpp:56]
 
-0 error(s), 15 todo(s), 501 test(s)
+0 error(s), 10 todo(s), 546 test(s)

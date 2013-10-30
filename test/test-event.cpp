@@ -58,12 +58,190 @@ TFEATURE( "struct Event" )
     TTEST( event.type == cljp::Event::T_UNKNOWN );
 }
 
-TFEATURE( "Event converters" )
+TFEATURE( "Event simple / convenience is_XXX methods" )
 {
-    TTODO( "Test Event::as_bool()" );
-    TTODO( "Test Event::is_true()" );
-    TTODO( "Test Event::is_false()" );
+	// Seems no reason to test all of these!
+    cljp::Event event;
+    
+    event.type = cljp::Event::T_BOOLEAN;
+    TTEST( event.is_boolean() );
+    TTEST( event.is_bool() );
+    
+    event.type = cljp::Event::T_NUMBER;
+    TTEST( event.is_number() );
+}
 
-    TTODO( "Test Event::as_number()" );
-    TTODO( "Test Event::is_int()" );
+TFEATURE( "Event::is_true and is_false" )
+{
+	// is_true() and is_false() don't do implicit type casting
+	{
+    TDOC( "Test Event::is_true()" );
+    cljp::Event event;
+    event.type = cljp::Event::T_BOOLEAN;
+
+    event.value = "true";
+    TTEST( event.is_true() == true );
+
+    event.value = "false";
+    TTEST( event.is_true() == false );
+
+    event.value = "TRUE";
+    TTEST( event.is_true() == false );
+
+    event.type = cljp::Event::T_STRING;		// It's not BOOLEAN so it's not true
+    event.value = "true";
+    TTEST( event.is_true() == false );
+    }
+
+	{
+    TDOC( "Test Event::is_false()" );
+    cljp::Event event;
+    event.type = cljp::Event::T_BOOLEAN;
+
+    event.value = "false";
+    TTEST( event.is_false() == true );
+
+    event.value = "FALSE";
+    TTEST( event.is_false() == false );
+
+    event.type = cljp::Event::T_STRING;		// It's not BOOLEAN so it's not false
+    event.value = "false";
+    TTEST( event.is_false() == false );
+    }
+}
+
+TFEATURE( "Event::is_int" )
+{
+    cljp::Event event;
+    event.type = cljp::Event::T_NUMBER;
+
+    event.value = "0";
+    TTEST( event.is_int() == true );
+
+    event.value = "1";
+    TTEST( event.is_int() == true );
+
+    event.value = "-11";
+    TTEST( event.is_int() == true );
+
+    event.value = "20";
+    TTEST( event.is_int() == true );
+
+    event.value = "1.0";
+    TTEST( event.is_int() == false );
+
+    event.value = "1e1";
+    TTEST( event.is_int() == false );
+
+    event.value = "1E1";
+    TTEST( event.is_int() == false );
+
+    event.type = cljp::Event::T_STRING;	// Must be T_NUMBER to be is_int()
+    event.value = "0";
+    TTEST( event.is_int() == false );
+}
+
+TFEATURE( "Event::to_bool" )
+{
+	{
+    TDOC( "Test Event::to_bool() for booleans" );
+    cljp::Event event;
+    event.type = cljp::Event::T_BOOLEAN;
+    
+    event.value = "false";
+    TTEST( event.to_bool() == false );
+    
+    event.value = "true";
+    TTEST( event.to_bool() == true );
+    }
+    
+	{
+    TDOC( "Test Event::to_bool() for strings" );
+    cljp::Event event;
+    event.type = cljp::Event::T_STRING;
+    
+    event.value = "false";
+    TTEST( event.to_bool() == true );
+    
+    event.value = " ";
+    TTEST( event.to_bool() == true );
+    
+    event.value = "";
+    TTEST( event.to_bool() == false );
+    }
+    
+	{
+    TDOC( "Test Event::to_bool() for numbers" );
+    cljp::Event event;
+    event.type = cljp::Event::T_NUMBER;
+
+    event.value = "0";
+    TTEST( event.to_bool() == false );
+
+    event.value = "0.0";
+    TTEST( event.to_bool() == false );
+
+    event.value = "0e1";
+    TTEST( event.to_bool() == false );
+
+    event.value = "1";
+    TTEST( event.to_bool() == true );
+    }
+    
+	{
+    TDOC( "Test Event::to_bool() for null" );
+    cljp::Event event;
+    event.type = cljp::Event::T_NULL;
+
+    event.value = "null";
+    TTEST( event.to_bool() == false );
+    }
+}
+
+TFEATURE( "Event to_float, to_int" )
+{
+	{
+    cljp::Event event;
+    event.type = cljp::Event::T_NUMBER;
+
+    event.value = "1";
+    TTEST( event.to_float() == 1.0 );
+
+    event.value = "1.5";
+    TTEST( event.to_float() == 1.5 );
+
+    TTEST( event.to_int() == 1 );
+
+    TTEST( event.to_long() == 1 );
+
+    event.value = "-11.5";
+    TTEST( event.to_float() == -11.5 );
+
+    TTEST( event.to_int() == -11 );
+
+    TTEST( event.to_long() == -11 );
+    }
+
+	{
+    cljp::Event event;
+    event.type = cljp::Event::T_STRING;
+
+    event.value = "1";
+    TTEST( event.to_float() == 1.0 );
+
+    event.value = "0";
+    TTEST( event.to_float() == 1.0 );	// The string "0" maps to true (as it's not empty) which maps to 1
+
+    event.value = "";
+    TTEST( event.to_float() == 0.0 );
+
+    event.value = "1";
+    TTEST( event.to_int() == 1 );
+
+    event.value = "0";
+    TTEST( event.to_int() == 1 );	// The string "0" maps to true (as it's not empty) which maps to 1
+
+    event.value = "";
+    TTEST( event.to_int() == 0 );
+	}
 }
