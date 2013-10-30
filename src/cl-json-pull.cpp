@@ -71,7 +71,7 @@
 #include <cstdio>
 #include <cassert>
 
-namespace cljp {    // Codalogic JSON Pull Parser
+namespace cljp {    // Codalogic JSON Pull (Parser)
 
 //----------------------------------------------------------------------------
 //                             class Reader

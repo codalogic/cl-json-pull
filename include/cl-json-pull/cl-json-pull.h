@@ -43,7 +43,7 @@
 
 #include "../test/sdd.h"    // Temporary inclusion while being designed
 
-namespace cljp {    // Codalogic JSON Pull Parser
+namespace cljp {    // Codalogic JSON Pull (Parser)
 
 //----------------------------------------------------------------------------
 //                             class Reader
