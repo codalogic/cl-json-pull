@@ -1,4 +1,4 @@
-Tests run on Wed Oct 30 18:17:33 2013
+Tests run on Sat Nov 23 12:47:26 2013
 
     struct Event [test-event.cpp:38]
     ================================
@@ -720,9 +720,13 @@ Tests run on Wed Oct 30 18:17:33 2013
     ReadUTF8 [test-todo.cpp:48]
     ===========================
     ok: ! _CrtMemDifference( &s3, &s1, &s2 )
+
+    TODOs [test-todo.cpp:67]
+    ========================
+    ok: ! _CrtMemDifference( &s3, &s1, &s2 )
     ok: _CrtCheckMemory() != 0
 
-TODOs (10):
+TODOs (11):
 ------------------------
 - Reading whole messages using compound reader [test-messages.cpp:40]
 - Parser truncated input [test-parse.cpp:182]
@@ -734,5 +738,6 @@ TODOs (10):
 - ReadUTF8: test reading in UTF16BE [test-todo.cpp:54]
 - ReadUTF8: test reading in UTF32LE [test-todo.cpp:55]
 - ReadUTF8: test reading in UTF32BE [test-todo.cpp:56]
+- Reading multiple JSON msgs from single file/stream [test-todo.cpp:69]
 
-0 error(s), 10 todo(s), 546 test(s)
+0 error(s), 11 todo(s), 547 test(s)

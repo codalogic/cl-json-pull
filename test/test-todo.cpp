@@ -54,4 +54,18 @@ TFEATURE( "ReadUTF8" )
     TTODO( "ReadUTF8: test reading in UTF16BE" );
     TTODO( "ReadUTF8: test reading in UTF32LE" );
     TTODO( "ReadUTF8: test reading in UTF32BE" );
+	// xx xx -- --  UTF-8
+	// xx 00 xx --  UTF-16LE
+	// xx 00 00 xx  UTF-16LE
+	// xx 00 00 00  UTF-32LE
+	// 00 xx -- --  UTF-16BE
+	// 00 00 -- --  UTF-32BE
+	//
+	// Support JSON-8OB-16OB-32NB
+}
+
+TFEATURE( "TODOs" )
+{
+    TTODO( "Reading multiple JSON msgs from single file/stream" );
+    // Need to reset JSON state (but not UTF detection) so multiple JSON msgs can be read from single file
 }
