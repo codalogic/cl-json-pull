@@ -60,6 +60,8 @@ example-test.cpp:
         TTESTN( 2, 1 != 0 );            // A version of TTEST() to mirror TTODOXN()
         TCRITICALTEST( 1 == 1 );        // Return from function immediately if test fails
         TCRITICALTESTN( 2, 1 == 1 );    // Version of TCRITICALTEST() with depth indicator
+        TTESTFAIL( 1 != 0 );            // Fail a test that should pass - to check it's being run
+        TTESTNFAIL( 1, 1 != 0 );        // TTESTN variant of TTFAIL()
         TCALL( func( 12, "y", "y" ) );  // Call a test function
     }
 */
@@ -134,6 +136,8 @@ namespace cl {
 #define TTODOXN( n, x ) { cl::clunit::ttodox( "[" #n "] " #x, (x), __FILE__, __LINE__ ); }
 #define TTEST( x ) { cl::clunit::ttest( #x, (x), __FILE__, __LINE__ ); }
 #define TTESTN( n, x ) TTEST( x )
+#define TTESTFAIL( x ) { cl::clunit::ttestfail( #x, (x), __FILE__, __LINE__ ); }
+#define TTESTNFAIL( n, x ) TTESTFAIL( x )
 #define TCRITICALTEST( x ) { if( ! cl::clunit::ttest( #x, (x), __FILE__, __LINE__ ) ) return; }
 #define TCRITICALTESTN( n, x ) TCRITICALTEST( x )
 #define TCALL( x ) { cl::clunit::tcall( #x, __FILE__, __LINE__ ); (x); }
@@ -205,6 +209,8 @@ private:
         bool is_new_print_all_section;
         int n_tests;
         int n_errors;
+        int n_forced_fails_invoked;
+        int n_forced_fails_occurred;
         fixed_size_log todo_log;
 
         job_list & get_jobs();
@@ -218,6 +224,8 @@ private:
             is_new_print_all_section( false ),
             n_tests( 0 ),
             n_errors( 0 ),
+            n_forced_fails_invoked( 0 ),
+            n_forced_fails_occurred( 0 ),
             todo_log( 10000 )
         {}
 
@@ -284,6 +292,14 @@ private:
             else
                 print_to_all_outputs( report.str() );
             return is_passed;
+        }
+        bool ttestfail( const char * what, bool is_passed, const char * file, int line )
+        {
+            ++n_forced_fails_invoked;
+            int n_errors_at_beginning = n_errors;
+            bool result = ttest( what, ! is_passed, file, line );
+            n_forced_fails_occurred += n_errors - n_errors_at_beginning;
+            return result;
         }
         void tcall( const char * what, const char * file, int line )
         {
@@ -360,6 +376,11 @@ private:
                     n_errors << " error(s), " <<
                     todo_log.size() << " todo(s), " <<
                     n_tests << " test(s)\n";
+            if( n_forced_fails_invoked > 0 )
+                summary <<
+                        "FORCED FAILURES: " <<
+                            n_forced_fails_invoked << " invoked, " <<
+                            n_forced_fails_occurred << " occurred\n";
             print_to_all_outputs( summary.str() );
             return n_errors;
         }
@@ -415,6 +436,8 @@ public:
         { my_singleton.ttodox( what, is_passed, file, line ); }
     static bool ttest( const char * what, bool is_passed, const char * file, int line )
         { return my_singleton.ttest( what, is_passed, file, line ); }
+    static bool ttestfail( const char * what, bool is_passed, const char * file, int line )
+        { return my_singleton.ttestfail( what, is_passed, file, line ); }
     static void tcall( const char * what, const char * file, int line )
         { my_singleton.tcall( what, file, line ); }
     static void run()
