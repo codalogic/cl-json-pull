@@ -2,9 +2,9 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="9.00"
-	Name="Test"
-	ProjectGUID="{4FD2D959-0D89-4FC9-8554-CAA10CE7DC5A}"
-	RootNamespace="Test"
+	Name="test"
+	ProjectGUID="{CA0B08E4-C28D-46D2-B37C-47EDF7029CF6}"
+	RootNamespace="test"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="196613"
 	>
@@ -18,7 +18,7 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
+			OutputDirectory="$(ProjectDir)$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="1"
 			CharacterSet="1"
@@ -41,11 +41,11 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="$(SolutionDir)/include"
+				AdditionalIncludeDirectories="../include/cl-json-pull"
 				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
-				RuntimeLibrary="3"
+				RuntimeLibrary="1"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				DebugInformationFormat="4"
@@ -62,7 +62,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="$(SolutionDir)\lib\json-puller-vc90d.lib"
+				AdditionalDependencies="../lib/Debug/cl-json-puller-debug.lib"
 				LinkIncremental="2"
 				GenerateDebugInformation="true"
 				SubSystem="1"
@@ -92,7 +92,7 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="$(SolutionDir)$(ConfigurationName)"
+			OutputDirectory="$(ProjectDir)$(ConfigurationName)"
 			IntermediateDirectory="$(ConfigurationName)"
 			ConfigurationType="1"
 			CharacterSet="1"
@@ -117,7 +117,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="2"
 				EnableIntrinsicFunctions="true"
-				AdditionalIncludeDirectories="$(SolutionDir)/include"
+				AdditionalIncludeDirectories="../include/cl-json-pull"
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE"
 				RuntimeLibrary="0"
 				EnableFunctionLevelLinking="true"
@@ -137,7 +137,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="$(SolutionDir)\lib\json-puller-vc90.lib"
+				AdditionalDependencies="../lib/Release/cl-json-puller.lib"
 				LinkIncremental="1"
 				GenerateDebugInformation="true"
 				SubSystem="1"
@@ -172,10 +172,46 @@
 	</References>
 	<Files>
 		<Filter
-			Name="Test Files"
+			Name="Source Files"
+			Filter="cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx"
+			UniqueIdentifier="{4FC737F1-C7A5-4376-A066-2A32D752A2FF}"
 			>
 			<File
-				RelativePath=".\json-puller-test.cpp"
+				RelativePath=".\test-event.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\test-messages.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\test-parse.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\test-reader.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\test-todo.cpp"
+				>
+			</File>
+			<File
+				RelativePath=".\test.cpp"
+				>
+			</File>
+		</Filter>
+		<Filter
+			Name="Header Files"
+			Filter="h;hpp;hxx;hm;inl;inc;xsd"
+			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
+			>
+			<File
+				RelativePath=".\clunit.h"
+				>
+			</File>
+			<File
+				RelativePath=".\sdd.h"
 				>
 			</File>
 		</Filter>
