@@ -1,0 +1,738 @@
+Tests run on Mon Jan 27 18:36:45 2014
+
+    struct Event [test-event.cpp:38]
+    ================================
+    ok: event.name == ""
+    ok: event.value == ""
+    ok: event.type == cljp::Event::T_UNKNOWN
+    ok: event.name == "name"
+    ok: event.value == "value"
+    ok: event.type == cljp::Event::T_STRING
+    ok: event.name == ""
+    ok: event.value == ""
+    ok: event.type == cljp::Event::T_UNKNOWN
+    ok: ! _CrtMemDifference( &s3, &s1, &s2 )
+
+    Event simple / convenience is_XXX methods [test-event.cpp:61]
+    =============================================================
+    ok: event.is_boolean()
+    ok: event.is_bool()
+    ok: event.is_number()
+    ok: ! _CrtMemDifference( &s3, &s1, &s2 )
+
+    Event::is_true and is_false [test-event.cpp:74]
+    ===============================================
+      Test Event::is_true()
+    ok: event.is_true() == true
+    ok: event.is_true() == false
+    ok: event.is_true() == false
+    ok: event.is_true() == false
+      Test Event::is_false()
+    ok: event.is_false() == true
+    ok: event.is_false() == false
+    ok: event.is_false() == false
+    ok: ! _CrtMemDifference( &s3, &s1, &s2 )
+
+    Event::is_int [test-event.cpp:113]
+    ==================================
+    ok: event.is_int() == true
+    ok: event.is_int() == true
+    ok: event.is_int() == true
+    ok: event.is_int() == true
+    ok: event.is_int() == false
+    ok: event.is_int() == false
+    ok: event.is_int() == false
+    ok: event.is_int() == false
+    ok: ! _CrtMemDifference( &s3, &s1, &s2 )
+
+    Event::to_bool [test-event.cpp:144]
+    ===================================
+      Test Event::to_bool() for booleans
+    ok: event.to_bool() == false
+    ok: event.to_bool() == true
+      Test Event::to_bool() for strings
+    ok: event.to_bool() == true
+    ok: event.to_bool() == true
+    ok: event.to_bool() == false
+      Test Event::to_bool() for numbers
+    ok: event.to_bool() == false
+    ok: event.to_bool() == false
+    ok: event.to_bool() == false
+    ok: event.to_bool() == true
+      Test Event::to_bool() for null
+    ok: event.to_bool() == false
+    ok: ! _CrtMemDifference( &s3, &s1, &s2 )
+
+    Event to_float, to_int [test-event.cpp:201]
+    ===========================================
+    ok: event.to_float() == 1.0
+    ok: event.to_float() == 1.5
+    ok: event.to_int() == 1
+    ok: event.to_long() == 1
+    ok: event.to_float() == -11.5
+    ok: event.to_int() == -11
+    ok: event.to_long() == -11
+    ok: event.to_float() == 1.0
+    ok: event.to_float() == 1.0
+    ok: event.to_float() == 0.0
+    ok: event.to_int() == 1
+    ok: event.to_int() == 1
+    ok: event.to_int() == 0
+    ok: ! _CrtMemDifference( &s3, &s1, &s2 )
+
+    Messages [test-messages.cpp:38]
+    ===============================
+    ok: ! _CrtMemDifference( &s3, &s1, &s2 )
+
+    Basic Parser [test-parse.cpp:55]
+    ================================
+      Testing outer parsing handling
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_OBJECT_START
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_START
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_START
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_END
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_START
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_END
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_END_OF_MESSAGE
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_START
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_END
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_READ_PAST_END_OF_MESSAGE
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_START
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_UNEXPECTED_OBJECT_CLOSE
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_OBJECT_START
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_UNEXPECTED_ARRAY_CLOSE
+      Parser::get_in_array();
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_START
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_OBJECT_START
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_OBJECT_END
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_END
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_START
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_OBJECT_START
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_OBJECT_END
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_OBJECT_START
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_OBJECT_END
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_END
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_START
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_OBJECT_START
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_OBJECT_END
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_UNEXPECTED_ARRAY_CLOSE
+    ok: ! _CrtMemDifference( &s3, &s1, &s2 )
+
+    Parser truncated input [test-parse.cpp:180]
+    ===========================================
+    ok: ! _CrtMemDifference( &s3, &s1, &s2 )
+
+    Parser Reading constant values [test-parse.cpp:212]
+    ===================================================
+      Parser::get_false()
+      Line: 215, input: false
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_START
+    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.event.type == expected_type
+    ok: h.event.value == p_expected_value
+      Line: 216, input:  false
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_START
+    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.event.type == expected_type
+    ok: h.event.value == p_expected_value
+      Line: 217, input: false,
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_START
+    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.event.type == expected_type
+    ok: h.event.value == p_expected_value
+      Line: 218, input: false
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_START
+    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.event.type == expected_type
+    ok: h.event.value == p_expected_value
+      Line: 219, input: false 
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_START
+    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.event.type == expected_type
+    ok: h.event.value == p_expected_value
+      Line: 220, input: false]
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_START
+    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.event.type == expected_type
+    ok: h.event.value == p_expected_value
+      Line: 221, input: false}
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_START
+    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.event.type == expected_type
+    ok: h.event.value == p_expected_value
+      Line: 224, input: f
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_START
+    ok: h.parser.get( &h.event ) == expected_result
+      Line: 225, input: fal
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_START
+    ok: h.parser.get( &h.event ) == expected_result
+      Line: 226, input: falsey
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_START
+    ok: h.parser.get( &h.event ) == expected_result
+      Line: 227, input: false:
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_START
+    ok: h.parser.get( &h.event ) == expected_result
+      Parser::get_true()
+      Line: 230, input: true
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_START
+    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.event.type == expected_type
+    ok: h.event.value == p_expected_value
+      Line: 231, input:  true
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_START
+    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.event.type == expected_type
+    ok: h.event.value == p_expected_value
+      Line: 232, input: true,
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_START
+    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.event.type == expected_type
+    ok: h.event.value == p_expected_value
+      Line: 233, input: true
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_START
+    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.event.type == expected_type
+    ok: h.event.value == p_expected_value
+      Line: 234, input: true 
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_START
+    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.event.type == expected_type
+    ok: h.event.value == p_expected_value
+      Line: 235, input: true]
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_START
+    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.event.type == expected_type
+    ok: h.event.value == p_expected_value
+      Line: 236, input: true}
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_START
+    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.event.type == expected_type
+    ok: h.event.value == p_expected_value
+      Line: 239, input: t
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_START
+    ok: h.parser.get( &h.event ) == expected_result
+      Line: 240, input: tru
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_START
+    ok: h.parser.get( &h.event ) == expected_result
+      Line: 241, input: truey
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_START
+    ok: h.parser.get( &h.event ) == expected_result
+      Line: 242, input: true:
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_START
+    ok: h.parser.get( &h.event ) == expected_result
+      Parser::get_null()
+      Line: 245, input: null
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_START
+    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.event.type == expected_type
+    ok: h.event.value == p_expected_value
+      Line: 246, input:  null
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_START
+    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.event.type == expected_type
+    ok: h.event.value == p_expected_value
+      Line: 247, input: null,
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_START
+    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.event.type == expected_type
+    ok: h.event.value == p_expected_value
+      Line: 248, input: null
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_START
+    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.event.type == expected_type
+    ok: h.event.value == p_expected_value
+      Line: 249, input: null 
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_START
+    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.event.type == expected_type
+    ok: h.event.value == p_expected_value
+      Line: 250, input: null]
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_START
+    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.event.type == expected_type
+    ok: h.event.value == p_expected_value
+      Line: 251, input: null}
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_START
+    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.event.type == expected_type
+    ok: h.event.value == p_expected_value
+      Line: 254, input: n
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_START
+    ok: h.parser.get( &h.event ) == expected_result
+      Line: 255, input: nul
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_START
+    ok: h.parser.get( &h.event ) == expected_result
+      Line: 256, input: nully
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_START
+    ok: h.parser.get( &h.event ) == expected_result
+      Line: 257, input: null:
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_START
+    ok: h.parser.get( &h.event ) == expected_result
+    ok: ! _CrtMemDifference( &s3, &s1, &s2 )
+
+    Parser Reading number values [test-parse.cpp:282]
+    =================================================
+      Line: 284, input: 1
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_START
+    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.event.type == expected_type
+    ok: h.event.value == p_expected_value
+      Line: 285, input: 12
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_START
+    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.event.type == expected_type
+    ok: h.event.value == p_expected_value
+      Line: 286, input: 12,
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_START
+    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.event.type == expected_type
+    ok: h.event.value == p_expected_value
+      Line: 287, input: 12 
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_START
+    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.event.type == expected_type
+    ok: h.event.value == p_expected_value
+      Line: 289, input: -1
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_START
+    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.event.type == expected_type
+    ok: h.event.value == p_expected_value
+      Line: 290, input: -12
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_START
+    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.event.type == expected_type
+    ok: h.event.value == p_expected_value
+      Line: 291, input: -
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_START
+    ok: h.parser.get( &h.event ) == expected_result
+      Line: 292, input: +1
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_START
+    ok: h.parser.get( &h.event ) == expected_result
+      Line: 294, input: 0
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_START
+    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.event.type == expected_type
+    ok: h.event.value == p_expected_value
+      Line: 295, input: -0
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_START
+    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.event.type == expected_type
+    ok: h.event.value == p_expected_value
+      Line: 296, input: 00
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_START
+    ok: h.parser.get( &h.event ) == expected_result
+      Line: 298, input: 1.1
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_START
+    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.event.type == expected_type
+    ok: h.event.value == p_expected_value
+      Line: 299, input: 12.12
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_START
+    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.event.type == expected_type
+    ok: h.event.value == p_expected_value
+      Line: 300, input: -12.12
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_START
+    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.event.type == expected_type
+    ok: h.event.value == p_expected_value
+      Line: 301, input: 1.
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_START
+    ok: h.parser.get( &h.event ) == expected_result
+      Line: 303, input: 1e1
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_START
+    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.event.type == expected_type
+    ok: h.event.value == p_expected_value
+      Line: 304, input: 1e+12
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_START
+    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.event.type == expected_type
+    ok: h.event.value == p_expected_value
+      Line: 305, input: 12e+12
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_START
+    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.event.type == expected_type
+    ok: h.event.value == p_expected_value
+      Line: 306, input: 1e-12
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_START
+    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.event.type == expected_type
+    ok: h.event.value == p_expected_value
+      Line: 307, input: 12e-12
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_START
+    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.event.type == expected_type
+    ok: h.event.value == p_expected_value
+      Line: 308, input: 1.1e+12
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_START
+    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.event.type == expected_type
+    ok: h.event.value == p_expected_value
+      Line: 309, input: 12.12e-12
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_START
+    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.event.type == expected_type
+    ok: h.event.value == p_expected_value
+      Line: 310, input: -12.12e-12
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_START
+    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.event.type == expected_type
+    ok: h.event.value == p_expected_value
+      Line: 311, input: 1.e
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_START
+    ok: h.parser.get( &h.event ) == expected_result
+      Line: 312, input: 1e
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_START
+    ok: h.parser.get( &h.event ) == expected_result
+      Line: 313, input: 1e+ 
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_START
+    ok: h.parser.get( &h.event ) == expected_result
+    ok: ! _CrtMemDifference( &s3, &s1, &s2 )
+
+    Parser Back-to-back numbers [test-parse.cpp:316]
+    ================================================
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_START
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_NUMBER
+    ok: h.event.value == "12.3"
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_NUMBER
+    ok: h.event.value == "4.2e+6"
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_END
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_START
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_NUMBER
+    ok: h.event.value == "12.3"
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_NUMBER
+    ok: h.event.value == "4.2e+6"
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_END
+    ok: ! _CrtMemDifference( &s3, &s1, &s2 )
+
+    Parser Reading string values [test-parse.cpp:406]
+    =================================================
+      Parser::get_string()
+      Line: 410, input: Fred
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_START
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_STRING
+    ok: h.event.value == p_expected_value
+      Line: 419, input: Say \"Fred\"
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_START
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_STRING
+    ok: h.event.value == p_expected_value
+      Line: 420, input: Say \nFred\n
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_START
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_STRING
+    ok: h.event.value == p_expected_value
+      Line: 422, input: Say \\Fred\/
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_START
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_STRING
+    ok: h.event.value == p_expected_value
+      Line: 423, input: Say \bFred\f
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_START
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_STRING
+    ok: h.event.value == p_expected_value
+      Line: 424, input: Say \nFred\r
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_START
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_STRING
+    ok: h.event.value == p_expected_value
+      Line: 425, input: Say \tFred\t
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_START
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_STRING
+    ok: h.event.value == p_expected_value
+      Line: 427, input: Say \qFred
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_START
+    ok: h.parser.get( &h.event ) == expected_error_code
+      Parser::get_string() - char outside unescaped = %x20-21 / %x23-5B / %x5D-10FFFF fails
+      Line: 430, input: Say  Fred
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_START
+    ok: h.parser.get( &h.event ) == expected_error_code
+    ok: ! _CrtMemDifference( &s3, &s1, &s2 )
+
+    Parser Reading string Unicode escapes [test-parse.cpp:433]
+    ==========================================================
+      Calling: string_ok_test( __LINE__, "Say \\u002fFred", "Say /Fred" ) (435)
+      Line: 435, input: Say \u002fFred
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_START
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_STRING
+    ok: h.event.value == p_expected_value
+      Parser::get_string() - truncated BMP unicode escape fails
+      Calling: string_fail_test( __LINE__, "Say \\u002 Fred", cljp::Parser::PR_BAD_UNICODE_ESCAPE ) (438)
+      Line: 438, input: Say \u002 Fred
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_START
+    ok: h.parser.get( &h.event ) == expected_error_code
+      Calling: string_fail_test( __LINE__, "Say \\u002QFred", cljp::Parser::PR_BAD_UNICODE_ESCAPE ) (439)
+      Line: 439, input: Say \u002QFred
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_START
+    ok: h.parser.get( &h.event ) == expected_error_code
+      Calling: string_ok_test( __LINE__, "\\u65E5\\u672C\\u8A9E", "\xE6\x97\xA5\xE6\x9C\xAC\xE8\xAA\x9E" ) (442)
+      Line: 442, input: \u65E5\u672C\u8A9E
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_START
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_STRING
+    ok: h.event.value == p_expected_value
+      Parser::get_string() - Surrogates unicode escape
+      Calling: string_ok_test( __LINE__, "\\uD808\\uDF45=Ra", "\xF0\x92\x8D\x85=Ra" ) (446)
+      Line: 446, input: \uD808\uDF45=Ra
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_START
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_STRING
+    ok: h.event.value == p_expected_value
+      Parser::get_string() - High surrogate without following low surrogate fails
+      Calling: string_fail_test( __LINE__, "\\uD808Fred", cljp::Parser::PR_BAD_UNICODE_ESCAPE ) (449)
+      Line: 449, input: \uD808Fred
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_START
+    ok: h.parser.get( &h.event ) == expected_error_code
+      Calling: string_fail_test( __LINE__, "\\uD808\\u0022", cljp::Parser::PR_BAD_UNICODE_ESCAPE ) (450)
+      Line: 450, input: \uD808\u0022
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_START
+    ok: h.parser.get( &h.event ) == expected_error_code
+      Parser::get_string() - Low surrogate without preceeding high surrogate fails
+      Calling: string_fail_test( __LINE__, "\\uDF45Fred", cljp::Parser::PR_BAD_UNICODE_ESCAPE ) (453)
+      Line: 453, input: \uDF45Fred
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_START
+    ok: h.parser.get( &h.event ) == expected_error_code
+      Calling: string_fail_test( __LINE__, "\\uDF45\\u0022", cljp::Parser::PR_BAD_UNICODE_ESCAPE ) (454)
+      Line: 454, input: \uDF45\u0022
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_START
+    ok: h.parser.get( &h.event ) == expected_error_code
+    ok: ! _CrtMemDifference( &s3, &s1, &s2 )
+
+    Parser Reading string with bad Unicode escapes, check parsing not terminated mid-string [test-parse.cpp:483]
+    ============================================================================================================
+      Line: 485, input:  \u002 
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_START
+    ok: h.parser.get( &h.event ) != cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_STRING
+    ok: h.event.value.find( "Fred" ) != std::string::npos
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_STRING
+    ok: h.event.value == "Bill"
+    ok: ! _CrtMemDifference( &s3, &s1, &s2 )
+
+    Parser::get_string() - String end quote in middle of unicode escape code [test-parse.cpp:488]
+    =============================================================================================
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_START
+    ok: h.parser.get( &h.event ) != cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_STRING
+    ok: h.event.value.find( "Fred" ) != std::string::npos
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_STRING
+    ok: h.event.value == "Bill"
+    ok: ! _CrtMemDifference( &s3, &s1, &s2 )
+
+    Parser Reading string unexpected EOF [test-parse.cpp:504]
+    =========================================================
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_START
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_UNEXPECTED_END_OF_MESSAGE
+    ok: ! _CrtMemDifference( &s3, &s1, &s2 )
+
+    Parser Read member [test-parse.cpp:514]
+    =======================================
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_OBJECT_START
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.name == "Field"
+    ok: h.event.type == cljp::Event::T_NUMBER
+    ok: h.event.value == "12"
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_OBJECT_END
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_OBJECT_START
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.name == "Field"
+    ok: h.event.type == cljp::Event::T_NUMBER
+    ok: h.event.value == "12"
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.name == "Jam"
+    ok: h.event.type == cljp::Event::T_STRING
+    ok: h.event.value == "High"
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_OBJECT_END
+    ok: ! _CrtMemDifference( &s3, &s1, &s2 )
+
+    class ReaderMemory [test-reader.cpp:38]
+    =======================================
+    ok: reader.get() == 'a'
+    ok: reader.get() == 'b'
+    ok: reader.get() == 'c'
+    ok: reader.get() == cljp::Reader::EOM
+    ok: reader.get() == cljp::Reader::EOM
+    ok: reader.get() == cljp::Reader::EOM
+    ok: ! _CrtMemDifference( &s3, &s1, &s2 )
+
+    class ReaderFile [test-reader.cpp:61]
+    =====================================
+    ok: fout.is_open()
+    ok: reader.is_open()
+    ok: reader.get() == 'a'
+    ok: reader.get() == 'b'
+    ok: reader.get() == 'c'
+    ok: reader.get() == 0x00f2
+    ok: reader.get() == cljp::Reader::EOM
+    ok: reader.get() == 'a'
+    ok: ! _CrtMemDifference( &s3, &s1, &s2 )
+
+    class ReadUTF8WithUnget [test-reader.cpp:88]
+    ============================================
+    ok: input.get() == 'a'
+    ok: input.get() == 'b'
+    ok: input.get() == 'f'
+    ok: input.get() == 'h'
+    ok: input.get() == 'g'
+    ok: input.get() == 'c'
+    ok: input.get() == cljp::Reader::EOM
+    ok: input.get() == cljp::Reader::EOM
+    ok: input.get() == cljp::Reader::EOM
+    ok: input.get() == 'h'
+    ok: input.get() == 'g'
+    ok: input.get() == cljp::Reader::EOM
+    ok: input.get() == cljp::Reader::EOM
+    ok: input.get_non_ws() == 'a'
+    ok: input.get_non_ws() == 'b'
+    ok: input.get_non_ws() == 'c'
+    ok: ! _CrtMemDifference( &s3, &s1, &s2 )
+
+    UTFConverter [test-todo.cpp:38]
+    ===============================
+    ok: ! _CrtMemDifference( &s3, &s1, &s2 )
+
+    JSON Text can just be a value [test-todo.cpp:43]
+    ================================================
+    ok: ! _CrtMemDifference( &s3, &s1, &s2 )
+
+    ReadUTF8 [test-todo.cpp:48]
+    ===========================
+    ok: ! _CrtMemDifference( &s3, &s1, &s2 )
+    ok: _CrtCheckMemory() != 0
+
+TODOs (10):
+------------------------
+- Reading whole messages using compound reader [test-messages.cpp:40]
+- Parser truncated input [test-parse.cpp:182]
+- class UTFConverter [test-todo.cpp:40]
+- JSON Text can just be a value [test-todo.cpp:45]
+- class ReadUTF8 [test-todo.cpp:50]
+- ReadUTF8: test reading in UTF8 [test-todo.cpp:52]
+- ReadUTF8: test reading in UTF16LE [test-todo.cpp:53]
+- ReadUTF8: test reading in UTF16BE [test-todo.cpp:54]
+- ReadUTF8: test reading in UTF32LE [test-todo.cpp:55]
+- ReadUTF8: test reading in UTF32BE [test-todo.cpp:56]
+
+0 error(s), 10 todo(s), 546 test(s)

@@ -23,8 +23,20 @@
 *.ncb
 *.idb
 *.htm
-*.dll
+*.res
+*.map
+*.RES
+*.manifest
+*.cod
+*.user
+
+
+# Linux bits
+*.swp
+*.tar
+*.tar.gz
+*.0
 
 # Project specific ignores
-fix-eol.pl
-util/*
+test/Reader-test-abc.txt
+fix-eol.bat
