@@ -42,7 +42,9 @@ TFEATURE( "UTFConverter" )
 
 TFEATURE( "JSON Text can just be a value" )
 {
-	TTODO( "JSON Text can just be a value" );
+    TTODO( "JSON Text can just be a value" );
+    // Confirm that the existing tests include attempting to read past the
+    // end of an object or array based message
 }
 
 TFEATURE( "ReadUTF8" )
