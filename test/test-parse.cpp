@@ -137,6 +137,8 @@ TFEATURE( "Basic Parser" )
 
     TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
     TTEST( h.event.type == cljp::Event::T_ARRAY_END );
+
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_END_OF_MESSAGE );
     }
 
     {
@@ -159,6 +161,7 @@ TFEATURE( "Basic Parser" )
 
     TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
     TTEST( h.event.type == cljp::Event::T_ARRAY_END );
+
     }
 
     {
@@ -174,6 +177,44 @@ TFEATURE( "Basic Parser" )
     TTEST( h.event.type == cljp::Event::T_OBJECT_END );
 
     TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_UNEXPECTED_ARRAY_CLOSE );
+    }
+
+    {
+    Harness h( "12" );
+
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
+    TTEST( h.event.type == cljp::Event::T_NUMBER );
+    TTEST( h.event.value == "12" );
+
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_END_OF_MESSAGE );
+    }
+
+    {
+    Harness h( "\"String\"" );
+
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
+    TTEST( h.event.type == cljp::Event::T_STRING );
+    TTEST( h.event.value == "String" );
+
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_END_OF_MESSAGE );
+    }
+
+    {
+    Harness h( "false" );
+
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
+    TTEST( h.event.type == cljp::Event::T_BOOLEAN );
+    TTEST( h.event.value == "false" );
+
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_END_OF_MESSAGE );
+    }
+
+    {
+    Harness h( "?" );
+
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_UNRECOGNISED_VALUE_FORMAT );
+
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_END_OF_MESSAGE );
     }
 }
 

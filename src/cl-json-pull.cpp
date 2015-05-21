@@ -555,50 +555,50 @@ private:
 
 bool Event::is_int() const
 {
-	// Assumes that during parsing format has been validated as a number
-	return is_number() && value.find_first_of( ".eE" ) == std::string::npos;
+    // Assumes that during parsing format has been validated as a number
+    return is_number() && value.find_first_of( ".eE" ) == std::string::npos;
 }
 
 bool Event::to_bool() const
 {
-	switch( type )
-	{
-	case T_BOOLEAN:
-		return value != "false";
-	case T_STRING:
-		return ! value.empty();
-	case T_NUMBER:
-		return to_float() != 0.0;
-	case T_NULL:
-	case T_OBJECT_START:
-	case T_OBJECT_END:
-	case T_ARRAY_START:
-	case T_ARRAY_END:
-	case T_UNKNOWN:
-	default:	// In case we extend teh types later
-		return false;
-	}
+    switch( type )
+    {
+    case T_BOOLEAN:
+        return value != "false";
+    case T_STRING:
+        return ! value.empty();
+    case T_NUMBER:
+        return to_float() != 0.0;
+    case T_NULL:
+    case T_OBJECT_START:
+    case T_OBJECT_END:
+    case T_ARRAY_START:
+    case T_ARRAY_END:
+    case T_UNKNOWN:
+    default:    // In case we extend teh types later
+        return false;
+    }
 }
 
 double Event::to_float() const
 {
-	switch( type )
-	{
-	case T_NUMBER:
-		return atof( value.c_str() );
-	default:
-		return to_bool() ? 1.0 : 0.0;
-	}
+    switch( type )
+    {
+    case T_NUMBER:
+        return atof( value.c_str() );
+    default:
+        return to_bool() ? 1.0 : 0.0;
+    }
 }
 
 int Event::to_int() const
 {
-	return static_cast<int>( to_float() );
+    return static_cast<int>( to_float() );
 }
 
 long Event::to_long() const
 {
-	return static_cast<long>( to_float() );
+    return static_cast<long>( to_float() );
 }
 
 //----------------------------------------------------------------------------
@@ -646,25 +646,18 @@ Parser::ParserResult Parser::get( Event * p_event_out )
 
 Parser::ParserResult Parser::get_outer()
 {
-    // JSON-text = object / array
+    // JSON-text = value
 
     m.context_stack.top() = Parser::C_DONE;
 
-    if( m.c == '{' )
-    {
-        m.p_event_out->type = Event::T_OBJECT_START;
-        m.context_stack.push( C_START_OBJECT );
-        return PR_OK;
-    }
+    Parser::ParserResult result = get_value();
 
-    else if( m.c == '[' )
-    {
-        m.p_event_out->type = Event::T_ARRAY_START;
-        m.context_stack.push( C_START_ARRAY );
-        return PR_OK;
-    }
+    context_update_if_nesting();
 
-    return report_error( PR_EXPECTED_OBJECT_OR_ARRAY );
+    if( result != PR_OK )
+        return report_error( result );
+
+    return PR_OK;
 }
 
 Parser::ParserResult Parser::get_start_object()
