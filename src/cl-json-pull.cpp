@@ -63,7 +63,7 @@
     bool is_separator(); \
     ParserResult context_update_for_object(); \
     ParserResult context_update_for_array(); \
-    void context_update_if_nesting(); \
+    void conditional_context_update_for_nesting_increase(); \
 
 
 #include "cl-json-pull.h"
@@ -652,7 +652,7 @@ Parser::ParserResult Parser::get_outer()
 
     Parser::ParserResult result = get_value();
 
-    context_update_if_nesting();
+    conditional_context_update_for_nesting_increase();
 
     if( result != PR_OK )
         return report_error( result );
@@ -1050,7 +1050,7 @@ Parser::ParserResult Parser::context_update_for_object()
     else
         m.context_stack.top() = C_IN_OBJECT;
 
-    context_update_if_nesting();
+    conditional_context_update_for_nesting_increase();
 
     return PR_OK;
 }
@@ -1064,12 +1064,12 @@ Parser::ParserResult Parser::context_update_for_array()
     else
         m.context_stack.top() = C_IN_ARRAY;
 
-    context_update_if_nesting();
+    conditional_context_update_for_nesting_increase();
 
     return PR_OK;
 }
 
-void Parser::context_update_if_nesting()
+void Parser::conditional_context_update_for_nesting_increase()
 {
     if( m.p_event_out->type == Event::T_ARRAY_START )
         m.context_stack.push( C_START_ARRAY );
