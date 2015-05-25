@@ -57,7 +57,7 @@
                             Event::Type on_success_type, \
                             ParserResult on_error_code ); \
     bool is_number_start_char(); \
-    bool is_invalid_number_start_char(); \
+    bool is_invalid_json_number_start_char(); \
     ParserResult get_number(); \
     ParserResult get_string(); \
     void read_to_non_quoted_value_end(); \
@@ -815,7 +815,7 @@ Parser::ParserResult Parser::get_value()
     else if( is_number_start_char() )
         return get_number();
 
-    else if( is_invalid_number_start_char() )
+    else if( is_invalid_json_number_start_char() )
     {
         m.p_event_out->type = Event::T_NUMBER;
         read_to_non_quoted_value_end();
@@ -882,7 +882,7 @@ bool Parser::is_number_start_char()
     return m.c == '-' || (m.c >= '0' && m.c <= '9');
 }
 
-bool Parser::is_invalid_number_start_char()
+bool Parser::is_invalid_json_number_start_char()
 {
     // JSON numbers can't start with + and .
 
