@@ -330,18 +330,26 @@ TFEATURE( "Parser Reading number values" )
     number_ok_test( __LINE__, "-1" );
     number_ok_test( __LINE__, "-12" );
     number_fail_test( __LINE__, "-" );
-    value_test( __LINE__, "+1", cljp::Parser::PR_UNRECOGNISED_VALUE_FORMAT, cljp::Event::T_NUMBER, "+1" );
+    number_fail_test( __LINE__, "+1" );
 
     number_ok_test( __LINE__, "0" );
     number_ok_test( __LINE__, "-0" );
     number_fail_test( __LINE__, "00" );
+    number_fail_test( __LINE__, "01" );
+    number_fail_test( __LINE__, "-01" );
 
     number_ok_test( __LINE__, "1.1" );
     number_ok_test( __LINE__, "12.12" );
     number_ok_test( __LINE__, "-12.12" );
+    number_fail_test( __LINE__, "." );
     number_fail_test( __LINE__, "1." );
+    number_fail_test( __LINE__, ".1" );
+    number_fail_test( __LINE__, "-." );
+    number_fail_test( __LINE__, "-1." );
+    number_fail_test( __LINE__, "-.1" );
 
     number_ok_test( __LINE__, "1e1" );
+    number_ok_test( __LINE__, "1E1" );
     number_ok_test( __LINE__, "1e+12" );
     number_ok_test( __LINE__, "12e+12" );
     number_ok_test( __LINE__, "1e-12" );
@@ -349,6 +357,8 @@ TFEATURE( "Parser Reading number values" )
     number_ok_test( __LINE__, "1.1e+12" );
     number_ok_test( __LINE__, "12.12e-12" );
     number_ok_test( __LINE__, "-12.12e-12" );
+    number_ok_test( __LINE__, "12.12e12" );
+    number_ok_test( __LINE__, "-12.12e12" );
     number_fail_test( __LINE__, "1.e" );
     number_fail_test( __LINE__, "1e" );
     number_fail_test( __LINE__, "1e+ " );
