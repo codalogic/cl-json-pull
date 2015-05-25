@@ -62,6 +62,12 @@
     ParserResult get_string(); \
     void read_to_non_quoted_value_end(); \
     bool is_separator(); \
+    bool is_unexpected_object_close(); \
+    ParserResult unexpected_object_close_error(); \
+    bool is_unexpected_array_close(); \
+    ParserResult unexpected_array_close_error(); \
+    bool is_unexpected_close(); \
+    ParserResult unexpected_close_error(); \
     ParserResult context_update_for_object(); \
     ParserResult context_update_for_array(); \
     void conditional_context_update_for_nesting_increase(); \
@@ -669,6 +675,9 @@ Parser::ParserResult Parser::get_start_object()
         return context_update_for_object();
     }
 
+    else if( is_unexpected_array_close() )
+        return unexpected_array_close_error();
+
     return get_for_object();
 }
 
@@ -680,10 +689,16 @@ Parser::ParserResult Parser::get_in_object()
         return context_update_for_object();
     }
 
+    else if( is_unexpected_array_close() )
+        return unexpected_array_close_error();
+
     if( m.c != ',' )
         return report_error( PR_EXPECTED_COMMA_OR_END_OF_ARRAY );
 
     get_non_ws();
+
+    if( is_unexpected_close() )
+        return unexpected_close_error();
 
     return get_for_object();
 }
@@ -708,6 +723,9 @@ Parser::ParserResult Parser::get_start_array()
         return context_update_for_array();
     }
 
+    else if( is_unexpected_object_close() )
+        return unexpected_object_close_error();
+
     return get_for_array();
 }
 
@@ -719,10 +737,16 @@ Parser::ParserResult Parser::get_in_array()
         return context_update_for_array();
     }
 
+    else if( is_unexpected_object_close() )
+        return unexpected_object_close_error();
+
     if( m.c != ',' )
         return report_error( PR_EXPECTED_COMMA_OR_END_OF_ARRAY );
 
     get_non_ws();
+
+    if( is_unexpected_close() )
+        return unexpected_close_error();
 
     return get_for_array();
 }
@@ -743,32 +767,15 @@ Parser::ParserResult Parser::get_member()
 {
     // member = string name-separator value
 
-    if( m.c == '}' )
-    {
-        m.p_event_out->type = Event::T_OBJECT_END;
-        return PR_OK;
-    }
+    ParserResult result = get_name();
 
-    else if( m.c == ']' )
-    {
-        m.p_event_out->type = Event::T_ARRAY_END;
-        return PR_OK;
-    }
+    if( result == PR_OK )
+        result = skip_name_separator();
 
-    else
-    {
-        ParserResult result = get_name();
+    if( result == PR_OK )
+        result = get_value();
 
-        if( result == PR_OK )
-            result = skip_name_separator();
-
-        if( result == PR_OK )
-            result = get_value();
-
-        return result;
-    }
-
-    return report_error( PR_UNDOCUMENTED_FAIL );
+    return result;
 }
 
 Parser::ParserResult Parser::get_name()
@@ -815,13 +822,6 @@ Parser::ParserResult Parser::get_value()
     else if( is_number_start_char() )
         return get_number();
 
-    else if( is_invalid_json_number_start_char() )
-    {
-        m.p_event_out->type = Event::T_NUMBER;
-        read_to_non_quoted_value_end();
-        return report_error( PR_BAD_FORMAT_NUMBER );
-    }
-
     else if( m.c == '{' )
     {
         m.p_event_out->type = Event::T_OBJECT_START;
@@ -834,15 +834,24 @@ Parser::ParserResult Parser::get_value()
         return PR_OK;
     }
 
-    else if( m.c == '}' )
-        return report_error( PR_UNEXPECTED_OBJECT_CLOSE );
+    else
+    {
+        // An unexpected character has been received - sort out a suitable error code
 
-    else if( m.c == ']' )
-        return report_error( PR_UNEXPECTED_ARRAY_CLOSE );
+        if( is_invalid_json_number_start_char() )
+        {
+            m.p_event_out->type = Event::T_NUMBER;
+            read_to_non_quoted_value_end();
+            return report_error( PR_BAD_FORMAT_NUMBER );
+        }
 
-    read_to_non_quoted_value_end();
+        else if( is_unexpected_close() )
+            return unexpected_close_error();
 
-    return report_error( PR_UNRECOGNISED_VALUE_FORMAT );
+        read_to_non_quoted_value_end();
+
+        return report_error( PR_UNRECOGNISED_VALUE_FORMAT );
+    }
 }
 
 Parser::ParserResult Parser::get_false()
@@ -1054,6 +1063,42 @@ void Parser::read_to_non_quoted_value_end()
 bool Parser::is_separator()
 {
     return cljp::is_separator( m.c );
+}
+
+bool Parser::is_unexpected_object_close()
+{
+    return m.c == '}';
+}
+
+Parser::ParserResult Parser::unexpected_object_close_error()
+{
+    return report_error( PR_UNEXPECTED_OBJECT_CLOSE );
+}
+
+bool Parser::is_unexpected_array_close()
+{
+    return m.c == ']';
+}
+
+Parser::ParserResult Parser::unexpected_array_close_error()
+{
+    return report_error( PR_UNEXPECTED_ARRAY_CLOSE );
+}
+
+bool Parser::is_unexpected_close()
+{
+    return m.c == '}' || m.c == ']';
+}
+
+Parser::ParserResult Parser::unexpected_close_error()
+{
+    if( m.c == '}' )
+        return report_error( PR_UNEXPECTED_OBJECT_CLOSE );
+    else if( m.c == ']' )
+        return report_error( PR_UNEXPECTED_ARRAY_CLOSE );
+
+    assert( 0 );    // Shouldn't get here
+    return PR_OK;
 }
 
 Parser::ParserResult Parser::context_update_for_object()

@@ -1,4 +1,4 @@
-Tests run on Mon May 25 13:50:11 2015
+Tests run on Mon May 25 14:45:45 2015
 
     struct Event [test-event.cpp:38]
     ================================
@@ -778,22 +778,27 @@ Tests run on Mon May 25 13:50:11 2015
     ================================================
     ok: ! _CrtMemDifference( &s3, &s1, &s2 )
 
-    ReadUTF8 [test-todo.cpp:50]
+    Object member testing [test-todo.cpp:50]
+    ========================================
+    ok: ! _CrtMemDifference( &s3, &s1, &s2 )
+
+    ReadUTF8 [test-todo.cpp:55]
     ===========================
     ok: ! _CrtMemDifference( &s3, &s1, &s2 )
     ok: _CrtCheckMemory() != 0
 
-TODOs (10):
+TODOs (11):
 ------------------------
 - Reading whole messages using compound reader [test-messages.cpp:40]
 - Parser truncated input [test-parse.cpp:223]
 - class UTFConverter [test-todo.cpp:40]
 - JSON Text can just be a value [test-todo.cpp:45]
-- class ReadUTF8 [test-todo.cpp:52]
-- ReadUTF8: test reading in UTF8 [test-todo.cpp:54]
-- ReadUTF8: test reading in UTF16LE [test-todo.cpp:55]
-- ReadUTF8: test reading in UTF16BE [test-todo.cpp:56]
-- ReadUTF8: test reading in UTF32LE [test-todo.cpp:57]
-- ReadUTF8: test reading in UTF32BE [test-todo.cpp:58]
+- Test that 'name' in a 'member' is correct format (inc opening quotes) [test-todo.cpp:52]
+- class ReadUTF8 [test-todo.cpp:57]
+- ReadUTF8: test reading in UTF8 [test-todo.cpp:59]
+- ReadUTF8: test reading in UTF16LE [test-todo.cpp:60]
+- ReadUTF8: test reading in UTF16BE [test-todo.cpp:61]
+- ReadUTF8: test reading in UTF32LE [test-todo.cpp:62]
+- ReadUTF8: test reading in UTF32BE [test-todo.cpp:63]
 
-0 error(s), 10 todo(s), 597 test(s)
+0 error(s), 11 todo(s), 598 test(s)

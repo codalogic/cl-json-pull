@@ -47,6 +47,11 @@ TFEATURE( "JSON Text can just be a value" )
     // end of an object or array based message
 }
 
+TFEATURE( "Object member testing" )
+{
+    TTODO( "Test that 'name' in a 'member' is correct format (inc opening quotes)" );
+}
+
 TFEATURE( "ReadUTF8" )
 {
     TTODO( "class ReadUTF8" );
