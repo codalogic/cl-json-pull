@@ -137,6 +137,8 @@ TFEATURE( "Basic Parser" )
 
     TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
     TTEST( h.event.type == cljp::Event::T_ARRAY_END );
+
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_END_OF_MESSAGE );
     }
 
     {
@@ -159,6 +161,7 @@ TFEATURE( "Basic Parser" )
 
     TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
     TTEST( h.event.type == cljp::Event::T_ARRAY_END );
+
     }
 
     {
@@ -174,6 +177,44 @@ TFEATURE( "Basic Parser" )
     TTEST( h.event.type == cljp::Event::T_OBJECT_END );
 
     TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_UNEXPECTED_ARRAY_CLOSE );
+    }
+
+    {
+    Harness h( "12" );
+
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
+    TTEST( h.event.type == cljp::Event::T_NUMBER );
+    TTEST( h.event.value == "12" );
+
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_END_OF_MESSAGE );
+    }
+
+    {
+    Harness h( "\"String\"" );
+
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
+    TTEST( h.event.type == cljp::Event::T_STRING );
+    TTEST( h.event.value == "String" );
+
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_END_OF_MESSAGE );
+    }
+
+    {
+    Harness h( "false" );
+
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
+    TTEST( h.event.type == cljp::Event::T_BOOLEAN );
+    TTEST( h.event.value == "false" );
+
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_END_OF_MESSAGE );
+    }
+
+    {
+    Harness h( "?" );
+
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_UNRECOGNISED_VALUE_FORMAT );
+
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_END_OF_MESSAGE );
     }
 }
 
@@ -289,18 +330,26 @@ TFEATURE( "Parser Reading number values" )
     number_ok_test( __LINE__, "-1" );
     number_ok_test( __LINE__, "-12" );
     number_fail_test( __LINE__, "-" );
-    value_test( __LINE__, "+1", cljp::Parser::PR_UNRECOGNISED_VALUE_FORMAT, cljp::Event::T_NUMBER, "+1" );
+    number_fail_test( __LINE__, "+1" );
 
     number_ok_test( __LINE__, "0" );
     number_ok_test( __LINE__, "-0" );
     number_fail_test( __LINE__, "00" );
+    number_fail_test( __LINE__, "01" );
+    number_fail_test( __LINE__, "-01" );
 
     number_ok_test( __LINE__, "1.1" );
     number_ok_test( __LINE__, "12.12" );
     number_ok_test( __LINE__, "-12.12" );
+    number_fail_test( __LINE__, "." );
     number_fail_test( __LINE__, "1." );
+    number_fail_test( __LINE__, ".1" );
+    number_fail_test( __LINE__, "-." );
+    number_fail_test( __LINE__, "-1." );
+    number_fail_test( __LINE__, "-.1" );
 
     number_ok_test( __LINE__, "1e1" );
+    number_ok_test( __LINE__, "1E1" );
     number_ok_test( __LINE__, "1e+12" );
     number_ok_test( __LINE__, "12e+12" );
     number_ok_test( __LINE__, "1e-12" );
@@ -308,6 +357,8 @@ TFEATURE( "Parser Reading number values" )
     number_ok_test( __LINE__, "1.1e+12" );
     number_ok_test( __LINE__, "12.12e-12" );
     number_ok_test( __LINE__, "-12.12e-12" );
+    number_ok_test( __LINE__, "12.12e12" );
+    number_ok_test( __LINE__, "-12.12e12" );
     number_fail_test( __LINE__, "1.e" );
     number_fail_test( __LINE__, "1e" );
     number_fail_test( __LINE__, "1e+ " );

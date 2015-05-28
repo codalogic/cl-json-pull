@@ -57,13 +57,20 @@
                             Event::Type on_success_type, \
                             ParserResult on_error_code ); \
     bool is_number_start_char(); \
+    bool is_invalid_json_number_start_char(); \
     ParserResult get_number(); \
     ParserResult get_string(); \
     void read_to_non_quoted_value_end(); \
     bool is_separator(); \
+    bool is_unexpected_object_close(); \
+    ParserResult unexpected_object_close_error(); \
+    bool is_unexpected_array_close(); \
+    ParserResult unexpected_array_close_error(); \
+    bool is_unexpected_close(); \
+    ParserResult unexpected_close_error(); \
     ParserResult context_update_for_object(); \
     ParserResult context_update_for_array(); \
-    void context_update_if_nesting(); \
+    void conditional_context_update_for_nesting_increase(); \
 
 
 #include "cl-json-pull.h"
@@ -555,50 +562,50 @@ private:
 
 bool Event::is_int() const
 {
-	// Assumes that during parsing format has been validated as a number
-	return is_number() && value.find_first_of( ".eE" ) == std::string::npos;
+    // Assumes that during parsing format has been validated as a number
+    return is_number() && value.find_first_of( ".eE" ) == std::string::npos;
 }
 
 bool Event::to_bool() const
 {
-	switch( type )
-	{
-	case T_BOOLEAN:
-		return value != "false";
-	case T_STRING:
-		return ! value.empty();
-	case T_NUMBER:
-		return to_float() != 0.0;
-	case T_NULL:
-	case T_OBJECT_START:
-	case T_OBJECT_END:
-	case T_ARRAY_START:
-	case T_ARRAY_END:
-	case T_UNKNOWN:
-	default:	// In case we extend teh types later
-		return false;
-	}
+    switch( type )
+    {
+    case T_BOOLEAN:
+        return value != "false";
+    case T_STRING:
+        return ! value.empty();
+    case T_NUMBER:
+        return to_float() != 0.0;
+    case T_NULL:
+    case T_OBJECT_START:
+    case T_OBJECT_END:
+    case T_ARRAY_START:
+    case T_ARRAY_END:
+    case T_UNKNOWN:
+    default:    // In case we extend teh types later
+        return false;
+    }
 }
 
 double Event::to_float() const
 {
-	switch( type )
-	{
-	case T_NUMBER:
-		return atof( value.c_str() );
-	default:
-		return to_bool() ? 1.0 : 0.0;
-	}
+    switch( type )
+    {
+    case T_NUMBER:
+        return atof( value.c_str() );
+    default:
+        return to_bool() ? 1.0 : 0.0;
+    }
 }
 
 int Event::to_int() const
 {
-	return static_cast<int>( to_float() );
+    return static_cast<int>( to_float() );
 }
 
 long Event::to_long() const
 {
-	return static_cast<long>( to_float() );
+    return static_cast<long>( to_float() );
 }
 
 //----------------------------------------------------------------------------
@@ -646,25 +653,18 @@ Parser::ParserResult Parser::get( Event * p_event_out )
 
 Parser::ParserResult Parser::get_outer()
 {
-    // JSON-text = object / array
+    // JSON-text = value
 
     m.context_stack.top() = Parser::C_DONE;
 
-    if( m.c == '{' )
-    {
-        m.p_event_out->type = Event::T_OBJECT_START;
-        m.context_stack.push( C_START_OBJECT );
-        return PR_OK;
-    }
+    Parser::ParserResult result = get_value();
 
-    else if( m.c == '[' )
-    {
-        m.p_event_out->type = Event::T_ARRAY_START;
-        m.context_stack.push( C_START_ARRAY );
-        return PR_OK;
-    }
+    conditional_context_update_for_nesting_increase();
 
-    return report_error( PR_EXPECTED_OBJECT_OR_ARRAY );
+    if( result != PR_OK )
+        return report_error( result );
+
+    return PR_OK;
 }
 
 Parser::ParserResult Parser::get_start_object()
@@ -674,6 +674,9 @@ Parser::ParserResult Parser::get_start_object()
         m.p_event_out->type = Event::T_OBJECT_END;
         return context_update_for_object();
     }
+
+    else if( is_unexpected_array_close() )
+        return unexpected_array_close_error();
 
     return get_for_object();
 }
@@ -686,10 +689,16 @@ Parser::ParserResult Parser::get_in_object()
         return context_update_for_object();
     }
 
+    else if( is_unexpected_array_close() )
+        return unexpected_array_close_error();
+
     if( m.c != ',' )
         return report_error( PR_EXPECTED_COMMA_OR_END_OF_ARRAY );
 
     get_non_ws();
+
+    if( is_unexpected_close() )
+        return unexpected_close_error();
 
     return get_for_object();
 }
@@ -714,6 +723,9 @@ Parser::ParserResult Parser::get_start_array()
         return context_update_for_array();
     }
 
+    else if( is_unexpected_object_close() )
+        return unexpected_object_close_error();
+
     return get_for_array();
 }
 
@@ -725,10 +737,16 @@ Parser::ParserResult Parser::get_in_array()
         return context_update_for_array();
     }
 
+    else if( is_unexpected_object_close() )
+        return unexpected_object_close_error();
+
     if( m.c != ',' )
         return report_error( PR_EXPECTED_COMMA_OR_END_OF_ARRAY );
 
     get_non_ws();
+
+    if( is_unexpected_close() )
+        return unexpected_close_error();
 
     return get_for_array();
 }
@@ -749,32 +767,15 @@ Parser::ParserResult Parser::get_member()
 {
     // member = string name-separator value
 
-    if( m.c == '}' )
-    {
-        m.p_event_out->type = Event::T_OBJECT_END;
-        return PR_OK;
-    }
+    ParserResult result = get_name();
 
-    else if( m.c == ']' )
-    {
-        m.p_event_out->type = Event::T_ARRAY_END;
-        return PR_OK;
-    }
+    if( result == PR_OK )
+        result = skip_name_separator();
 
-    else
-    {
-        ParserResult result = get_name();
+    if( result == PR_OK )
+        result = get_value();
 
-        if( result == PR_OK )
-            result = skip_name_separator();
-
-        if( result == PR_OK )
-            result = get_value();
-
-        return result;
-    }
-
-    return report_error( PR_UNDOCUMENTED_FAIL );
+    return result;
 }
 
 Parser::ParserResult Parser::get_name()
@@ -833,15 +834,24 @@ Parser::ParserResult Parser::get_value()
         return PR_OK;
     }
 
-    else if( m.c == '}' )
-        return report_error( PR_UNEXPECTED_OBJECT_CLOSE );
+    else
+    {
+        // An unexpected character has been received - sort out a suitable error code
 
-    else if( m.c == ']' )
-        return report_error( PR_UNEXPECTED_ARRAY_CLOSE );
+        if( is_invalid_json_number_start_char() )
+        {
+            m.p_event_out->type = Event::T_NUMBER;
+            read_to_non_quoted_value_end();
+            return report_error( PR_BAD_FORMAT_NUMBER );
+        }
 
-    read_to_non_quoted_value_end();
+        else if( is_unexpected_close() )
+            return unexpected_close_error();
 
-    return report_error( PR_UNRECOGNISED_VALUE_FORMAT );
+        read_to_non_quoted_value_end();
+
+        return report_error( PR_UNRECOGNISED_VALUE_FORMAT );
+    }
 }
 
 Parser::ParserResult Parser::get_false()
@@ -879,6 +889,13 @@ bool Parser::is_number_start_char()
     // int = zero / ( digit1-9 *DIGIT )
 
     return m.c == '-' || (m.c >= '0' && m.c <= '9');
+}
+
+bool Parser::is_invalid_json_number_start_char()
+{
+    // JSON numbers can't start with + and .
+
+    return m.c == '+' || m.c == '.';
 }
 
 class NumberReader
@@ -1048,6 +1065,42 @@ bool Parser::is_separator()
     return cljp::is_separator( m.c );
 }
 
+bool Parser::is_unexpected_object_close()
+{
+    return m.c == '}';
+}
+
+Parser::ParserResult Parser::unexpected_object_close_error()
+{
+    return report_error( PR_UNEXPECTED_OBJECT_CLOSE );
+}
+
+bool Parser::is_unexpected_array_close()
+{
+    return m.c == ']';
+}
+
+Parser::ParserResult Parser::unexpected_array_close_error()
+{
+    return report_error( PR_UNEXPECTED_ARRAY_CLOSE );
+}
+
+bool Parser::is_unexpected_close()
+{
+    return m.c == '}' || m.c == ']';
+}
+
+Parser::ParserResult Parser::unexpected_close_error()
+{
+    if( m.c == '}' )
+        return report_error( PR_UNEXPECTED_OBJECT_CLOSE );
+    else if( m.c == ']' )
+        return report_error( PR_UNEXPECTED_ARRAY_CLOSE );
+
+    assert( 0 );    // Shouldn't get here
+    return PR_OK;
+}
+
 Parser::ParserResult Parser::context_update_for_object()
 {
     if( m.p_event_out->type == Event::T_OBJECT_END )
@@ -1057,7 +1110,7 @@ Parser::ParserResult Parser::context_update_for_object()
     else
         m.context_stack.top() = C_IN_OBJECT;
 
-    context_update_if_nesting();
+    conditional_context_update_for_nesting_increase();
 
     return PR_OK;
 }
@@ -1071,12 +1124,12 @@ Parser::ParserResult Parser::context_update_for_array()
     else
         m.context_stack.top() = C_IN_ARRAY;
 
-    context_update_if_nesting();
+    conditional_context_update_for_nesting_increase();
 
     return PR_OK;
 }
 
-void Parser::context_update_if_nesting()
+void Parser::conditional_context_update_for_nesting_increase()
 {
     if( m.p_event_out->type == Event::T_ARRAY_START )
         m.context_stack.push( C_START_ARRAY );

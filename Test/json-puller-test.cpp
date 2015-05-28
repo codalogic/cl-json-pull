@@ -1,5 +1,5 @@
 //----------------------------------------------------------------------------
-// Copyright (c) 2013, Codalogic Ltd (http://www.codalogic.com)
+// Copyright (c) 2012, Codalogic Ltd (http://www.codalogic.com)
 // All rights reserved.
 //
 // The license for this file is based on the BSD-3-Clause license
@@ -31,48 +31,12 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //----------------------------------------------------------------------------
 
+#include "json-puller/json-puller.h"
+
+#define CLUNIT_HOME
 #include "clunit.h"
 
-#include "cl-json-pull.h"
-
-TFEATURE( "UTFConverter" )
+int main( int argc, char * argv[] )
 {
-    TTODO( "class UTFConverter" );
-}
-
-TFEATURE( "JSON Text can just be a value" )
-{
-    TTODO( "JSON Text can just be a value" );
-    // Confirm that the existing tests include attempting to read past the
-    // end of an object or array based message
-}
-
-TFEATURE( "Object member testing" )
-{
-    TTODO( "Test that 'name' in a 'member' is correct format (inc opening quotes)" );
-}
-
-TFEATURE( "ReadUTF8" )
-{
-    TTODO( "class ReadUTF8" );
-
-    TTODO( "ReadUTF8: test reading in UTF8" );
-    TTODO( "ReadUTF8: test reading in UTF16LE" );
-    TTODO( "ReadUTF8: test reading in UTF16BE" );
-    TTODO( "ReadUTF8: test reading in UTF32LE" );
-    TTODO( "ReadUTF8: test reading in UTF32BE" );
-	// xx xx -- --  UTF-8
-	// xx 00 xx --  UTF-16LE
-	// xx 00 00 xx  UTF-16LE
-	// xx 00 00 00  UTF-32LE
-	// 00 xx -- --  UTF-16BE
-	// 00 00 -- --  UTF-32BE
-	//
-	// Support JSON-8OB-16OB-32NB
-}
-
-TFEATURE( "TODOs" )
-{
-    TTODO( "Reading multiple JSON msgs from single file/stream" );
-    // Need to reset JSON state (but not UTF detection) so multiple JSON msgs can be read from single file
+    TRUNALL();
 }
