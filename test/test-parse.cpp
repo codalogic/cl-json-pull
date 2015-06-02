@@ -218,11 +218,6 @@ TFEATURE( "Basic Parser" )
     }
 }
 
-TFEATURE( "Parser truncated input" )
-{
-    TTODO( "Parser truncated input" );  // Put in a sample of test progressively long bits
-}
-
 void value_test(
         int test_line,
         const char * p_input,

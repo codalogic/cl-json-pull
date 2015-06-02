@@ -35,21 +35,14 @@
 
 #include "cl-json-pull.h"
 
-TFEATURE( "UTFConverter" )
-{
-    TTODO( "class UTFConverter" );
-}
-
-TFEATURE( "JSON Text can just be a value" )
-{
-    TTODO( "JSON Text can just be a value" );
-    // Confirm that the existing tests include attempting to read past the
-    // end of an object or array based message
-}
-
 TFEATURE( "Object member testing" )
 {
     TTODO( "Test that 'name' in a 'member' is correct format (inc opening quotes)" );
+}
+
+TFEATURE( "UTFConverter" )
+{
+    TTODO( "class UTFConverter" );
 }
 
 TFEATURE( "ReadUTF8" )
@@ -67,8 +60,10 @@ TFEATURE( "ReadUTF8" )
 	// xx 00 00 00  UTF-32LE
 	// 00 xx -- --  UTF-16BE
 	// 00 00 -- --  UTF-32BE
+	// Assume first codepoint must be ASCII. In regular expression terms, [\t\r\n {\["tfn0-9]. Non-ASCII implies BOM
 	//
 	// Support JSON-8OB-16OB-32NB
+	// OB = Optional BOM, MB = Mandatory BOM and NB = No BOM
 }
 
 TFEATURE( "TODOs" )

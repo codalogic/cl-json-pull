@@ -39,3 +39,8 @@ TFEATURE( "Messages" )
 {
     TTODO( "Reading whole messages using compound reader" );
 }
+
+TFEATURE( "Parser truncated input" )
+{
+    TTODO( "Parser truncated input" );  // Put in a sample of test progressively long bits
+}
