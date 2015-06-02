@@ -174,8 +174,8 @@ int ReadUTF8WithUnget::get()
 {
     if( ! m.unget_buffer.empty() )
     {
-        int result = m.unget_buffer.back();
-        m.unget_buffer.pop_back();
+        int result = m.unget_buffer.top();
+        m.unget_buffer.pop();
         return result;
     }
 
@@ -193,7 +193,7 @@ int ReadUTF8WithUnget::get_non_ws()
 
 void ReadUTF8WithUnget::unget( int c )
 {
-    m.unget_buffer.push_back( c );
+    m.unget_buffer.push( c );
 }
 
 void ReadUTF8WithUnget::rewind()

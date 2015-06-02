@@ -54,16 +54,16 @@ TFEATURE( "ReadUTF8" )
     TTODO( "ReadUTF8: test reading in UTF16BE" );
     TTODO( "ReadUTF8: test reading in UTF32LE" );
     TTODO( "ReadUTF8: test reading in UTF32BE" );
-	// xx xx -- --  UTF-8
-	// xx 00 xx --  UTF-16LE
-	// xx 00 00 xx  UTF-16LE
-	// xx 00 00 00  UTF-32LE
-	// 00 xx -- --  UTF-16BE
-	// 00 00 -- --  UTF-32BE
-	// Assume first codepoint must be ASCII. In regular expression terms, [\t\r\n {\["tfn0-9]. Non-ASCII implies BOM
-	//
-	// Support JSON-8OB-16OB-32NB
-	// OB = Optional BOM, MB = Mandatory BOM and NB = No BOM
+    // xx xx -- --  UTF-8
+    // xx 00 xx --  UTF-16LE
+    // xx 00 00 xx  UTF-16LE
+    // xx 00 00 00  UTF-32LE
+    // 00 xx -- --  UTF-16BE
+    // 00 00 -- --  UTF-32BE
+    // Assume first codepoint must be ASCII. In regular expression terms, [\t\r\n {\["tfn0-9]. Non-ASCII implies BOM
+    //
+    // Support JSON-8OB-16OB-32NB
+    // OB = Optional BOM, MB = Mandatory BOM and NB = No BOM
 }
 
 TFEATURE( "TODOs" )

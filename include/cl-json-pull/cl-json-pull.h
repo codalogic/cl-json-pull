@@ -40,6 +40,7 @@
 #include <vector>
 #include <cstdio>
 #include <stack>
+#include <cassert>
 
 #include "../test/sdd.h"    // Temporary inclusion while being designed
 
@@ -179,6 +180,33 @@ public:
 };
 
 //----------------------------------------------------------------------------
+//                           class UngetBuffer
+//----------------------------------------------------------------------------
+
+template< typename Tchar >
+class UngetBuffer
+{
+private:
+    struct Members
+    {
+        enum { max_size = 10 };
+        Tchar buffer[max_size];
+        size_t size;
+
+        Members() : size(0) {}
+    } m;
+
+public:
+    UngetBuffer() {}
+    void clear() { m.size = 0; }
+    bool empty() const { return m.size == 0; }
+    size_t size() const { return m.size; }
+    Tchar top() const { assert( m.size > 0 ); return m.buffer[m.size-1]; }
+    void push( Tchar c ) { assert( m.size < m.max_size ); m.buffer[m.size++] = c; }
+    void pop() { assert( m.size > 0 ); --m.size; }
+};
+
+//----------------------------------------------------------------------------
 //                           class ReadUTF8WithUnget
 //----------------------------------------------------------------------------
 
@@ -186,7 +214,7 @@ class ReadUTF8WithUnget
 {
 private:
     struct Members {
-        std::vector< char > unget_buffer;
+        UngetBuffer< char > unget_buffer;
         ReadUTF8 read_utf8;
 
         Members( Reader & reader_in )
