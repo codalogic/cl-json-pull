@@ -262,9 +262,9 @@ public:
             pack_ascii( codepoint );
         else if( codepoint > 0x10000 )
             pack( '\xf0', 4, codepoint );
-        else if( codepoint > 0x080 )
+        else if( codepoint > 0x00800 )
             pack( '\xe0', 3, codepoint );
-        else if( codepoint > 0x080 )
+        else if( codepoint > 0x00080 )
             pack( '\xc0', 2, codepoint );
         else
             utf8[0] = '\0';

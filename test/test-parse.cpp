@@ -480,6 +480,20 @@ TFEATURE( "Parser Reading string Unicode escapes" )
 {
     TCALL( string_ok_test( __LINE__, "Say \\u002fFred", "Say /Fred" ) );
 
+    // The following converted using http://rishida.net/tools/conversion/
+    TCALL( string_ok_test( __LINE__, "\\uD800\\uDC02", "\xF0\x90\x80\x82" ) );  // \uD800\uDC02 -> u+10002
+    TCALL( string_ok_test( __LINE__, "\\ud800\\udc02", "\xF0\x90\x80\x82" ) );  // \ud800\udc02 -> u+10002
+    TCALL( string_ok_test( __LINE__, "\\u0802", "\xE0\xA0\x82" ) );
+    TCALL( string_ok_test( __LINE__, "\\uFFFC", "\xEF\xBF\xBC" ) );
+    TCALL( string_ok_test( __LINE__, "\\ufffc", "\xEF\xBF\xBC" ) );
+    TCALL( string_ok_test( __LINE__, "\\u0082", "\xC2\x82" ) );
+    TCALL( string_ok_test( __LINE__, "\\u07FC", "\xDF\xBC" ) );
+
+	// Check conversions also work within a string
+    TCALL( string_ok_test( __LINE__, "X\\uD800\\uDC02A", "X\xF0\x90\x80\x82""A" ) );    // \uD800\uDC02 -> u+10002
+    TCALL( string_ok_test( __LINE__, "X\\u0802A", "X\xE0\xA0\x82""A" ) );
+    TCALL( string_ok_test( __LINE__, "X\\u0082A", "X\xC2\x82""A" ) );
+
     TDOC( "Parser::get_string() - truncated BMP unicode escape fails" );
     TCALL( string_fail_test( __LINE__, "Say \\u002 Fred", cljp::Parser::PR_BAD_UNICODE_ESCAPE ) );
     TCALL( string_fail_test( __LINE__, "Say \\u002QFred", cljp::Parser::PR_BAD_UNICODE_ESCAPE ) );

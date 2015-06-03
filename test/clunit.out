@@ -1,4 +1,4 @@
-Tests run on Tue Jun 02 18:27:59 2015
+Tests run on Wed Jun 03 11:41:45 2015
 
     struct Event [test-event.cpp:38]
     ================================
@@ -622,59 +622,129 @@ Tests run on Tue Jun 02 18:27:59 2015
     ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
     ok: h.event.type == cljp::Event::T_STRING
     ok: h.event.value == p_expected_value
+      Calling: string_ok_test( __LINE__, "\\uD800\\uDC02", "\xF0\x90\x80\x82" ) (484)
+      Line: 484, input: \uD800\uDC02
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_START
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_STRING
+    ok: h.event.value == p_expected_value
+      Calling: string_ok_test( __LINE__, "\\ud800\\udc02", "\xF0\x90\x80\x82" ) (485)
+      Line: 485, input: \ud800\udc02
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_START
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_STRING
+    ok: h.event.value == p_expected_value
+      Calling: string_ok_test( __LINE__, "\\u0802", "\xE0\xA0\x82" ) (486)
+      Line: 486, input: \u0802
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_START
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_STRING
+    ok: h.event.value == p_expected_value
+      Calling: string_ok_test( __LINE__, "\\uFFFC", "\xEF\xBF\xBC" ) (487)
+      Line: 487, input: \uFFFC
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_START
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_STRING
+    ok: h.event.value == p_expected_value
+      Calling: string_ok_test( __LINE__, "\\ufffc", "\xEF\xBF\xBC" ) (488)
+      Line: 488, input: \ufffc
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_START
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_STRING
+    ok: h.event.value == p_expected_value
+      Calling: string_ok_test( __LINE__, "\\u0082", "\xC2\x82" ) (489)
+      Line: 489, input: \u0082
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_START
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_STRING
+    ok: h.event.value == p_expected_value
+      Calling: string_ok_test( __LINE__, "\\u07FC", "\xDF\xBC" ) (490)
+      Line: 490, input: \u07FC
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_START
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_STRING
+    ok: h.event.value == p_expected_value
+      Calling: string_ok_test( __LINE__, "X\\uD800\\uDC02A", "X\xF0\x90\x80\x82""A" ) (493)
+      Line: 493, input: X\uD800\uDC02A
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_START
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_STRING
+    ok: h.event.value == p_expected_value
+      Calling: string_ok_test( __LINE__, "X\\u0802A", "X\xE0\xA0\x82""A" ) (494)
+      Line: 494, input: X\u0802A
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_START
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_STRING
+    ok: h.event.value == p_expected_value
+      Calling: string_ok_test( __LINE__, "X\\u0082A", "X\xC2\x82""A" ) (495)
+      Line: 495, input: X\u0082A
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_ARRAY_START
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.event.type == cljp::Event::T_STRING
+    ok: h.event.value == p_expected_value
       Parser::get_string() - truncated BMP unicode escape fails
-      Calling: string_fail_test( __LINE__, "Say \\u002 Fred", cljp::Parser::PR_BAD_UNICODE_ESCAPE ) (484)
-      Line: 484, input: Say \u002 Fred
+      Calling: string_fail_test( __LINE__, "Say \\u002 Fred", cljp::Parser::PR_BAD_UNICODE_ESCAPE ) (498)
+      Line: 498, input: Say \u002 Fred
     ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
     ok: h.parser.get( &h.event ) == expected_error_code
-      Calling: string_fail_test( __LINE__, "Say \\u002QFred", cljp::Parser::PR_BAD_UNICODE_ESCAPE ) (485)
-      Line: 485, input: Say \u002QFred
+      Calling: string_fail_test( __LINE__, "Say \\u002QFred", cljp::Parser::PR_BAD_UNICODE_ESCAPE ) (499)
+      Line: 499, input: Say \u002QFred
     ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
     ok: h.parser.get( &h.event ) == expected_error_code
-      Calling: string_ok_test( __LINE__, "\\u65E5\\u672C\\u8A9E", "\xE6\x97\xA5\xE6\x9C\xAC\xE8\xAA\x9E" ) (488)
-      Line: 488, input: \u65E5\u672C\u8A9E
+      Calling: string_ok_test( __LINE__, "\\u65E5\\u672C\\u8A9E", "\xE6\x97\xA5\xE6\x9C\xAC\xE8\xAA\x9E" ) (502)
+      Line: 502, input: \u65E5\u672C\u8A9E
     ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
     ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
     ok: h.event.type == cljp::Event::T_STRING
     ok: h.event.value == p_expected_value
       Parser::get_string() - Surrogates unicode escape
-      Calling: string_ok_test( __LINE__, "\\uD808\\uDF45=Ra", "\xF0\x92\x8D\x85=Ra" ) (492)
-      Line: 492, input: \uD808\uDF45=Ra
+      Calling: string_ok_test( __LINE__, "\\uD808\\uDF45=Ra", "\xF0\x92\x8D\x85=Ra" ) (506)
+      Line: 506, input: \uD808\uDF45=Ra
     ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
     ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
     ok: h.event.type == cljp::Event::T_STRING
     ok: h.event.value == p_expected_value
       Parser::get_string() - High surrogate without following low surrogate fails
-      Calling: string_fail_test( __LINE__, "\\uD808Fred", cljp::Parser::PR_BAD_UNICODE_ESCAPE ) (495)
-      Line: 495, input: \uD808Fred
+      Calling: string_fail_test( __LINE__, "\\uD808Fred", cljp::Parser::PR_BAD_UNICODE_ESCAPE ) (509)
+      Line: 509, input: \uD808Fred
     ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
     ok: h.parser.get( &h.event ) == expected_error_code
-      Calling: string_fail_test( __LINE__, "\\uD808\\u0022", cljp::Parser::PR_BAD_UNICODE_ESCAPE ) (496)
-      Line: 496, input: \uD808\u0022
+      Calling: string_fail_test( __LINE__, "\\uD808\\u0022", cljp::Parser::PR_BAD_UNICODE_ESCAPE ) (510)
+      Line: 510, input: \uD808\u0022
     ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
     ok: h.parser.get( &h.event ) == expected_error_code
       Parser::get_string() - Low surrogate without preceeding high surrogate fails
-      Calling: string_fail_test( __LINE__, "\\uDF45Fred", cljp::Parser::PR_BAD_UNICODE_ESCAPE ) (499)
-      Line: 499, input: \uDF45Fred
+      Calling: string_fail_test( __LINE__, "\\uDF45Fred", cljp::Parser::PR_BAD_UNICODE_ESCAPE ) (513)
+      Line: 513, input: \uDF45Fred
     ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
     ok: h.parser.get( &h.event ) == expected_error_code
-      Calling: string_fail_test( __LINE__, "\\uDF45\\u0022", cljp::Parser::PR_BAD_UNICODE_ESCAPE ) (500)
-      Line: 500, input: \uDF45\u0022
+      Calling: string_fail_test( __LINE__, "\\uDF45\\u0022", cljp::Parser::PR_BAD_UNICODE_ESCAPE ) (514)
+      Line: 514, input: \uDF45\u0022
     ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
     ok: h.parser.get( &h.event ) == expected_error_code
     ok: ! _CrtMemDifference( &s3, &s1, &s2 )
 
-    Parser Reading string with bad Unicode escapes, check parsing not terminated mid-string [test-parse.cpp:529]
+    Parser Reading string with bad Unicode escapes, check parsing not terminated mid-string [test-parse.cpp:543]
     ============================================================================================================
-      Line: 531, input:  \u002 
+      Line: 545, input:  \u002 
     ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
     ok: h.parser.get( &h.event ) != cljp::Parser::PR_OK
@@ -685,7 +755,7 @@ Tests run on Tue Jun 02 18:27:59 2015
     ok: h.event.value == "Bill"
     ok: ! _CrtMemDifference( &s3, &s1, &s2 )
 
-    Parser::get_string() - String end quote in middle of unicode escape code [test-parse.cpp:534]
+    Parser::get_string() - String end quote in middle of unicode escape code [test-parse.cpp:548]
     =============================================================================================
     ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
@@ -697,14 +767,14 @@ Tests run on Tue Jun 02 18:27:59 2015
     ok: h.event.value == "Bill"
     ok: ! _CrtMemDifference( &s3, &s1, &s2 )
 
-    Parser Reading string unexpected EOF [test-parse.cpp:550]
+    Parser Reading string unexpected EOF [test-parse.cpp:564]
     =========================================================
     ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
     ok: h.parser.get( &h.event ) == cljp::Parser::PR_UNEXPECTED_END_OF_MESSAGE
     ok: ! _CrtMemDifference( &s3, &s1, &s2 )
 
-    Parser Read member [test-parse.cpp:560]
+    Parser Read member [test-parse.cpp:574]
     =======================================
     ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
     ok: h.event.type == cljp::Event::T_OBJECT_START
@@ -778,12 +848,12 @@ Tests run on Tue Jun 02 18:27:59 2015
     ===============================
     ok: ! _CrtMemDifference( &s3, &s1, &s2 )
 
-    ReadUTF8 [test-todo.cpp:48]
-    ===========================
+    TODOs [test-todo.cpp:48]
+    ========================
     ok: ! _CrtMemDifference( &s3, &s1, &s2 )
 
-    TODOs [test-todo.cpp:69]
-    ========================
+    ReadUTF8 [test-read-utf8.cpp:38]
+    ================================
     ok: ! _CrtMemDifference( &s3, &s1, &s2 )
     ok: _CrtCheckMemory() != 0
 
@@ -793,12 +863,12 @@ TODOs (11):
 - Parser truncated input [test-messages.cpp:45]
 - Test that 'name' in a 'member' is correct format (inc opening quotes) [test-todo.cpp:40]
 - class UTFConverter [test-todo.cpp:45]
-- class ReadUTF8 [test-todo.cpp:50]
-- ReadUTF8: test reading in UTF8 [test-todo.cpp:52]
-- ReadUTF8: test reading in UTF16LE [test-todo.cpp:53]
-- ReadUTF8: test reading in UTF16BE [test-todo.cpp:54]
-- ReadUTF8: test reading in UTF32LE [test-todo.cpp:55]
-- ReadUTF8: test reading in UTF32BE [test-todo.cpp:56]
-- Reading multiple JSON msgs from single file/stream [test-todo.cpp:71]
+- Reading multiple JSON msgs from single file/stream [test-todo.cpp:50]
+- class ReadUTF8 [test-read-utf8.cpp:40]
+- ReadUTF8: test reading in UTF8 [test-read-utf8.cpp:42]
+- ReadUTF8: test reading in UTF16LE [test-read-utf8.cpp:43]
+- ReadUTF8: test reading in UTF16BE [test-read-utf8.cpp:44]
+- ReadUTF8: test reading in UTF32LE [test-read-utf8.cpp:45]
+- ReadUTF8: test reading in UTF32BE [test-read-utf8.cpp:46]
 
-0 error(s), 11 todo(s), 598 test(s)
+0 error(s), 11 todo(s), 648 test(s)
