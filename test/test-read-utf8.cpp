@@ -1,5 +1,5 @@
 //----------------------------------------------------------------------------
-// Copyright (c) 2013, Codalogic Ltd (http://www.codalogic.com)
+// Copyright (c) 2015, Codalogic Ltd (http://www.codalogic.com)
 // All rights reserved.
 //
 // The license for this file is based on the BSD-3-Clause license
@@ -35,13 +35,30 @@
 
 #include "cl-json-pull.h"
 
-TFEATURE( "UTFConverter" )
+TFEATURE( "ReadUTF8" )
 {
-    TTODO( "class UTFConverter" );
-}
+    TTODO( "class ReadUTF8" );
 
-TFEATURE( "TODOs" )
-{
-    TTODO( "Reading multiple JSON msgs from single file/stream" );
-    // Need to reset JSON state (but not UTF detection) so multiple JSON msgs can be read from single file
+    TTODO( "ReadUTF8: test reading in UTF8" );
+    TTODO( "ReadUTF8: test reading in UTF16LE" );
+    TTODO( "ReadUTF8: test reading in UTF16BE" );
+    TTODO( "ReadUTF8: test reading in UTF32LE" );
+    TTODO( "ReadUTF8: test reading in UTF32BE" );
+    // xx xx -- --  UTF-8
+    // xx 00 xx --  UTF-16LE
+    // xx 00 00 xx  UTF-16LE
+    // xx 00 00 00  UTF-32LE
+    // 00 xx -- --  UTF-16BE
+    // 00 00 -- --  UTF-32BE
+    // Assume first codepoint must be ASCII. In regular expression terms, [\t\r\n {\["tfn0-9]. Non-ASCII implies BOM
+    //
+    // Support JSON-8OB-16OB-32NB
+    // OB = Optional BOM, MB = Mandatory BOM and NB = No BOM
+    //
+    // BOM patterns (from http://unicode.org/faq/utf_bom.html)
+    // EF BB BF     -> UTF-8
+    // FE FF        -> UTF-16, big-endian
+    // FF FE        -> UTF-16, little-endian
+    // FF FE 00 00  -> UTF-32, little-endian
+    // 00 00 FE FF  -> UTF-32, big-endian
 }

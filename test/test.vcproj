@@ -189,6 +189,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\test-read-utf8.cpp"
+				>
+			</File>
+			<File
 				RelativePath=".\test-reader.cpp"
 				>
 			</File>
