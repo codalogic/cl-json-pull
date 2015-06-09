@@ -158,12 +158,22 @@ public:
 
 class ReadUTF8
 {
+public:
+    enum Modes { LEARNING, LEARNING_UTF8_OR_LE, UTF8, UTF16LE, UTF16BE, UTF32LE, UTF32BE, ERRORED };
+    typedef int utf8_buffer_t[6+1];
+
 private:
     struct Members {
         Reader & r_reader;
+        Modes mode;
+        utf8_buffer_t utf8_buffer;
+        int * p_utf8_buffer;    // NULL or pointing to \0 indicates no utf-8 chars stored
 
         Members( Reader & r_reader_in )
-            : r_reader( r_reader_in )
+            :
+            r_reader( r_reader_in ),
+            mode( LEARNING ),
+            p_utf8_buffer( 0 )
         {}
     } m;
 
@@ -174,9 +184,52 @@ public:
         : m( r_reader_in )
     {}
 
+    Modes mode() const { return m.mode; }
+
     int get();
 
     void rewind();
+
+private:
+    struct CharPair
+    {
+        int c1; int c2;
+        bool is_eom() const { return c1 == cljp::Reader::EOM || c2 == cljp::Reader::EOM; }
+        int to_little_endian_code_point() const { return c1 + c2 * 256; }
+        int to_big_endian_code_point() const { return c1 * 256 + c2; }
+    };
+    CharPair get_pair();
+    struct CharQuad
+    {
+        int c1; int c2; int c3; int c4;
+        bool is_eom() const
+        {
+            return c1 == cljp::Reader::EOM || c2 == cljp::Reader::EOM ||
+                    c3 == cljp::Reader::EOM || c4 == cljp::Reader::EOM;
+        }
+        int to_little_endian_code_point() const { return c1 + 256 * (c2 + 256 * (c3 + 256 * c4)); }
+        int to_big_endian_code_point() const { return ((c1 * 256 + c2) * 256 + c3) * 256 + c4; }
+    };
+    CharQuad get_quad();
+
+    int state_learning();
+    int state_learning_utf8_or_le();
+    int state_expecting_utf8_with_bom();
+    int state_expecting_utf16le_or_utf32le_with_bom();
+    int state_learning_utf16be_or_utf32be();
+    int state_expecting_utf16be_with_bom();
+    int state_learning_utf32be_possibly_with_bom();
+    int state_utf8_reading_non_ascii( int c );
+    int state_utf16le();
+    int construct_utf8_from_utf16le( CharPair pair );
+    int state_utf16be();
+    int construct_utf8_from_utf16be( CharPair pair );
+    int state_utf32le();
+    int state_utf32be();
+
+    int construct_utf8( int code_point );
+
+    int in_error() { m.mode = ERRORED; return cljp::Reader::EOM; }
 };
 
 //----------------------------------------------------------------------------
@@ -187,8 +240,7 @@ template< typename Tchar >
 class UngetBuffer
 {
 private:
-    struct Members
-    {
+    struct Members {
         enum { max_size = 10 };
         Tchar buffer[max_size];
         size_t size;

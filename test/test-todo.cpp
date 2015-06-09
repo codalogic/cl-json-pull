@@ -35,11 +35,6 @@
 
 #include "cl-json-pull.h"
 
-TFEATURE( "UTFConverter" )
-{
-    TTODO( "class UTFConverter" );
-}
-
 TFEATURE( "TODOs" )
 {
     TTODO( "Reading multiple JSON msgs from single file/stream" );

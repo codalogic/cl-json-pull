@@ -489,7 +489,7 @@ TFEATURE( "Parser Reading string Unicode escapes" )
     TCALL( string_ok_test( __LINE__, "\\u0082", "\xC2\x82" ) );
     TCALL( string_ok_test( __LINE__, "\\u07FC", "\xDF\xBC" ) );
 
-	// Check conversions also work within a string
+    // Check conversions also work within a string
     TCALL( string_ok_test( __LINE__, "X\\uD800\\uDC02A", "X\xF0\x90\x80\x82""A" ) );    // \uD800\uDC02 -> u+10002
     TCALL( string_ok_test( __LINE__, "X\\u0802A", "X\xE0\xA0\x82""A" ) );
     TCALL( string_ok_test( __LINE__, "X\\u0082A", "X\xC2\x82""A" ) );
@@ -607,4 +607,6 @@ TFEATURE( "Parser Read member" )
     TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
     TTEST( h.event.type == cljp::Event::T_OBJECT_END );
     }
+
+    TTODO( "Test that 'name' in a 'member' is correct format (inc opening quotes)" );
 }

@@ -80,129 +80,102 @@
 
 namespace cljp {    // Codalogic JSON Pull (Parser)
 
-//----------------------------------------------------------------------------
-//                             class Reader
-//----------------------------------------------------------------------------
-
-const int Reader::EOM = -1;
+namespace {         // Local implementation details
 
 //----------------------------------------------------------------------------
-//                             class ReaderMemory
+//                    Local utility functions and classes
 //----------------------------------------------------------------------------
 
-ReaderMemory::ReaderMemory( const char * p_start_in, const char * p_end_in )
-    : m( p_start_in, p_end_in )
-{
-}
-
-int ReaderMemory::do_get()
-{
-    if( m.p_now < m.p_end )
-        return static_cast< unsigned char >( *m.p_now++ );
-    return EOM;
-}
-
-void ReaderMemory::do_rewind()
-{
-    m.p_now = m.p_start;
-}
-
 //----------------------------------------------------------------------------
-//                             class ReaderFile
+//                             UTF-16 surrogate utilities
 //----------------------------------------------------------------------------
 
-ReaderFile::ReaderFile( const char * p_file_name_in )
-    : m( fopen( p_file_name_in, "r" ) )
+bool is_high_surrogate( int code_point )
 {
+    return code_point >= 0xD800 && code_point <= 0xDBFF;
 }
 
-ReaderFile::ReaderFile( FILE * h_fin_in )
-    : m( h_fin_in )
+bool is_low_surrogate( int code_point )
 {
+    return code_point >= 0xDC00 && code_point <= 0xDFFF;
 }
 
-ReaderFile::~ReaderFile()
+int code_point_from_surrogates( int high_surrogate, int low_surrogate )
 {
-    if( m.h_fin && m.is_close_on_destruct_required )
-        fclose( m.h_fin );
-}
-
-int ReaderFile::do_get()
-{
-    if( ! is_open() )
-        return EOM;
-    int c = fgetc( m.h_fin );
-    if( c == EOF )
-        return EOM;
-    return c;
-}
-
-void ReaderFile::do_rewind()
-{
-    if( is_open() )
-        fseek( m.h_fin, 0, SEEK_SET );
-}
-
-void ReaderFile::close_on_destruct( bool is_close_on_destruct_required )
-{
-    m.is_close_on_destruct_required = is_close_on_destruct_required;
+    return ((high_surrogate & 0x3ff) << 10) + (low_surrogate & 0x3ff) + 0x10000;
 }
 
 //----------------------------------------------------------------------------
-//                             class UTFConverter
+//                             class UTF8Sequence
 //----------------------------------------------------------------------------
 
-//----------------------------------------------------------------------------
-//                               class ReadUTF8
-//----------------------------------------------------------------------------
-
-int ReadUTF8::get()
+class UTF8Sequence
 {
-    return m.r_reader.get();
-}
+private:
+    char utf8[6];
 
-void ReadUTF8::rewind()
-{
-    return m.r_reader.rewind();
-}
-
-//----------------------------------------------------------------------------
-//                           class ReadUTF8WithUnget
-//----------------------------------------------------------------------------
-
-int ReadUTF8WithUnget::get()
-{
-    if( ! m.unget_buffer.empty() )
+public:
+    UTF8Sequence( int code_point )
     {
-        int result = m.unget_buffer.top();
-        m.unget_buffer.pop();
-        return result;
+        // From rfc3629:
+        // Char. number range  |        UTF-8 octet sequence
+        //   (hexadecimal)    |              (binary)
+        // --------------------+---------------------------------------------
+        // 0000 0000-0000 007F | 0xxxxxxx
+        // 0000 0080-0000 07FF | 110xxxxx 10xxxxxx
+        // 0000 0800-0000 FFFF | 1110xxxx 10xxxxxx 10xxxxxx
+        // 0001 0000-0010 FFFF | 11110xxx 10xxxxxx 10xxxxxx 10xxxxxx
+
+        if( code_point <= 0x7f )
+            pack_ascii( code_point );
+        else if( code_point >= 0x10000 )
+            pack( '\xf0', 4, code_point );
+        else if( code_point >= 0x00800 )
+            pack( '\xe0', 3, code_point );
+        else if( code_point >= 0x00080 )
+            pack( '\xc0', 2, code_point );
+        else
+            utf8[0] = '\0';
+    };
+    operator const char * () const { return utf8; }
+    char operator [] ( size_t index ) const { return utf8[index]; }
+    char & operator [] ( size_t index ) { return utf8[index]; }
+    void copy_to_array( int * p_dest )
+    {
+        char * p_utf8 = utf8;
+        while( (*p_dest++ = (*p_utf8++)&0xff) != '\0' )
+        {}
+    }
+    void copy_to_array( char * p_dest )
+    {
+        char * p_utf8 = utf8;
+        while( (*p_dest++ = *p_utf8++) != '\0' )
+        {}
     }
 
-    return m.read_utf8.get();
-}
+private:
+    void pack_ascii( int code_point )
+    {
+        utf8[0] = code_point;
+        utf8[1] = '\0';
+    }
 
-
-int ReadUTF8WithUnget::get_non_ws()
-{
-    int c = get();
-    while( isspace( c ) )
-        c = get();
-    return c;
-}
-
-void ReadUTF8WithUnget::unget( int c )
-{
-    m.unget_buffer.push( c );
-}
-
-void ReadUTF8WithUnget::rewind()
-{
-    return m.read_utf8.rewind();
-}
+    void pack( char marker, size_t length, int code_point )
+    {
+        utf8[length] = '\0';
+        int scaled_code_point = code_point;
+        for( int i = length-1; i >= 0; --i )
+        {
+            utf8[i] = scaled_code_point & 0x3f;
+            utf8[i] |= 0x80;
+            scaled_code_point >>= 6;
+        }
+        utf8[0] |= marker;
+    }
+};
 
 //----------------------------------------------------------------------------
-//               String and Unicode reading functions and classes
+//                   JSON reading functions and classes
 //----------------------------------------------------------------------------
 
 inline bool is_separator( int c )
@@ -241,60 +214,7 @@ public:
     bool is_ok() const { return m.is_ok; }
 };
 
-class UTF8Sequence
-{
-private:
-    char utf8[6];
-
-public:
-    UTF8Sequence( int codepoint )
-    {
-        // From rfc3629:
-        // Char. number range  |        UTF-8 octet sequence
-        //   (hexadecimal)    |              (binary)
-        // --------------------+---------------------------------------------
-        // 0000 0000-0000 007F | 0xxxxxxx
-        // 0000 0080-0000 07FF | 110xxxxx 10xxxxxx
-        // 0000 0800-0000 FFFF | 1110xxxx 10xxxxxx 10xxxxxx
-        // 0001 0000-0010 FFFF | 11110xxx 10xxxxxx 10xxxxxx 10xxxxxx
-
-        if( codepoint < 0x7f )
-            pack_ascii( codepoint );
-        else if( codepoint > 0x10000 )
-            pack( '\xf0', 4, codepoint );
-        else if( codepoint > 0x00800 )
-            pack( '\xe0', 3, codepoint );
-        else if( codepoint > 0x00080 )
-            pack( '\xc0', 2, codepoint );
-        else
-            utf8[0] = '\0';
-    };
-    operator const char * () const { return utf8; }
-    char operator [] ( size_t index ) const { return utf8[index]; }
-    char & operator [] ( size_t index ) { return utf8[index]; }
-
-private:
-    void pack_ascii( int codepoint )
-    {
-        utf8[0] = codepoint;
-        utf8[1] = '\0';
-    }
-
-    void pack( char marker, size_t length, int codepoint )
-    {
-        utf8[length] = '\0';
-        int scaled_codepoint = codepoint;
-        for( int i = length-1; i >= 0; --i )
-        {
-            utf8[i] = scaled_codepoint & 0x3f;
-            utf8[i] |= 0x80;
-            scaled_codepoint >>= 6;
-        }
-        utf8[0] |= marker;
-    }
-};
-
-class UnicodeCodepointReader
+class UnicodeCodePointReader
 {
     struct Members {
         ReadUTF8WithUnget & r_input;
@@ -312,7 +232,7 @@ class UnicodeCodepointReader
     } m;
 
 public:
-    UnicodeCodepointReader( ReadUTF8WithUnget & r_input_in )
+    UnicodeCodePointReader( ReadUTF8WithUnget & r_input_in )
         : m( r_input_in )
     {
         //           %x75 4HEXDIG )  ; uXXXX                U+XXXX
@@ -321,9 +241,9 @@ public:
 
         if( read_code_point_code() )
         {
-            if( is_low_surrogate() )
+            if( is_low_surrogate( m.code_point ) )
                 report_bad_unicode_escape();
-            else if( is_high_surrogate() )
+            else if( is_high_surrogate( m.code_point ) )
                 combine_low_surrogate();
         }
     }
@@ -359,24 +279,14 @@ private:
         return true;
     }
 
-    bool is_high_surrogate()
-    {
-        return m.code_point >= 0xD800 && m.code_point <= 0xDBFF;
-    }
-
-    bool is_low_surrogate()
-    {
-        return m.code_point >= 0xDC00 && m.code_point <= 0xDFFF;
-    }
-
     void combine_low_surrogate()
     {
         int high_surrogate = m.code_point;
 
         if( get() == '\\' && get() == 'u' && read_code_point_code() )
         {
-            if( is_low_surrogate() )
-                make_code_point( high_surrogate, m.code_point );
+            if( is_low_surrogate( m.code_point ) )
+                m.code_point = code_point_from_surrogates( high_surrogate, m.code_point );
             else
                 report_bad_unicode_escape();
         }
@@ -384,11 +294,6 @@ private:
         {
             report_bad_unicode_escape();
         }
-    }
-
-    void make_code_point( int high_surrogate, int low_surrogate )
-    {
-        m.code_point = ((high_surrogate & 0x3ff) << 10) + (low_surrogate & 0x3ff) + 0x10000;
     }
 
     void report_bad_unicode_escape()
@@ -534,10 +439,10 @@ private:
         if( m.c != 'u' )
             return false;
 
-        UnicodeCodepointReader codepoint_reader( m.r_input );
+        UnicodeCodePointReader code_point_reader( m.r_input );
 
         // Allow for a successful operation, without overwriting the error code of a previous unsuccessful operation
-        Parser::ParserResult current_result = codepoint_reader.result();
+        Parser::ParserResult current_result = code_point_reader.result();
         get();
 
         record_first_error( current_result );
@@ -545,7 +450,7 @@ private:
         if( current_result != Parser::PR_OK )
             return false;
 
-        *m.p_string += codepoint_reader.as_utf8();
+        *m.p_string += code_point_reader.as_utf8();
         return true;
     }
 
@@ -555,6 +460,709 @@ private:
             m.result = current_result;
     }
 };
+
+class NumberReader
+{
+private:
+    struct Members {
+        ReadUTF8WithUnget & r_input;
+        int c;
+        Event * p_event;
+        Parser::ParserResult result;
+
+        Members( ReadUTF8WithUnget & r_input_in, int c_in, Event * p_event_out )
+            : r_input( r_input_in ), c( c_in ), p_event( p_event_out ),
+                result( Parser::PR_BAD_FORMAT_NUMBER )
+        {}
+    } m;
+
+public:
+    NumberReader( ReadUTF8WithUnget & r_input_in, int c_in, Event * p_event_out )
+        : m( r_input_in, c_in, p_event_out )
+    {
+        // From RFC4627:
+        // number = [ minus ] int [ frac ] [ exp ]
+
+        if( optional_minus() &&
+                integer() &&
+                optional_frac() &&
+                optional_exp() &&
+                done() )
+        {
+            m.p_event->type = Event::T_NUMBER;
+            m.result = Parser::PR_OK;
+        }
+
+        if( is_separator( m.c ) )
+            m.r_input.unget( m.c );
+    }
+    Parser::ParserResult result() const { return m.result; }
+    operator Parser::ParserResult() const { return result(); }
+
+private:
+    void accept_and_get()
+    {
+        m.p_event->value += m.c;
+        m.c = m.r_input.get();
+    }
+
+    bool optional_minus()
+    {
+        // minus = %x2D               ; -
+
+        if( m.c == '-' )
+            accept_and_get();
+        return true;
+    }
+
+    bool integer()
+    {
+        // int = zero / ( digit1-9 *DIGIT )
+        // zero = %x30                ; 0
+        // digit1-9 = %x31-39         ; 1-9
+
+        if( m.c == '0' )
+            accept_and_get();
+
+        else if( m.c >= '1' && m.c <= '9' )
+        {
+            while( isdigit( m.c ) )
+                accept_and_get();
+        }
+
+        else
+            return false;
+
+        return true;
+    }
+
+    bool optional_frac()
+    {
+        // frac = decimal-point 1*DIGIT
+        // decimal-point = %x2E       ; .
+
+        if( m.c == '.' )
+        {
+            accept_and_get();
+            return one_or_more_digits();
+        }
+
+        return true;
+    }
+
+    bool one_or_more_digits()
+    {
+        if( ! isdigit( m.c ) )
+            return false;
+        while( isdigit( m.c ) )
+            accept_and_get();
+        return true;
+    }
+
+    bool optional_exp()
+    {
+        // exp = e [ minus / plus ] 1*DIGIT
+        // e = %x65 / %x45            ; e E
+        // minus = %x2D               ; -
+        // plus = %x2B                ; +
+
+        if( m.c == 'e' || m.c == 'E' )
+        {
+            accept_and_get();
+            if( optional_sign() && one_or_more_digits() )
+                return true;
+            return false;
+        }
+        return true;
+    }
+
+    bool optional_sign()
+    {
+        if( m.c == '-' || m.c == '+' )
+            accept_and_get();
+        return true;
+    }
+
+    bool done()
+    {
+        return is_separator( m.c );
+    }
+};
+
+}   // End of anonymous namespace
+
+//----------------------------------------------------------------------------
+//                             class Reader
+//----------------------------------------------------------------------------
+
+const int Reader::EOM = -1;
+
+//----------------------------------------------------------------------------
+//                             class ReaderMemory
+//----------------------------------------------------------------------------
+
+ReaderMemory::ReaderMemory( const char * p_start_in, const char * p_end_in )
+    : m( p_start_in, p_end_in )
+{
+}
+
+int ReaderMemory::do_get()
+{
+    if( m.p_now < m.p_end )
+        return static_cast< unsigned char >( *m.p_now++ );
+    return EOM;
+}
+
+void ReaderMemory::do_rewind()
+{
+    m.p_now = m.p_start;
+}
+
+//----------------------------------------------------------------------------
+//                             class ReaderFile
+//----------------------------------------------------------------------------
+
+ReaderFile::ReaderFile( const char * p_file_name_in )
+    : m( fopen( p_file_name_in, "r" ) )
+{
+}
+
+ReaderFile::ReaderFile( FILE * h_fin_in )
+    : m( h_fin_in )
+{
+}
+
+ReaderFile::~ReaderFile()
+{
+    if( m.h_fin && m.is_close_on_destruct_required )
+        fclose( m.h_fin );
+}
+
+int ReaderFile::do_get()
+{
+    if( ! is_open() )
+        return EOM;
+    int c = fgetc( m.h_fin );
+    if( c == EOF )
+        return EOM;
+    return c;
+}
+
+void ReaderFile::do_rewind()
+{
+    if( is_open() )
+        fseek( m.h_fin, 0, SEEK_SET );
+}
+
+void ReaderFile::close_on_destruct( bool is_close_on_destruct_required )
+{
+    m.is_close_on_destruct_required = is_close_on_destruct_required;
+}
+
+//----------------------------------------------------------------------------
+//                               class ReadUTF8
+//----------------------------------------------------------------------------
+
+int ReadUTF8::get()
+{
+    // Supported input combinations are JSON-8OB-16OB-32NB
+    // OB = Optional BOM, MB = Mandatory BOM and NB = No BOM
+    //
+    // Assume first code_point must be ASCII. In regular expression terms, [\t\r\n {\["tfn0-9]. Non-ASCII implies BOM
+    //
+    // Non-BOM patterns
+    // xx xx -- --  UTF-8
+    // xx 00 xx --  UTF-16LE
+    // xx 00 00 xx  UTF-16LE
+    // xx 00 00 00  UTF-32LE
+    // 00 xx -- --  UTF-16BE
+    // 00 00 -- --  UTF-32BE
+    //
+    // BOM patterns (from http://unicode.org/faq/utf_bom.html)
+    // EF BB BF     -> UTF-8
+    // FE FF        -> UTF-16, big-endian
+    // FF FE        -> UTF-16, little-endian
+    // FF FE 00 00  -> UTF-32, little-endian
+    // 00 00 FE FF  -> UTF-32, big-endian
+
+    if( m.p_utf8_buffer && *m.p_utf8_buffer != '\0' )
+        return *m.p_utf8_buffer++;
+
+    switch( m.mode )
+    {
+    case LEARNING:
+        return state_learning();
+
+    case LEARNING_UTF8_OR_LE:
+        return state_learning_utf8_or_le();
+
+    case UTF8:
+        {
+        int c = m.r_reader.get();
+        if( c > 0 && c <= 0x7f )
+            return c;
+        return state_utf8_reading_non_ascii( c );
+        }
+
+    case UTF16LE:
+        return state_utf16le();
+
+    case UTF16BE:
+        return state_utf16be();
+
+    case UTF32LE:
+        return state_utf32le();
+
+    case UTF32BE:
+        return state_utf32be();
+
+    case ERRORED:
+        return Reader::EOM;
+    }
+
+    assert( 0 );    // Shouldn't get here
+    return in_error();
+}
+
+ReadUTF8::CharPair ReadUTF8::get_pair()
+{
+    CharPair pair;
+
+    pair.c1 = m.r_reader.get();
+
+    if( pair.c1 == Reader::EOM )
+    {
+        pair.c2 = Reader::EOM;
+        return pair;
+    }
+
+    pair.c2 = m.r_reader.get();
+
+    if( pair.c2 == Reader::EOM )
+    {
+        pair.c1 = Reader::EOM;
+        return pair;
+    }
+
+    return pair;
+}
+
+ReadUTF8::CharQuad ReadUTF8::get_quad()
+{
+    CharQuad quad;
+
+    CharPair pair1 = get_pair();
+
+    if( pair1.is_eom() )
+    {
+        quad.c1 = quad.c2 = quad.c3 = quad.c4 = Reader::EOM;
+        return quad;
+    }
+
+    CharPair pair2 = get_pair();
+
+    if( pair2.is_eom() )
+    {
+        quad.c1 = quad.c2 = quad.c3 = quad.c4 = Reader::EOM;
+        return quad;
+    }
+
+    quad.c1 = pair1.c1; quad.c2 = pair1.c2;
+    quad.c3 = pair2.c1; quad.c4 = pair2.c2;
+
+    return quad;
+}
+
+int ReadUTF8::state_learning()
+{
+    int c = m.r_reader.get();
+
+    if( c == Reader::EOM )
+        return in_error();
+
+    if( c == 0 )
+        return state_learning_utf16be_or_utf32be();
+
+    else if( c <= 0x7f )
+    {
+        // xx xx -- --  UTF-8
+        // xx 00 xx --  UTF-16LE
+        // xx 00 00 xx  UTF-16LE
+        // xx 00 00 00  UTF-32LE
+        //  ^ here
+        m.mode = LEARNING_UTF8_OR_LE;
+        return c;
+    }
+
+    else if( c == 0xef )
+        return state_expecting_utf8_with_bom();
+
+    else if( c == 0xfe )
+        return state_expecting_utf16be_with_bom();
+
+    else if( c == 0xff )
+        return state_expecting_utf16le_or_utf32le_with_bom();
+
+    // First char must be ASCII, so any other non-ASCII character is an error
+    return in_error();
+}
+
+int ReadUTF8::state_learning_utf8_or_le()
+{
+    int c = m.r_reader.get();
+
+    if( c == Reader::EOM )
+        return in_error();
+
+    if( c > 0 )
+    {
+        // xx xx -- --  UTF-8
+        //     ^ here
+        m.mode = UTF8;
+        if( c <= 0x7f )
+            return c;
+        return state_utf8_reading_non_ascii( c );
+    }
+
+    else if( c == 0 )
+    {
+        // xx 00 xx --  UTF-16LE
+        // xx 00 00 xx  UTF-16LE
+        // xx 00 00 00  UTF-32LE
+        //     ^ here
+        CharPair pair = get_pair();
+
+        if( pair.is_eom() )
+            return in_error();
+
+        if( pair.c1 > 0 || pair.c2 > 0 )
+        {
+            // xx 00 xx --  UTF-16LE
+            // xx 00 00 xx  UTF-16LE
+            //           ^ here
+            m.mode = UTF16LE;
+            return construct_utf8_from_utf16le( pair );
+        }
+
+        // c1 == 0 && c2 == 0
+        // xx 00 00 00  UTF-32LE
+        //           ^ here
+        m.mode = UTF32LE;
+        return state_utf32le();
+    }
+
+    assert( 0 );    // Shouldn't get here
+    return in_error();
+}
+
+int ReadUTF8::state_expecting_utf8_with_bom()
+{
+    if( m.r_reader.get() != 0xBB || m.r_reader.get() != 0xBF )  // Next two bytes must be 0xBB 0xBF
+        return in_error();
+
+    m.mode = UTF8;
+
+    int c = m.r_reader.get();
+
+    if( c == Reader::EOM )
+        return in_error();
+
+    if( c > 0 && c <= 0x7f )
+        return c;
+    return state_utf8_reading_non_ascii( c );
+}
+
+int ReadUTF8::state_expecting_utf16le_or_utf32le_with_bom()
+{
+    // FF FE        -> UTF-16, little-endian
+    // FF FE 00 00  -> UTF-32, little-endian
+
+    if( m.r_reader.get() != 0xFE )
+        return in_error();
+
+    // FF FE 00 00  -> UTF-32, little-endian
+    //     ^ here
+
+    CharPair pair = get_pair();
+
+    if( pair.is_eom() )
+        return in_error();
+
+    if( pair.c1 == 0 && pair.c2 == 0 )
+    {
+        m.mode = UTF32LE;
+        return state_utf32le();
+    }
+
+    m.mode = UTF16LE;
+    return construct_utf8_from_utf16le( pair );
+}
+
+int ReadUTF8::state_learning_utf16be_or_utf32be()
+{
+    // 00 xx -- --  UTF-16BE
+    // 00 00 -- --  UTF-32BE
+    // 00 00 FE FF  -> UTF-32, big-endian BOM
+    //  ^ here
+
+    int c = m.r_reader.get();
+
+    if( c == Reader::EOM )
+        return in_error();
+
+    if( c > 0 )
+    {
+        m.mode = UTF16BE;
+        return c;
+    }
+
+    return state_learning_utf32be_possibly_with_bom();
+}
+
+int ReadUTF8::state_expecting_utf16be_with_bom()
+{
+    // FE FF        -> UTF-16, big-endian
+
+    int c = m.r_reader.get();
+
+    if( c != 0xff )
+        return in_error();
+
+    m.mode = UTF16BE;
+
+    return state_utf16be();
+}
+
+int ReadUTF8::state_learning_utf32be_possibly_with_bom()
+{
+    // 00 00 -- --  UTF-32BE
+    // 00 00 FE FF  -> UTF-32, big-endian BOM
+    //     ^ here
+
+    m.mode = UTF32BE;
+
+    CharPair pair = get_pair();
+
+    if( pair.is_eom() )
+        return in_error();
+
+    if( pair.c1 == 0xfe )   // BOM marker
+    {
+        if( pair.c2 != 0xff )
+            return in_error();
+
+        return state_utf32be();
+    }
+
+    int code_point = pair.to_big_endian_code_point();
+    if( is_high_surrogate( code_point ) || is_low_surrogate( code_point ) )
+        return in_error();
+
+    return construct_utf8( code_point );
+}
+
+int ReadUTF8::state_utf8_reading_non_ascii( int c )
+{
+    m.utf8_buffer[0] = c;
+
+    size_t n_to_read;
+
+    // From rfc3629:
+    // Char. number range  |        UTF-8 octet sequence
+    //   (hexadecimal)    |              (binary)
+    // --------------------+---------------------------------------------
+    // 0000 0000-0000 007F | 0xxxxxxx
+    // 0000 0080-0000 07FF | 110xxxxx 10xxxxxx
+    // 0000 0800-0000 FFFF | 1110xxxx 10xxxxxx 10xxxxxx
+    // 0001 0000-0010 FFFF | 11110xxx 10xxxxxx 10xxxxxx 10xxxxxx
+
+    if( c >= 0xf0 )
+        n_to_read = 4 - 1;  // Already read one byte
+    else if( c >= 0xe0 )
+        n_to_read = 3 - 1;
+    else if( c >= 0xc0 )
+        n_to_read = 2 - 1;
+    else
+        return in_error();
+
+    for( size_t i=0; i<n_to_read; ++i )
+    {
+        c = m.r_reader.get();
+        if( c < 0x80 || c > 0xbf )
+            return in_error();
+        m.utf8_buffer[i+1] = c;
+    }
+    m.utf8_buffer[n_to_read+1] = '\0';
+
+    int c1 = m.utf8_buffer[0];
+    int c2 = m.utf8_buffer[1];
+
+    if( c1 == 0xef && c2 == 0xbe && ( m.utf8_buffer[2] == 0xbe || m.utf8_buffer[2] == 0xbf ) ) // U+FFFE & U+FFFF are illegal
+        return in_error();
+
+    // From RFC 3629 - Make sure sequence is valid (e.g. doesn't encode a surrogate etc.)
+    // UTF8-octets = *( UTF8-char )
+    // UTF8-char   = UTF8-1 / UTF8-2 / UTF8-3 / UTF8-4
+    // UTF8-1      = %x00-7F - (Handled outside this function)
+    // UTF8-2      = %xC2-DF UTF8-tail
+    // UTF8-3      = %xE0 %xA0-BF UTF8-tail / %xE1-EC 2( UTF8-tail ) /
+    //               %xED %x80-9F UTF8-tail / %xEE-EF 2( UTF8-tail )
+    // UTF8-4      = %xF0 %x90-BF 2( UTF8-tail ) / %xF1-F3 3( UTF8-tail ) /
+    //               %xF4 %x80-8F 2( UTF8-tail )
+    // UTF8-tail   = %x80-BF
+    if( (c1 >= 0xc2 && c1 <= 0xdf) ||
+            (c1 == 0xe0 && (c2 >= 0xa0 && c2 <= 0xbf)) ||
+            (c1 >= 0xe1 && c1 <= 0xec) ||
+            (c1 == 0xed && (c2 >= 0x80 && c2 <= 0x9f)) ||
+            (c1 >= 0xee && c1 <= 0xef) ||
+            (c1 == 0xf0 && (c2 >= 0x90 && c2 <= 0xbf)) ||
+            (c1 >= 0xf1 && c1 <= 0xf3) ||
+            (c1 == 0xf4 && (c2 >= 0x80 && c2 <= 0x8f)) )
+    {
+        // All OK
+        m.p_utf8_buffer = &(m.utf8_buffer[1]);
+        return m.utf8_buffer[0];
+    }
+
+    return in_error();
+}
+
+int ReadUTF8::state_utf16le()
+{
+    CharPair pair = get_pair();
+
+    if( pair.is_eom() )
+        return in_error();
+
+    return construct_utf8_from_utf16le( pair );
+}
+
+int ReadUTF8::construct_utf8_from_utf16le( CharPair pair )
+{
+    int code_point = pair.to_little_endian_code_point();
+
+    if( is_low_surrogate( code_point ) )
+        return in_error();
+
+    if( is_high_surrogate( code_point ) )
+    {
+        CharPair expected_low_surrogate_pair = get_pair();
+        if( expected_low_surrogate_pair.is_eom() )
+            return in_error();
+        int expected_low_surrogate_code_point = expected_low_surrogate_pair.to_little_endian_code_point();
+        if( ! is_low_surrogate( expected_low_surrogate_code_point ) )
+            return in_error();
+        code_point = code_point_from_surrogates( code_point, expected_low_surrogate_code_point );
+    }
+    return construct_utf8( code_point );
+}
+
+int ReadUTF8::state_utf16be()
+{
+    CharPair pair = get_pair();
+
+    if( pair.is_eom() )
+        return in_error();
+
+    return construct_utf8_from_utf16be( pair );
+}
+
+int ReadUTF8::construct_utf8_from_utf16be( CharPair pair )
+{
+    int code_point = pair.to_big_endian_code_point();
+
+    if( is_low_surrogate( code_point ) )
+        return in_error();
+
+    if( is_high_surrogate( code_point ) )
+    {
+        CharPair expected_low_surrogate_pair = get_pair();
+        if( expected_low_surrogate_pair.is_eom() )
+            return in_error();
+        int expected_low_surrogate_code_point = expected_low_surrogate_pair.to_big_endian_code_point();
+        if( ! is_low_surrogate( expected_low_surrogate_code_point ) )
+            return in_error();
+        code_point = code_point_from_surrogates( code_point, expected_low_surrogate_code_point );
+    }
+    return construct_utf8( code_point );
+}
+
+int ReadUTF8::state_utf32le()
+{
+    CharQuad quad = get_quad();
+
+    if( quad.is_eom() )
+        return in_error();
+
+    int code_point = quad.to_little_endian_code_point();
+    if( is_high_surrogate( code_point ) || is_low_surrogate( code_point ) )
+        return in_error();
+
+    return construct_utf8( code_point );
+}
+
+int ReadUTF8::state_utf32be()
+{
+    CharQuad quad = get_quad();
+
+    if( quad.is_eom() )
+        return in_error();
+
+    int code_point = quad.to_big_endian_code_point();
+    if( is_high_surrogate( code_point ) || is_low_surrogate( code_point ) )
+        return in_error();
+
+    return construct_utf8( code_point );
+}
+
+int ReadUTF8::construct_utf8( int code_point )
+{
+    UTF8Sequence( code_point ).copy_to_array( m.utf8_buffer );
+    m.p_utf8_buffer = &(m.utf8_buffer[1]);
+    return m.utf8_buffer[0];
+}
+
+void ReadUTF8::rewind()
+{
+    m.r_reader.rewind();
+    m.mode = LEARNING;
+    m.p_utf8_buffer = 0;
+}
+
+//----------------------------------------------------------------------------
+//                           class ReadUTF8WithUnget
+//----------------------------------------------------------------------------
+
+int ReadUTF8WithUnget::get()
+{
+    if( ! m.unget_buffer.empty() )
+    {
+        int result = m.unget_buffer.top();
+        m.unget_buffer.pop();
+        return result;
+    }
+
+    return m.read_utf8.get();
+}
+
+
+int ReadUTF8WithUnget::get_non_ws()
+{
+    int c = get();
+    while( isspace( c ) )
+        c = get();
+    return c;
+}
+
+void ReadUTF8WithUnget::unget( int c )
+{
+    m.unget_buffer.push( c );
+}
+
+void ReadUTF8WithUnget::rewind()
+{
+    return m.read_utf8.rewind();
+}
 
 //----------------------------------------------------------------------------
 //                             class Event
@@ -897,134 +1505,6 @@ bool Parser::is_invalid_json_number_start_char()
 
     return m.c == '+' || m.c == '.';
 }
-
-class NumberReader
-{
-private:
-    struct Members {
-        ReadUTF8WithUnget & r_input;
-        int c;
-        Event * p_event;
-        Parser::ParserResult result;
-
-        Members( ReadUTF8WithUnget & r_input_in, int c_in, Event * p_event_out )
-            : r_input( r_input_in ), c( c_in ), p_event( p_event_out ),
-                result( Parser::PR_BAD_FORMAT_NUMBER )
-        {}
-    } m;
-
-public:
-    NumberReader( ReadUTF8WithUnget & r_input_in, int c_in, Event * p_event_out )
-        : m( r_input_in, c_in, p_event_out )
-    {
-        // From RFC4627:
-        // number = [ minus ] int [ frac ] [ exp ]
-
-        if( optional_minus() &&
-                integer() &&
-                optional_frac() &&
-                optional_exp() &&
-                done() )
-        {
-            m.p_event->type = Event::T_NUMBER;
-            m.result = Parser::PR_OK;
-        }
-
-        if( is_separator( m.c ) )
-            m.r_input.unget( m.c );
-    }
-    Parser::ParserResult result() const { return m.result; }
-    operator Parser::ParserResult() const { return result(); }
-
-private:
-    void accept_and_get()
-    {
-        m.p_event->value += m.c;
-        m.c = m.r_input.get();
-    }
-
-    bool optional_minus()
-    {
-        // minus = %x2D               ; -
-
-        if( m.c == '-' )
-            accept_and_get();
-        return true;
-    }
-
-    bool integer()
-    {
-        // int = zero / ( digit1-9 *DIGIT )
-        // zero = %x30                ; 0
-        // digit1-9 = %x31-39         ; 1-9
-
-        if( m.c == '0' )
-            accept_and_get();
-
-        else if( m.c >= '1' && m.c <= '9' )
-        {
-            while( isdigit( m.c ) )
-                accept_and_get();
-        }
-
-        else
-            return false;
-
-        return true;
-    }
-
-    bool optional_frac()
-    {
-        // frac = decimal-point 1*DIGIT
-        // decimal-point = %x2E       ; .
-
-        if( m.c == '.' )
-        {
-            accept_and_get();
-            return one_or_more_digits();
-        }
-
-        return true;
-    }
-
-    bool one_or_more_digits()
-    {
-        if( ! isdigit( m.c ) )
-            return false;
-        while( isdigit( m.c ) )
-            accept_and_get();
-        return true;
-    }
-
-    bool optional_exp()
-    {
-        // exp = e [ minus / plus ] 1*DIGIT
-        // e = %x65 / %x45            ; e E
-        // minus = %x2D               ; -
-        // plus = %x2B                ; +
-
-        if( m.c == 'e' || m.c == 'E' )
-        {
-            accept_and_get();
-            if( optional_sign() && one_or_more_digits() )
-                return true;
-            return false;
-        }
-        return true;
-    }
-
-    bool optional_sign()
-    {
-        if( m.c == '-' || m.c == '+' )
-            accept_and_get();
-        return true;
-    }
-
-    bool done()
-    {
-        return is_separator( m.c );
-    }
-};
 
 Parser::ParserResult Parser::get_number()
 {

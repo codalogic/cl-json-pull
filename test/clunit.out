@@ -1,4 +1,4 @@
-Tests run on Wed Jun 03 11:41:45 2015
+Tests run on Tue Jun 09 18:17:38 2015
 
     struct Event [test-event.cpp:38]
     ================================
@@ -798,6 +798,1553 @@ Tests run on Wed Jun 03 11:41:45 2015
     ok: h.event.type == cljp::Event::T_OBJECT_END
     ok: ! _CrtMemDifference( &s3, &s1, &s2 )
 
+    Test the test ByteTestSequence [test-read-utf8.cpp:40]
+    ======================================================
+    ok: MK_STR_WITH_ZEROS( "" ).size() == 0
+    ok: MK_STR_WITH_ZEROS( "a" ).size() == 1
+    ok: MK_STR_WITH_ZEROS( "\0" ).size() == 1
+    ok: MK_STR_WITH_ZEROS( "a\0" ).size() == 2
+    ok: MK_STR_WITH_ZEROS( "\0a" ).size() == 2
+    ok: MK_STR_WITH_ZEROS( "\0a" )[0] == '\0'
+    ok: MK_STR_WITH_ZEROS( "\0a" )[1] == 'a'
+    ok: MK_STR_WITH_ZEROS( "\xff""a\0\0" ).size() == 4
+    ok: MK_STR_WITH_ZEROS( "\xff""a\0\0" )[0] == '\xff'
+    ok: MK_STR_WITH_ZEROS( "\xff""a\0\0" )[1] == 'a'
+    ok: MK_STR_WITH_ZEROS( "\xff""a\0\0" )[2] == '\0'
+    ok: MK_STR_WITH_ZEROS( "\xff""a\0\0" )[3] == '\0'
+    ok: ! _CrtMemDifference( &s3, &s1, &s2 )
+
+    ReadUTF8 - test MK_STR_WITH_ZEROS [test-read-utf8.cpp:114]
+    ==========================================================
+      Calling: test_utf_detection( MK_STR_WITH_ZEROS( "" ), 0, cljp::ReadUTF8::LEARNING ) (116)
+    ok: utf8_reader.mode() == expected_mode_in
+    ok: ! _CrtMemDifference( &s3, &s1, &s2 )
+
+    ReadUTF8 - UTF-8 input [test-read-utf8.cpp:139]
+    ===============================================
+      Calling: test_utf_detection( MK_STR_WITH_ZEROS( "ab" ), 1, cljp::ReadUTF8::LEARNING_UTF8_OR_LE ) (142)
+    ok: utf8_reader.get() != cljp::Reader::EOM
+    ok: utf8_reader.mode() == expected_mode_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "ab" ), 1, 'a' ) (143)
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf_detection( MK_STR_WITH_ZEROS( "ab" ), 2, cljp::ReadUTF8::UTF8 ) (144)
+    ok: utf8_reader.get() != cljp::Reader::EOM
+    ok: utf8_reader.get() != cljp::Reader::EOM
+    ok: utf8_reader.mode() == expected_mode_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "ab" ), 2, 'b' ) (145)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "\x7f""b" ), 1, 0x7f ) (147)
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "\x7f""b" ), 2, 'b' ) (148)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "a""\x7f" ), 1, 'a' ) (149)
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "a""\x7f" ), 2, 0x7f ) (150)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get_is_end( MK_STR_WITH_ZEROS( "a" ), 2 ) (152)
+    ok: c != cljp::Reader::EOM
+    ok: c == cljp::Reader::EOM
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "abc\xE0\xAC\x8Bz" ), 4, 0xE0 ) (155)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "abc\xE0\xAC\x8Bz" ), 5, 0xAC ) (156)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "abc\xE0\xAC\x8Bz" ), 6, 0x8B ) (157)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "abc\xE0\xAC\x8Bz" ), 7, 'z' ) (158)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "abc\xE0\xAC\x8Bz\xE0\xAC\x8Bz" ), 8, 0xE0 ) (159)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "abc\xE0\xAC\x8Bz\xE0\xAC\x8Bz" ), 9, 0xAC ) (160)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "abc\xE0\xAC\x8Bz\xE0\xAC\x8Bz" ), 10, 0x8B ) (161)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "abc\xE0\xAC\x8Bz\xE0\xAC\x8Bz" ), 11, 'z' ) (162)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get_is_end( MK_STR_WITH_ZEROS( "abc\xE0\xAC\x8Bz\xE0\xAC\x8Bz" ), 12 ) (163)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == cljp::Reader::EOM
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "a\xE0\xAC\x8Bz" ), 2, 0xE0 ) (166)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "a\xE0\xAC\x8Bz" ), 3, 0xAC ) (167)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "a\xE0\xAC\x8Bz" ), 4, 0x8B ) (168)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "a\xE0\xAC\x8Bz" ), 5, 'z' ) (169)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "a\xE0\xAC\x8Bz\xE0\xAC\x8Bz" ), 6, 0xE0 ) (170)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "a\xE0\xAC\x8Bz\xE0\xAC\x8Bz" ), 7, 0xAC ) (171)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "a\xE0\xAC\x8Bz\xE0\xAC\x8Bz" ), 8, 0x8B ) (172)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "a\xE0\xAC\x8Bz\xE0\xAC\x8Bz" ), 9, 'z' ) (173)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+    ok: ! _CrtMemDifference( &s3, &s1, &s2 )
+
+    ReadUTF8 - UTF-8 input with BOM [test-read-utf8.cpp:176]
+    ========================================================
+      Calling: test_utf_detection( MK_STR_WITH_ZEROS( "\xEF\xBB\xBF""ab" ), 1, cljp::ReadUTF8::UTF8 ) (181)
+    ok: utf8_reader.get() != cljp::Reader::EOM
+    ok: utf8_reader.mode() == expected_mode_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "\xEF\xBB\xBF""ab" ), 1, 'a' ) (182)
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf_detection( MK_STR_WITH_ZEROS( "\xEF\xBB\xBF""ab" ), 2, cljp::ReadUTF8::UTF8 ) (183)
+    ok: utf8_reader.get() != cljp::Reader::EOM
+    ok: utf8_reader.get() != cljp::Reader::EOM
+    ok: utf8_reader.mode() == expected_mode_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "\xEF\xBB\xBF""ab" ), 2, 'b' ) (184)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get_is_end( MK_STR_WITH_ZEROS( "\xEF\xBB\xBF" ), 1 ) (186)
+    ok: c == cljp::Reader::EOM
+      Calling: test_utf8_get_is_end( MK_STR_WITH_ZEROS( "\xEF\xBB\xBF""a" ), 2 ) (187)
+    ok: c != cljp::Reader::EOM
+    ok: c == cljp::Reader::EOM
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "\xEF\xBB\xBF""abc\xE0\xAC\x8Bz" ), 4, 0xE0 ) (190)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "\xEF\xBB\xBF""abc\xE0\xAC\x8Bz" ), 5, 0xAC ) (191)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "\xEF\xBB\xBF""abc\xE0\xAC\x8Bz" ), 6, 0x8B ) (192)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "\xEF\xBB\xBF""abc\xE0\xAC\x8Bz" ), 7, 'z' ) (193)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+    ok: ! _CrtMemDifference( &s3, &s1, &s2 )
+
+    ReadUTF8 - UTF-8 input error cases [test-read-utf8.cpp:198]
+    ===========================================================
+      Calling: test_utf8_get_errored( MK_STR_WITH_ZEROS( "a\0" ), 2 ) (200)
+    ok: c != cljp::Reader::EOM
+    ok: c == cljp::Reader::EOM
+      Calling: test_utf8_get_errored( MK_STR_WITH_ZEROS( "ab\0" ), 3 ) (201)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == cljp::Reader::EOM
+      Calling: test_utf8_get_errored( MK_STR_WITH_ZEROS( "abc\x80" ), 4 ) (202)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == cljp::Reader::EOM
+      Calling: test_utf8_get_errored( MK_STR_WITH_ZEROS( "a\x80" ), 2 ) (203)
+    ok: c != cljp::Reader::EOM
+    ok: c == cljp::Reader::EOM
+      Calling: test_utf8_get_errored( MK_STR_WITH_ZEROS( "abc\xc1\x80" ), 4 ) (204)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == cljp::Reader::EOM
+      Calling: test_utf8_get_errored( MK_STR_WITH_ZEROS( "a\xc1\x80" ), 2 ) (205)
+    ok: c != cljp::Reader::EOM
+    ok: c == cljp::Reader::EOM
+      Calling: test_utf8_get_errored( MK_STR_WITH_ZEROS( "abc\xe0\x90\x80" ), 4 ) (206)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == cljp::Reader::EOM
+      Calling: test_utf8_get_errored( MK_STR_WITH_ZEROS( "a\xe0\x90\x80" ), 2 ) (207)
+    ok: c != cljp::Reader::EOM
+    ok: c == cljp::Reader::EOM
+      Calling: test_utf8_get_errored( MK_STR_WITH_ZEROS( "abc\xed\xa0\x80" ), 4 ) (208)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == cljp::Reader::EOM
+      Calling: test_utf8_get_errored( MK_STR_WITH_ZEROS( "a\xed\xa0\x80" ), 2 ) (209)
+    ok: c != cljp::Reader::EOM
+    ok: c == cljp::Reader::EOM
+      Calling: test_utf8_get_errored( MK_STR_WITH_ZEROS( "abc\xed\xb0\x80" ), 4 ) (210)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == cljp::Reader::EOM
+      Calling: test_utf8_get_errored( MK_STR_WITH_ZEROS( "a\xed\xb0\x80" ), 2 ) (211)
+    ok: c != cljp::Reader::EOM
+    ok: c == cljp::Reader::EOM
+      Calling: test_utf8_get_errored( MK_STR_WITH_ZEROS( "\xEF""a" ), 1 ) (214)
+    ok: c == cljp::Reader::EOM
+      Calling: test_utf8_get_errored( MK_STR_WITH_ZEROS( "\xEF\xBB""a" ), 1 ) (215)
+    ok: c == cljp::Reader::EOM
+      Calling: test_utf8_get_errored( MK_STR_WITH_ZEROS( "\xEF\xBB\xBF""\0" ), 1 ) (217)
+    ok: c == cljp::Reader::EOM
+    ok: ! _CrtMemDifference( &s3, &s1, &s2 )
+
+    ReadUTF8 - UTF-16LE input [test-read-utf8.cpp:220]
+    ==================================================
+      Calling: test_utf_detection( MK_STR_WITH_ZEROS( "a\0" ), 1, cljp::ReadUTF8::LEARNING_UTF8_OR_LE ) (223)
+    ok: utf8_reader.get() != cljp::Reader::EOM
+    ok: utf8_reader.mode() == expected_mode_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "a\0" ), 1, 'a' ) (224)
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get_is_end( MK_STR_WITH_ZEROS( "a\0" ), 2 ) (225)
+    ok: c != cljp::Reader::EOM
+    ok: c == cljp::Reader::EOM
+      Calling: test_utf_detection( MK_STR_WITH_ZEROS( "a\0\xb\0" ), 1, cljp::ReadUTF8::LEARNING_UTF8_OR_LE ) (228)
+    ok: utf8_reader.get() != cljp::Reader::EOM
+    ok: utf8_reader.mode() == expected_mode_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "a\0\xb\0" ), 1, 'a' ) (229)
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf_detection( MK_STR_WITH_ZEROS( "a\0\xb\0" ), 2, cljp::ReadUTF8::UTF16LE ) (230)
+    ok: utf8_reader.get() != cljp::Reader::EOM
+    ok: utf8_reader.get() != cljp::Reader::EOM
+    ok: utf8_reader.mode() == expected_mode_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "a\0\xb\0" ), 2, 0xb ) (231)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get_is_end( MK_STR_WITH_ZEROS( "a\0\xb\0" ), 3 ) (232)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == cljp::Reader::EOM
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "a\0" "\xb\xb" ), 2, 0xE0 ) (234)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "a\0" "\xb\xb" ), 3, 0xAC ) (235)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "a\0" "\xb\xb" ), 4, 0x8B ) (236)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "a\0" "\xb\xb" "z\0" ), 5, 'z' ) (237)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get_is_end( MK_STR_WITH_ZEROS( "a\0" "\xb\xb" "z\0" ), 6 ) (238)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == cljp::Reader::EOM
+      Calling: test_utf_detection( MK_STR_WITH_ZEROS( "a\0\0\xb" ), 1, cljp::ReadUTF8::LEARNING_UTF8_OR_LE ) (241)
+    ok: utf8_reader.get() != cljp::Reader::EOM
+    ok: utf8_reader.mode() == expected_mode_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "a\0\0\xb" ), 1, 'a' ) (242)
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf_detection( MK_STR_WITH_ZEROS( "a\0\0\xb" ), 2, cljp::ReadUTF8::UTF16LE ) (243)
+    ok: utf8_reader.get() != cljp::Reader::EOM
+    ok: utf8_reader.get() != cljp::Reader::EOM
+    ok: utf8_reader.mode() == expected_mode_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "a\0\0\xb" ), 2, 0xE0 ) (244)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "a\0\0\xb" ), 3, 0xAC ) (245)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "a\0\0\xb" ), 4, 0x80 ) (246)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "a\0" "\0\xb" "z\0" "b\0" ), 5, 'z' ) (248)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "a\0" "\0\xb" "z\0" "b\0" ), 6, 'b' ) (249)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "a\0" "\0\xb" "z\0" "\0\xb" ), 6, 0xE0 ) (251)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "a\0" "\0\xb" "z\0" "\0\xb" ), 7, 0xAC ) (252)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "a\0" "\0\xb" "z\0" "\0\xb" ), 8, 0x80 ) (253)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "a\0\0\xb0" ), 2, 0xEB ) (255)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "a\0\0\xb0" ), 3, 0x80 ) (256)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "a\0\0\xb0" ), 4, 0x80 ) (257)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+    ok: ! _CrtMemDifference( &s3, &s1, &s2 )
+
+    ReadUTF8 - UTF-16LE input with BOM [test-read-utf8.cpp:260]
+    ===========================================================
+      Calling: test_utf_detection( MK_STR_WITH_ZEROS( "\xff\xfe" "a\0\xb\0" ), 1, cljp::ReadUTF8::UTF16LE ) (265)
+    ok: utf8_reader.get() != cljp::Reader::EOM
+    ok: utf8_reader.mode() == expected_mode_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "\xff\xfe" "a\0\xb\0" ), 1, 'a' ) (266)
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf_detection( MK_STR_WITH_ZEROS( "\xff\xfe" "a\0\xb\0" ), 2, cljp::ReadUTF8::UTF16LE ) (267)
+    ok: utf8_reader.get() != cljp::Reader::EOM
+    ok: utf8_reader.get() != cljp::Reader::EOM
+    ok: utf8_reader.mode() == expected_mode_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "\xff\xfe" "a\0\xb\0" ), 2, 0xb ) (268)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get_is_end( MK_STR_WITH_ZEROS( "\xff\xfe" "a\0\xb\0" ), 3 ) (269)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == cljp::Reader::EOM
+    ok: ! _CrtMemDifference( &s3, &s1, &s2 )
+
+    ReadUTF8 - UTF-16LE input - verify boundarries in UTF-8 encoding [test-read-utf8.cpp:274]
+    =========================================================================================
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "\x7f\0" ), 1, 0x7f ) (276)
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "a\0\x7f\0" ), 2, 0x7f ) (277)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "a\0\x80\0" ), 2, 0xC2 ) (278)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "a\0\x80\0" ), 3, 0x80 ) (279)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get_is_end( MK_STR_WITH_ZEROS( "a\0\x80\0" ), 4 ) (280)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == cljp::Reader::EOM
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "a\0\xff\x7" ), 2, 0xDF ) (282)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "a\0\xff\x7" ), 3, 0xBF ) (283)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get_is_end( MK_STR_WITH_ZEROS( "a\0\xff\x7" ), 4 ) (284)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == cljp::Reader::EOM
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "a\0\x00\x08" ), 2, 0xE0 ) (286)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "a\0\x00\x08" ), 3, 0xA0 ) (287)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "a\0\x00\x08" ), 4, 0x80 ) (288)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get_is_end( MK_STR_WITH_ZEROS( "a\0\x00\x08" ), 5 ) (289)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == cljp::Reader::EOM
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "a\0\xff\xff" ), 2, 0xEF ) (291)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "a\0\xff\xff" ), 3, 0xBF ) (292)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "a\0\xff\xff" ), 4, 0xBF ) (293)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get_is_end( MK_STR_WITH_ZEROS( "a\0\xff\xff" ), 5 ) (294)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == cljp::Reader::EOM
+    ok: ! _CrtMemDifference( &s3, &s1, &s2 )
+
+    ReadUTF8 - UTF-16LE input surrogates [test-read-utf8.cpp:299]
+    =============================================================
+      UTF16LE surrogate pair in detection phase
+      Calling: test_utf_detection( MK_STR_WITH_ZEROS( "a\0\x00\xD8\x00\xDCz\0" ), 2, cljp::ReadUTF8::UTF16LE ) (302)
+    ok: utf8_reader.get() != cljp::Reader::EOM
+    ok: utf8_reader.get() != cljp::Reader::EOM
+    ok: utf8_reader.mode() == expected_mode_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "a\0\x00\xD8\x00\xDCz\0" ), 2, 0xf0 ) (303)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "a\0\x00\xD8\x00\xDCz\0" ), 3, 0x90 ) (304)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "a\0\x00\xD8\x00\xDCz\0" ), 4, 0x80 ) (305)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "a\0\x00\xD8\x00\xDCz\0" ), 5, 0x80 ) (306)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "a\0\x00\xD8\x00\xDCz\0" ), 6, 'z' ) (307)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get_is_end( MK_STR_WITH_ZEROS( "a\0\x00\xD8\x00\xDCz\0" ), 7 ) (308)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == cljp::Reader::EOM
+      UTF16LE surrogate pair in post-detection phase
+      Calling: test_utf_detection( MK_STR_WITH_ZEROS( "a\0b\0c\0\x00\xD8\x00\xDCz\0" ), 2, cljp::ReadUTF8::UTF16LE ) (311)
+    ok: utf8_reader.get() != cljp::Reader::EOM
+    ok: utf8_reader.get() != cljp::Reader::EOM
+    ok: utf8_reader.mode() == expected_mode_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "a\0b\0c\0\x00\xD8\x00\xDCz\0" ), 4, 0xf0 ) (312)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "a\0b\0c\0\x00\xD8\x00\xDCz\0" ), 5, 0x90 ) (313)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "a\0b\0c\0\x00\xD8\x00\xDCz\0" ), 6, 0x80 ) (314)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "a\0b\0c\0\x00\xD8\x00\xDCz\0" ), 7, 0x80 ) (315)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "a\0b\0c\0\x00\xD8\x00\xDCz\0" ), 8, 'z' ) (316)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get_is_end( MK_STR_WITH_ZEROS( "a\0b\0c\0\x00\xD8\x00\xDCz\0" ), 9 ) (317)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == cljp::Reader::EOM
+    ok: ! _CrtMemDifference( &s3, &s1, &s2 )
+
+    ReadUTF8 - UTF-16LE input error cases [test-read-utf8.cpp:320]
+    ==============================================================
+      Calling: test_utf8_get_errored( MK_STR_WITH_ZEROS( "a\0b" ), 2 ) (323)
+    ok: c != cljp::Reader::EOM
+    ok: c == cljp::Reader::EOM
+      Calling: test_utf8_get_errored( MK_STR_WITH_ZEROS( "a\0\x00\xD8" ), 2 ) (324)
+    ok: c != cljp::Reader::EOM
+    ok: c == cljp::Reader::EOM
+      Calling: test_utf8_get_errored( MK_STR_WITH_ZEROS( "a\0\x00\xD8\0" ), 2 ) (325)
+    ok: c != cljp::Reader::EOM
+    ok: c == cljp::Reader::EOM
+      Calling: test_utf8_get_errored( MK_STR_WITH_ZEROS( "a\0\x00\xD8z\0" ), 2 ) (326)
+    ok: c != cljp::Reader::EOM
+    ok: c == cljp::Reader::EOM
+      Calling: test_utf8_get_errored( MK_STR_WITH_ZEROS( "a\0\x00\xDC" ), 2 ) (327)
+    ok: c != cljp::Reader::EOM
+    ok: c == cljp::Reader::EOM
+      Calling: test_utf8_get_errored( MK_STR_WITH_ZEROS( "\xff\x0" "a\0\xb\0" ), 1 ) (330)
+    ok: c == cljp::Reader::EOM
+    ok: ! _CrtMemDifference( &s3, &s1, &s2 )
+
+    ReadUTF8 - UTF-16BE input [test-read-utf8.cpp:333]
+    ==================================================
+      Calling: test_utf_detection( MK_STR_WITH_ZEROS( "\0z" ), 1, cljp::ReadUTF8::UTF16BE ) (341)
+    ok: utf8_reader.get() != cljp::Reader::EOM
+    ok: utf8_reader.mode() == expected_mode_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "\0z" ), 1, 'z' ) (342)
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get_is_end( MK_STR_WITH_ZEROS( "\0z" ), 2 ) (343)
+    ok: c != cljp::Reader::EOM
+    ok: c == cljp::Reader::EOM
+      Calling: test_utf_detection( MK_STR_WITH_ZEROS( "\0z\0\xb" ), 1, cljp::ReadUTF8::UTF16BE ) (345)
+    ok: utf8_reader.get() != cljp::Reader::EOM
+    ok: utf8_reader.mode() == expected_mode_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "\0z\0\xb" ), 1, 'z' ) (346)
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf_detection( MK_STR_WITH_ZEROS( "\0z\0\xb" ), 2, cljp::ReadUTF8::UTF16BE ) (347)
+    ok: utf8_reader.get() != cljp::Reader::EOM
+    ok: utf8_reader.get() != cljp::Reader::EOM
+    ok: utf8_reader.mode() == expected_mode_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "\0z\0\xb" ), 2, 0xb ) (348)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get_is_end( MK_STR_WITH_ZEROS( "\0z\0\xb" ), 3 ) (349)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == cljp::Reader::EOM
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "\0z" "\xb\xb" ), 2, 0xE0 ) (351)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "\0z" "\xb\xb" ), 3, 0xAC ) (352)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "\0z" "\xb\xb" ), 4, 0x8B ) (353)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "\0z" "\xb\xb" "\0z" ), 5, 'z' ) (354)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get_is_end( MK_STR_WITH_ZEROS( "\0z" "\xb\xb" "\0z" ), 6 ) (355)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == cljp::Reader::EOM
+      Calling: test_utf_detection( MK_STR_WITH_ZEROS( "\0z\xb\0" ), 1, cljp::ReadUTF8::UTF16BE ) (357)
+    ok: utf8_reader.get() != cljp::Reader::EOM
+    ok: utf8_reader.mode() == expected_mode_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "\0z\xb\0" ), 1, 'z' ) (358)
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf_detection( MK_STR_WITH_ZEROS( "\0z\xb\0" ), 2, cljp::ReadUTF8::UTF16BE ) (359)
+    ok: utf8_reader.get() != cljp::Reader::EOM
+    ok: utf8_reader.get() != cljp::Reader::EOM
+    ok: utf8_reader.mode() == expected_mode_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "\0z\xb\0" ), 2, 0xE0 ) (360)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "\0z\xb\0" ), 3, 0xAC ) (361)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "\0z\xb\0" ), 4, 0x80 ) (362)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "\0z" "\xb\0" "\0z" "\0y" ), 5, 'z' ) (364)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "\0z" "\xb\0" "\0z" "\0y" ), 6, 'y' ) (365)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "\0z" "\xb\0" "\0z" "\xb\0" ), 6, 0xE0 ) (367)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "\0z" "\xb\0" "\0z" "\xb\0" ), 7, 0xAC ) (368)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "\0z" "\xb\0" "\0z" "\xb\0" ), 8, 0x80 ) (369)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "\0z\xb0\0" ), 2, 0xEB ) (371)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "\0z\xb0\0" ), 3, 0x80 ) (372)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "\0z\xb0\0" ), 4, 0x80 ) (373)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+    ok: ! _CrtMemDifference( &s3, &s1, &s2 )
+
+    ReadUTF8 - UTF-16BE input with BOM [test-read-utf8.cpp:376]
+    ===========================================================
+      Calling: test_utf_detection( MK_STR_WITH_ZEROS( "\xfe\xff" "\0a\0\xb" ), 1, cljp::ReadUTF8::UTF16BE ) (379)
+    ok: utf8_reader.get() != cljp::Reader::EOM
+    ok: utf8_reader.mode() == expected_mode_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "\xfe\xff" "\0a\0\xb" ), 1, 'a' ) (380)
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf_detection( MK_STR_WITH_ZEROS( "\xfe\xff" "\0a\0\xb" ), 2, cljp::ReadUTF8::UTF16BE ) (381)
+    ok: utf8_reader.get() != cljp::Reader::EOM
+    ok: utf8_reader.get() != cljp::Reader::EOM
+    ok: utf8_reader.mode() == expected_mode_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "\xfe\xff" "\0a\0\xb" ), 2, 0xb ) (382)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get_is_end( MK_STR_WITH_ZEROS( "\xfe\xff" "\0a\0\xb" ), 3 ) (383)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == cljp::Reader::EOM
+    ok: ! _CrtMemDifference( &s3, &s1, &s2 )
+
+    ReadUTF8 - UTF-16BE input - verify boundarries in UTF-8 encoding [test-read-utf8.cpp:388]
+    =========================================================================================
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "\0\x7f" ), 1, 0x7f ) (390)
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "\0z\0\x7f" ), 2, 0x7f ) (391)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "\0z\0\x80" ), 2, 0xC2 ) (392)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "\0z\0\x80" ), 3, 0x80 ) (393)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get_is_end( MK_STR_WITH_ZEROS( "\0z\0\x80" ), 4 ) (394)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == cljp::Reader::EOM
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "\0z\x7\xff" ), 2, 0xDF ) (396)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "\0z\x7\xff" ), 3, 0xBF ) (397)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get_is_end( MK_STR_WITH_ZEROS( "\0z\x7\xff" ), 4 ) (398)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == cljp::Reader::EOM
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "\0z\x08\x00" ), 2, 0xE0 ) (400)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "\0z\x08\x00" ), 3, 0xA0 ) (401)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "\0z\x08\x00" ), 4, 0x80 ) (402)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get_is_end( MK_STR_WITH_ZEROS( "\0z\x08\x00" ), 5 ) (403)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == cljp::Reader::EOM
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "\0z\xff\xff" ), 2, 0xEF ) (405)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "\0z\xff\xff" ), 3, 0xBF ) (406)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "\0z\xff\xff" ), 4, 0xBF ) (407)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get_is_end( MK_STR_WITH_ZEROS( "\0z\xff\xff" ), 5 ) (408)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == cljp::Reader::EOM
+    ok: ! _CrtMemDifference( &s3, &s1, &s2 )
+
+    ReadUTF8 - UTF-16BE input surrogates [test-read-utf8.cpp:413]
+    =============================================================
+      UTF16BE surrogate pair in detection phase
+      Calling: test_utf_detection( MK_STR_WITH_ZEROS( "\0z\xD8\x00\xDC\x00\0z" ), 2, cljp::ReadUTF8::UTF16BE ) (416)
+    ok: utf8_reader.get() != cljp::Reader::EOM
+    ok: utf8_reader.get() != cljp::Reader::EOM
+    ok: utf8_reader.mode() == expected_mode_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "\0z\xD8\x00\xDC\x00\0z" ), 2, 0xf0 ) (417)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "\0z\xD8\x00\xDC\x00\0z" ), 3, 0x90 ) (418)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "\0z\xD8\x00\xDC\x00\0z" ), 4, 0x80 ) (419)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "\0z\xD8\x00\xDC\x00\0z" ), 5, 0x80 ) (420)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "\0z\xD8\x00\xDC\x00\0z" ), 6, 'z' ) (421)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get_is_end( MK_STR_WITH_ZEROS( "\0z\xD8\x00\xDC\x00\0z" ), 7 ) (422)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == cljp::Reader::EOM
+      UTF16BE surrogate pair in post-detection phase
+      Calling: test_utf_detection( MK_STR_WITH_ZEROS( "\0z\0m\0n\xD8\x00\xDC\x00\0z" ), 2, cljp::ReadUTF8::UTF16BE ) (425)
+    ok: utf8_reader.get() != cljp::Reader::EOM
+    ok: utf8_reader.get() != cljp::Reader::EOM
+    ok: utf8_reader.mode() == expected_mode_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "\0z\0m\0n\xD8\x00\xDC\x00\0z" ), 4, 0xf0 ) (426)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "\0z\0m\0n\xD8\x00\xDC\x00\0z" ), 5, 0x90 ) (427)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "\0z\0m\0n\xD8\x00\xDC\x00\0z" ), 6, 0x80 ) (428)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "\0z\0m\0n\xD8\x00\xDC\x00\0z" ), 7, 0x80 ) (429)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "\0z\0m\0n\xD8\x00\xDC\x00\0z" ), 8, 'z' ) (430)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get_is_end( MK_STR_WITH_ZEROS( "\0z\0m\0n\xD8\x00\xDC\x00\0z" ), 9 ) (431)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == cljp::Reader::EOM
+    ok: ! _CrtMemDifference( &s3, &s1, &s2 )
+
+    ReadUTF8 - UTF-16BE input error cases [test-read-utf8.cpp:434]
+    ==============================================================
+      Calling: test_utf8_get_errored( MK_STR_WITH_ZEROS( "\0" ), 1 ) (437)
+    ok: c == cljp::Reader::EOM
+      Calling: test_utf8_get_errored( MK_STR_WITH_ZEROS( "\0a\0" ), 2 ) (438)
+    ok: c != cljp::Reader::EOM
+    ok: c == cljp::Reader::EOM
+      Calling: test_utf8_get_errored( MK_STR_WITH_ZEROS( "\0a\xD8\x00" ), 2 ) (439)
+    ok: c != cljp::Reader::EOM
+    ok: c == cljp::Reader::EOM
+      Calling: test_utf8_get_errored( MK_STR_WITH_ZEROS( "\0a\xD8\x00\xDC" ), 2 ) (440)
+    ok: c != cljp::Reader::EOM
+    ok: c == cljp::Reader::EOM
+      Calling: test_utf8_get_errored( MK_STR_WITH_ZEROS( "\0a\xD8\x00\0" ), 2 ) (441)
+    ok: c != cljp::Reader::EOM
+    ok: c == cljp::Reader::EOM
+      Calling: test_utf8_get_errored( MK_STR_WITH_ZEROS( "\0a\xD8\x00\0z" ), 2 ) (442)
+    ok: c != cljp::Reader::EOM
+    ok: c == cljp::Reader::EOM
+      Calling: test_utf8_get_errored( MK_STR_WITH_ZEROS( "\0a\xDC\x00" ), 2 ) (443)
+    ok: c != cljp::Reader::EOM
+    ok: c == cljp::Reader::EOM
+      Calling: test_utf8_get_errored( MK_STR_WITH_ZEROS( "\xfe\x0" "a\0\xb\0" ), 1 ) (446)
+    ok: c == cljp::Reader::EOM
+    ok: ! _CrtMemDifference( &s3, &s1, &s2 )
+
+    ReadUTF8 - UTF-32LE input [test-read-utf8.cpp:449]
+    ==================================================
+      Calling: test_utf_detection( MK_STR_WITH_ZEROS( "z\0\0\0" ), 1, cljp::ReadUTF8::LEARNING_UTF8_OR_LE ) (452)
+    ok: utf8_reader.get() != cljp::Reader::EOM
+    ok: utf8_reader.mode() == expected_mode_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "z\0\0\0" ), 1, 'z' ) (453)
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get_is_end( MK_STR_WITH_ZEROS( "z\0\0\0" ), 2 ) (454)
+    ok: c != cljp::Reader::EOM
+    ok: c == cljp::Reader::EOM
+      Calling: test_utf_detection( MK_STR_WITH_ZEROS( "z\0\0\0a\0\0\0" ), 2, cljp::ReadUTF8::UTF32LE ) (456)
+    ok: utf8_reader.get() != cljp::Reader::EOM
+    ok: utf8_reader.get() != cljp::Reader::EOM
+    ok: utf8_reader.mode() == expected_mode_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "z\0\0\0a\0\0\0" ), 2, 'a' ) (457)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get_is_end( MK_STR_WITH_ZEROS( "z\0\0\0a\0\0\0" ), 3 ) (458)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == cljp::Reader::EOM
+    ok: ! _CrtMemDifference( &s3, &s1, &s2 )
+
+    ReadUTF8 - UTF-32LE input with BOM [test-read-utf8.cpp:461]
+    ===========================================================
+      Calling: test_utf_detection( MK_STR_WITH_ZEROS( "\xff\xfe\0\0" "a\0\0\0" "\xb\0\0\0" ), 1, cljp::ReadUTF8::UTF32LE ) (466)
+    ok: utf8_reader.get() != cljp::Reader::EOM
+    ok: utf8_reader.mode() == expected_mode_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "\xff\xfe\0\0" "a\0\0\0" "\xb\0\0\0" ), 1, 'a' ) (467)
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf_detection( MK_STR_WITH_ZEROS( "\xff\xfe\0\0" "a\0\0\0" "\xb\0\0\0" ), 2, cljp::ReadUTF8::UTF32LE ) (468)
+    ok: utf8_reader.get() != cljp::Reader::EOM
+    ok: utf8_reader.get() != cljp::Reader::EOM
+    ok: utf8_reader.mode() == expected_mode_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "\xff\xfe\0\0" "a\0\0\0" "\xb\0\0\0" ), 2, 0xb ) (469)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get_is_end( MK_STR_WITH_ZEROS( "\xff\xfe\0\0" "a\0\0\0" "\xb\0\0\0" ), 3 ) (470)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == cljp::Reader::EOM
+    ok: ! _CrtMemDifference( &s3, &s1, &s2 )
+
+    ReadUTF8 - UTF-32LE input - verify boundarries in UTF-8 encoding [test-read-utf8.cpp:475]
+    =========================================================================================
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "\x7f\0\0\0" ), 1, 0x7f ) (477)
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "a\0\0\0" "\x7f\0\0\0" ), 2, 0x7f ) (478)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "a\0\0\0" "\x80\0\0\0" ), 2, 0xC2 ) (479)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "a\0\0\0" "\x80\0\0\0" ), 3, 0x80 ) (480)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get_is_end( MK_STR_WITH_ZEROS( "a\0\0\0" "\x80\0\0\0" ), 4 ) (481)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == cljp::Reader::EOM
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "a\0\0\0" "\xff\x7\0\0" ), 2, 0xDF ) (483)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "a\0\0\0" "\xff\x7\0\0" ), 3, 0xBF ) (484)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get_is_end( MK_STR_WITH_ZEROS( "a\0\0\0" "\xff\x7\0\0" ), 4 ) (485)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == cljp::Reader::EOM
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "a\0\0\0" "\x00\x08\0\0" ), 2, 0xE0 ) (487)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "a\0\0\0" "\x00\x08\0\0" ), 3, 0xA0 ) (488)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "a\0\0\0" "\x00\x08\0\0" ), 4, 0x80 ) (489)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get_is_end( MK_STR_WITH_ZEROS( "a\0\0\0" "\x00\x08\0\0" ), 5 ) (490)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == cljp::Reader::EOM
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "a\0\0\0" "\xff\xff\0\0" ), 2, 0xEF ) (492)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "a\0\0\0" "\xff\xff\0\0" ), 3, 0xBF ) (493)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "a\0\0\0" "\xff\xff\0\0" ), 4, 0xBF ) (494)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get_is_end( MK_STR_WITH_ZEROS( "a\0\0\0" "\xff\xff\0\0" ), 5 ) (495)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == cljp::Reader::EOM
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "a\0\0\0" "\x00\x00\x01\0" ), 2, 0xF0 ) (497)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "a\0\0\0" "\x00\x00\x01\0" ), 3, 0x90 ) (498)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "a\0\0\0" "\x00\x00\x01\0" ), 4, 0x80 ) (499)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "a\0\0\0" "\x00\x00\x01\0" ), 5, 0x80 ) (500)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get_is_end( MK_STR_WITH_ZEROS( "a\0\0\0" "\x00\x00\x01\0" ), 6 ) (501)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == cljp::Reader::EOM
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "a\0\0\0" "\xff\xff\x10\0" ), 2, 0xF4 ) (503)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "a\0\0\0" "\xff\xff\x10\0" ), 3, 0x8F ) (504)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "a\0\0\0" "\xff\xff\x10\0" ), 4, 0xBF ) (505)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "a\0\0\0" "\xff\xff\x10\0" ), 5, 0xBF ) (506)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get_is_end( MK_STR_WITH_ZEROS( "a\0\0\0" "\xff\xff\x10\0" ), 6 ) (507)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == cljp::Reader::EOM
+    ok: ! _CrtMemDifference( &s3, &s1, &s2 )
+
+    ReadUTF8 - UTF-32LE input error cases [test-read-utf8.cpp:510]
+    ==============================================================
+      Calling: test_utf8_get_errored( MK_STR_WITH_ZEROS( "a\0\0\0" "\0\xd8\0\0" ), 2 ) (513)
+    ok: c != cljp::Reader::EOM
+    ok: c == cljp::Reader::EOM
+      Calling: test_utf8_get_errored( MK_STR_WITH_ZEROS( "a\0\0\0" "\0\xdc\0\0" ), 2 ) (514)
+    ok: c != cljp::Reader::EOM
+    ok: c == cljp::Reader::EOM
+      Calling: test_utf8_get_errored( MK_STR_WITH_ZEROS( "\xfe\x0\0\0" "a\0\0\0" "\xb\0\0\0" ), 1 ) (517)
+    ok: c == cljp::Reader::EOM
+    ok: ! _CrtMemDifference( &s3, &s1, &s2 )
+
+    ReadUTF8 - UTF-32BE input [test-read-utf8.cpp:520]
+    ==================================================
+      Calling: test_utf_detection( MK_STR_WITH_ZEROS( "\0\0\0z" ), 1, cljp::ReadUTF8::UTF32BE ) (527)
+    ok: utf8_reader.get() != cljp::Reader::EOM
+    ok: utf8_reader.mode() == expected_mode_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "\0\0\0z" ), 1, 'z' ) (528)
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get_is_end( MK_STR_WITH_ZEROS( "\0\0\0z" ), 2 ) (529)
+    ok: c != cljp::Reader::EOM
+    ok: c == cljp::Reader::EOM
+      Calling: test_utf_detection( MK_STR_WITH_ZEROS( "\0\0\0z\0\0\0a" ), 2, cljp::ReadUTF8::UTF32BE ) (531)
+    ok: utf8_reader.get() != cljp::Reader::EOM
+    ok: utf8_reader.get() != cljp::Reader::EOM
+    ok: utf8_reader.mode() == expected_mode_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "\0\0\0z\0\0\0a" ), 2, 'a' ) (532)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get_is_end( MK_STR_WITH_ZEROS( "\0\0\0z\0\0\0a" ), 3 ) (533)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == cljp::Reader::EOM
+    ok: ! _CrtMemDifference( &s3, &s1, &s2 )
+
+    ReadUTF8 - UTF-32BE input with BOM [test-read-utf8.cpp:536]
+    ===========================================================
+      Calling: test_utf_detection( MK_STR_WITH_ZEROS( "\0\0\xfe\xff" "\0\0\0a" "\0\0\0\xb" ), 1, cljp::ReadUTF8::UTF32BE ) (543)
+    ok: utf8_reader.get() != cljp::Reader::EOM
+    ok: utf8_reader.mode() == expected_mode_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "\0\0\xfe\xff" "\0\0\0a" "\0\0\0\xb" ), 1, 'a' ) (544)
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf_detection( MK_STR_WITH_ZEROS( "\0\0\xfe\xff" "\0\0\0a" "\0\0\0\xb" ), 2, cljp::ReadUTF8::UTF32BE ) (545)
+    ok: utf8_reader.get() != cljp::Reader::EOM
+    ok: utf8_reader.get() != cljp::Reader::EOM
+    ok: utf8_reader.mode() == expected_mode_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "\0\0\xfe\xff" "\0\0\0a" "\0\0\0\xb" ), 2, 0xb ) (546)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get_is_end( MK_STR_WITH_ZEROS( "\0\0\xfe\xff" "\0\0\0a" "\0\0\0\xb" ), 3 ) (547)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == cljp::Reader::EOM
+    ok: ! _CrtMemDifference( &s3, &s1, &s2 )
+
+    ReadUTF8 - UTF-32LE input - verify boundarries in UTF-8 encoding [test-read-utf8.cpp:552]
+    =========================================================================================
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "\0\0\0\x7f" ), 1, 0x7f ) (554)
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "\0\0\0a" "\0\0\0\x7f" ), 2, 0x7f ) (555)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "\0\0\0a" "\0\0\0\x80" ), 2, 0xC2 ) (556)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "\0\0\0a" "\0\0\0\x80" ), 3, 0x80 ) (557)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get_is_end( MK_STR_WITH_ZEROS( "\0\0\0a" "\0\0\0\x80" ), 4 ) (558)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == cljp::Reader::EOM
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "\0\0\0a" "\0\0\x7\xff" ), 2, 0xDF ) (560)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "\0\0\0a" "\0\0\x7\xff" ), 3, 0xBF ) (561)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get_is_end( MK_STR_WITH_ZEROS( "\0\0\0a" "\0\0\x7\xff" ), 4 ) (562)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == cljp::Reader::EOM
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "\0\0\0a" "\x00\0\x08\0" ), 2, 0xE0 ) (564)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "\0\0\0a" "\x00\0\x08\0" ), 3, 0xA0 ) (565)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "\0\0\0a" "\x00\0\x08\0" ), 4, 0x80 ) (566)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get_is_end( MK_STR_WITH_ZEROS( "\0\0\0a" "\x00\0\x08\0" ), 5 ) (567)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == cljp::Reader::EOM
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "\0\0\0a" "\0\0\xff\xff" ), 2, 0xEF ) (569)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "\0\0\0a" "\0\0\xff\xff" ), 3, 0xBF ) (570)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "\0\0\0a" "\0\0\xff\xff" ), 4, 0xBF ) (571)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get_is_end( MK_STR_WITH_ZEROS( "\0\0\0a" "\0\0\xff\xff" ), 5 ) (572)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == cljp::Reader::EOM
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "\0\0\0a" "\x00\x01\x00\0" ), 2, 0xF0 ) (574)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "\0\0\0a" "\x00\x01\x00\0" ), 3, 0x90 ) (575)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "\0\0\0a" "\x00\x01\x00\0" ), 4, 0x80 ) (576)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "\0\0\0a" "\x00\x01\x00\0" ), 5, 0x80 ) (577)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get_is_end( MK_STR_WITH_ZEROS( "\0\0\0a" "\x00\x01\x00\0" ), 6 ) (578)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == cljp::Reader::EOM
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "\0\0\0a" "\0\x10\xff\xff" ), 2, 0xF4 ) (580)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "\0\0\0a" "\0\x10\xff\xff" ), 3, 0x8F ) (581)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "\0\0\0a" "\0\x10\xff\xff" ), 4, 0xBF ) (582)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get( MK_STR_WITH_ZEROS( "\0\0\0a" "\0\x10\xff\xff" ), 5, 0xBF ) (583)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == expected_c_in
+      Calling: test_utf8_get_is_end( MK_STR_WITH_ZEROS( "\0\0\0a" "\0\x10\xff\xff" ), 6 ) (584)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: c == cljp::Reader::EOM
+    ok: ! _CrtMemDifference( &s3, &s1, &s2 )
+
+    ReadUTF8 - UTF-32BE input error cases [test-read-utf8.cpp:587]
+    ==============================================================
+      Calling: test_utf8_get_errored( MK_STR_WITH_ZEROS( "\0\0\0a" "\0\0\xd8\0" ), 2 ) (590)
+    ok: c != cljp::Reader::EOM
+    ok: c == cljp::Reader::EOM
+      Calling: test_utf8_get_errored( MK_STR_WITH_ZEROS( "\0\0\0a" "\0\0\xdc\0" ), 2 ) (591)
+    ok: c != cljp::Reader::EOM
+    ok: c == cljp::Reader::EOM
+      Calling: test_utf8_get_errored( MK_STR_WITH_ZEROS( "\0\0\xfe\0" "\0\0\0a" "\0\0\0\xb" ), 1 ) (594)
+    ok: c == cljp::Reader::EOM
+    ok: ! _CrtMemDifference( &s3, &s1, &s2 )
+
+    ReadUTF8 - Rewind [test-read-utf8.cpp:627]
+    ==========================================
+      Calling: test_utf8_rewind( MK_STR_WITH_ZEROS( "ab" ), cljp::ReadUTF8::UTF8, 'b' ) (629)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: r_utf8_reader.mode() == expected_mode_in
+    ok: c == expected_c_in
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: r_utf8_reader.mode() == expected_mode_in
+    ok: c == expected_c_in
+      Calling: test_utf8_rewind( MK_STR_WITH_ZEROS( "\xEF\xBB\xBF""ab" ), cljp::ReadUTF8::UTF8, 'b' ) (630)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: r_utf8_reader.mode() == expected_mode_in
+    ok: c == expected_c_in
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: r_utf8_reader.mode() == expected_mode_in
+    ok: c == expected_c_in
+      Calling: test_utf8_rewind( MK_STR_WITH_ZEROS( "a\0b\0" ), cljp::ReadUTF8::UTF16LE, 'b' ) (631)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: r_utf8_reader.mode() == expected_mode_in
+    ok: c == expected_c_in
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: r_utf8_reader.mode() == expected_mode_in
+    ok: c == expected_c_in
+      Calling: test_utf8_rewind( MK_STR_WITH_ZEROS( "\xff\xfe" "a\0b\0" ), cljp::ReadUTF8::UTF16LE, 'b' ) (632)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: r_utf8_reader.mode() == expected_mode_in
+    ok: c == expected_c_in
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: r_utf8_reader.mode() == expected_mode_in
+    ok: c == expected_c_in
+      Calling: test_utf8_rewind( MK_STR_WITH_ZEROS( "\0z\0b" ), cljp::ReadUTF8::UTF16BE, 'b' ) (633)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: r_utf8_reader.mode() == expected_mode_in
+    ok: c == expected_c_in
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: r_utf8_reader.mode() == expected_mode_in
+    ok: c == expected_c_in
+      Calling: test_utf8_rewind( MK_STR_WITH_ZEROS( "\xfe\xff" "\0a\0b" ), cljp::ReadUTF8::UTF16BE, 'b' ) (634)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: r_utf8_reader.mode() == expected_mode_in
+    ok: c == expected_c_in
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: r_utf8_reader.mode() == expected_mode_in
+    ok: c == expected_c_in
+      Calling: test_utf8_rewind( MK_STR_WITH_ZEROS( "z\0\0\0b\0\0\0" ), cljp::ReadUTF8::UTF32LE, 'b' ) (635)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: r_utf8_reader.mode() == expected_mode_in
+    ok: c == expected_c_in
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: r_utf8_reader.mode() == expected_mode_in
+    ok: c == expected_c_in
+      Calling: test_utf8_rewind( MK_STR_WITH_ZEROS( "\xff\xfe\0\0" "a\0\0\0" "b\0\0\0" ), cljp::ReadUTF8::UTF32LE, 'b' ) (636)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: r_utf8_reader.mode() == expected_mode_in
+    ok: c == expected_c_in
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: r_utf8_reader.mode() == expected_mode_in
+    ok: c == expected_c_in
+      Calling: test_utf8_rewind( MK_STR_WITH_ZEROS( "\0\0\0z\0\0\0b" ), cljp::ReadUTF8::UTF32BE, 'b' ) (637)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: r_utf8_reader.mode() == expected_mode_in
+    ok: c == expected_c_in
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: r_utf8_reader.mode() == expected_mode_in
+    ok: c == expected_c_in
+      Calling: test_utf8_rewind( MK_STR_WITH_ZEROS( "\0\0\xfe\xff" "\0\0\0a" "\0\0\0b" ), cljp::ReadUTF8::UTF32BE, 'b' ) (638)
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: r_utf8_reader.mode() == expected_mode_in
+    ok: c == expected_c_in
+    ok: c != cljp::Reader::EOM
+    ok: c != cljp::Reader::EOM
+    ok: r_utf8_reader.mode() == expected_mode_in
+    ok: c == expected_c_in
+    ok: ! _CrtMemDifference( &s3, &s1, &s2 )
+
     class ReaderMemory [test-reader.cpp:38]
     =======================================
     ok: reader.get() == 'a'
@@ -840,35 +2387,16 @@ Tests run on Wed Jun 03 11:41:45 2015
     ok: input.get_non_ws() == 'c'
     ok: ! _CrtMemDifference( &s3, &s1, &s2 )
 
-    Object member testing [test-todo.cpp:38]
-    ========================================
-    ok: ! _CrtMemDifference( &s3, &s1, &s2 )
-
-    UTFConverter [test-todo.cpp:43]
-    ===============================
-    ok: ! _CrtMemDifference( &s3, &s1, &s2 )
-
-    TODOs [test-todo.cpp:48]
+    TODOs [test-todo.cpp:38]
     ========================
-    ok: ! _CrtMemDifference( &s3, &s1, &s2 )
-
-    ReadUTF8 [test-read-utf8.cpp:38]
-    ================================
     ok: ! _CrtMemDifference( &s3, &s1, &s2 )
     ok: _CrtCheckMemory() != 0
 
-TODOs (11):
+TODOs (4):
 ------------------------
 - Reading whole messages using compound reader [test-messages.cpp:40]
 - Parser truncated input [test-messages.cpp:45]
-- Test that 'name' in a 'member' is correct format (inc opening quotes) [test-todo.cpp:40]
-- class UTFConverter [test-todo.cpp:45]
-- Reading multiple JSON msgs from single file/stream [test-todo.cpp:50]
-- class ReadUTF8 [test-read-utf8.cpp:40]
-- ReadUTF8: test reading in UTF8 [test-read-utf8.cpp:42]
-- ReadUTF8: test reading in UTF16LE [test-read-utf8.cpp:43]
-- ReadUTF8: test reading in UTF16BE [test-read-utf8.cpp:44]
-- ReadUTF8: test reading in UTF32LE [test-read-utf8.cpp:45]
-- ReadUTF8: test reading in UTF32BE [test-read-utf8.cpp:46]
+- Test that 'name' in a 'member' is correct format (inc opening quotes) [test-parse.cpp:611]
+- Reading multiple JSON msgs from single file/stream [test-todo.cpp:40]
 
-0 error(s), 11 todo(s), 648 test(s)
+0 error(s), 4 todo(s), 1836 test(s)
