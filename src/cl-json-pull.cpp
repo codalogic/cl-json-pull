@@ -685,8 +685,12 @@ int ReadUTF8::get()
     // FF FE 00 00  -> UTF-32, little-endian
     // 00 00 FE FF  -> UTF-32, big-endian
 
-    if( m.p_utf8_buffer && *m.p_utf8_buffer != '\0' )
-        return *m.p_utf8_buffer++;
+    if( m.p_utf8_buffer )
+    {
+        if( *m.p_utf8_buffer != '\0' )
+            return *m.p_utf8_buffer++;
+        m.p_utf8_buffer = 0;
+    }
 
     switch( m.mode )
     {
