@@ -31,48 +31,6 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //----------------------------------------------------------------------------
 
-#define CLJP_PARSER_PRIVATE \
-    int get() { m.c = m.input.get(); return m.c; } \
-    int get_non_ws() { m.c = m.input.get_non_ws(); return m.c; } \
-    int c() { return m.c; } \
-    void unget( int c ) { m.input.unget( c ); } \
-    void unget() { m.input.unget( m.c ); } \
-    Context context() const { return m.context_stack.top(); } \
-    ParserResult get_outer(); \
-    ParserResult get_start_object(); \
-    ParserResult get_in_object(); \
-    ParserResult get_for_object(); \
-    ParserResult get_start_array(); \
-    ParserResult get_in_array(); \
-    ParserResult get_for_array(); \
-    ParserResult get_member(); \
-    ParserResult get_name(); \
-    ParserResult skip_name_separator(); \
-    ParserResult get_value(); \
-    ParserResult get_false(); \
-    ParserResult get_true(); \
-    ParserResult get_null(); \
-    ParserResult get_constant_string( \
-                            const char * const p_chars_start, \
-                            Event::Type on_success_type, \
-                            ParserResult on_error_code ); \
-    bool is_number_start_char(); \
-    bool is_invalid_json_number_start_char(); \
-    ParserResult get_number(); \
-    ParserResult get_string(); \
-    void read_to_non_quoted_value_end(); \
-    bool is_separator(); \
-    bool is_unexpected_object_close(); \
-    ParserResult unexpected_object_close_error(); \
-    bool is_unexpected_array_close(); \
-    ParserResult unexpected_array_close_error(); \
-    bool is_unexpected_close(); \
-    ParserResult unexpected_close_error(); \
-    ParserResult context_update_for_object(); \
-    ParserResult context_update_for_array(); \
-    void conditional_context_update_for_nesting_increase(); \
-
-
 #include "cl-json-pull.h"
 
 #include <cstdio>
@@ -323,6 +281,8 @@ public:
         : m( r_input_in, c_in, p_string_out )
     {
         // string = quotation-mark *char quotation-mark
+
+        assert( m.c == '"' );
 
         skip_opening_quotes();
 
@@ -967,6 +927,9 @@ int ReadUTF8::state_learning_utf32be_possibly_with_bom()
 
 int ReadUTF8::state_utf8_reading_non_ascii( int c )
 {
+    if( c == Reader::EOM )
+        return in_error();
+
     m.utf8_buffer[0] = c;
 
     size_t n_to_read;
@@ -1226,6 +1189,9 @@ long Event::to_long() const
 
 Parser::ParserResult Parser::get( Event * p_event_out )
 {
+    if( m.last_result != PR_OK )
+        return PR_UNABLE_TO_CONTINUE_DUE_TO_ERRORS;
+
     m.p_event_out =  p_event_out;
     m.p_event_out->clear();
 
@@ -1305,7 +1271,7 @@ Parser::ParserResult Parser::get_in_object()
         return unexpected_array_close_error();
 
     if( m.c != ',' )
-        return report_error( PR_EXPECTED_COMMA_OR_END_OF_ARRAY );
+        return report_error( PR_EXPECTED_COMMA_OR_END_OF_OBJECT );
 
     get_non_ws();
 
@@ -1392,6 +1358,9 @@ Parser::ParserResult Parser::get_member()
 
 Parser::ParserResult Parser::get_name()
 {
+    if( m.c != '"' )
+        return report_error( PR_EXPECTED_MEMBER_NAME );
+
     Parser::ParserResult result = StringReader( m.input, m.c, &m.p_event_out->name );
 
     if( result != PR_OK )
@@ -1619,6 +1588,16 @@ void Parser::conditional_context_update_for_nesting_increase()
         m.context_stack.push( C_START_ARRAY );
     else if( m.p_event_out->type == Event::T_OBJECT_START )
         m.context_stack.push( C_START_OBJECT );
+}
+
+Parser::ParserResult Parser::report_error( ParserResult error )
+{
+    m.last_result = error;
+
+    #if CLJP_THROW_ERRORS == 1
+        throw( ParserException( error ) );
+    #endif;
+    return error;
 }
 
 //----------------------------------------------------------------------------

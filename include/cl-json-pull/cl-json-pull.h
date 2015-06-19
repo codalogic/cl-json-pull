@@ -134,25 +134,6 @@ private:
 };
 
 //----------------------------------------------------------------------------
-//                             class UTFConverter
-//----------------------------------------------------------------------------
-
-class UTFConverter
-{
-public:
-    SDD_CLASS( "Utility class providing conversion from non-UTF8 to UTF8" )
-
-    typedef char utf8_buffer_t[6+1];
-    typedef char utf16_buffer_t[2+1];
-    typedef char utf32_buffer_t[4+1];
-
-    enum ConversionResult { CR_OK, CR_LOW_SURROGATE, CR_HIGH_SURROGATE, CR_FAIL };
-
-    SDD_METHOD( from_utf16le, "( char * utf8_out, int utf16le_in ) -> ConversionResult" )
-    //SDD_METHOD( from_utf16le, "( char * utf8_out, Reader & reader_in ) -> ConversionResult" )
-};
-
-//----------------------------------------------------------------------------
 //                               class ReadUTF8
 //----------------------------------------------------------------------------
 
@@ -337,6 +318,30 @@ struct Event
 
 class Parser
 {
+public:
+    enum ParserResult {
+            PR_OK,
+            PR_UNABLE_TO_CONTINUE_DUE_TO_ERRORS,
+            PR_END_OF_MESSAGE,
+            PR_UNEXPECTED_END_OF_MESSAGE,
+            PR_READ_PAST_END_OF_MESSAGE,
+            PR_EXPECTED_COLON_NAME_SEPARATOR,
+            PR_EXPECTED_OBJECT_OR_ARRAY,
+            PR_UNEXPECTED_OBJECT_CLOSE,
+            PR_UNEXPECTED_ARRAY_CLOSE,
+            PR_EXPECTED_COMMA_OR_END_OF_ARRAY,
+            PR_EXPECTED_COMMA_OR_END_OF_OBJECT,
+            PR_UNRECOGNISED_VALUE_FORMAT,
+            PR_BAD_FORMAT_STRING,
+            PR_BAD_FORMAT_FALSE,
+            PR_BAD_FORMAT_TRUE,
+            PR_BAD_FORMAT_NULL,
+            PR_BAD_FORMAT_NUMBER,
+            PR_BAD_UNICODE_ESCAPE,
+            PR_EXPECTED_MEMBER_NAME,
+            PR_UNDOCUMENTED_FAIL = 100
+            };
+
 private:
     enum Context {
             C_OUTER, C_DONE, C_START_OBJECT, C_IN_OBJECT, C_START_ARRAY, C_IN_ARRAY };
@@ -346,35 +351,16 @@ private:
         int c;
         std::stack< Context > context_stack;
         Event * p_event_out;
+        ParserResult last_result;
 
         Members( Reader & reader_in )
-            : input( reader_in ), c( ' ' ), p_event_out( 0 )
+            : input( reader_in ), c( ' ' ), p_event_out( 0 ), last_result( PR_OK )
         {
             context_stack.push( C_OUTER );
         }
     } m;
 
 public:
-    enum ParserResult {
-            PR_OK,
-            PR_UNDOCUMENTED_FAIL,
-            PR_END_OF_MESSAGE,
-            PR_UNEXPECTED_END_OF_MESSAGE,
-            PR_READ_PAST_END_OF_MESSAGE,
-            PR_EXPECTED_COLON_NAME_SEPARATOR,
-            PR_EXPECTED_OBJECT_OR_ARRAY,
-            PR_UNEXPECTED_OBJECT_CLOSE,
-            PR_UNEXPECTED_ARRAY_CLOSE,
-            PR_EXPECTED_COMMA_OR_END_OF_ARRAY,
-            PR_UNRECOGNISED_VALUE_FORMAT,
-            PR_BAD_FORMAT_STRING,
-            PR_BAD_FORMAT_FALSE,
-            PR_BAD_FORMAT_TRUE,
-            PR_BAD_FORMAT_NULL,
-            PR_BAD_FORMAT_NUMBER,
-            PR_BAD_UNICODE_ESCAPE
-            };
-
     Parser( Reader & reader_in )
         : m( reader_in )
     {}
@@ -382,17 +368,70 @@ public:
     ParserResult get( Event * p_event_out );
 
 private:
-    #ifndef CLJP_PARSER_PRIVATE
-    #define CLJP_PARSER_PRIVATE
-    #endif
-    CLJP_PARSER_PRIVATE
+    int get() { m.c = m.input.get(); return m.c; }
+    int get_non_ws() { m.c = m.input.get_non_ws(); return m.c; }
+    int c() { return m.c; }
+    void unget( int c ) { m.input.unget( c ); }
+    void unget() { m.input.unget( m.c ); }
+    Context context() const { return m.context_stack.top(); }
+    ParserResult get_outer();
+    ParserResult get_start_object();
+    ParserResult get_in_object();
+    ParserResult get_for_object();
+    ParserResult get_start_array();
+    ParserResult get_in_array();
+    ParserResult get_for_array();
+    ParserResult get_member();
+    ParserResult get_name();
+    ParserResult skip_name_separator();
+    ParserResult get_value();
+    ParserResult get_false();
+    ParserResult get_true();
+    ParserResult get_null();
+    ParserResult get_constant_string(
+                            const char * const p_chars_start,
+                            Event::Type on_success_type,
+                            ParserResult on_error_code );
+    bool is_number_start_char();
+    bool is_invalid_json_number_start_char();
+    ParserResult get_number();
+    ParserResult get_string();
+    void read_to_non_quoted_value_end();
+    bool is_separator();
+    bool is_unexpected_object_close();
+    ParserResult unexpected_object_close_error();
+    bool is_unexpected_array_close();
+    ParserResult unexpected_array_close_error();
+    bool is_unexpected_close();
+    ParserResult unexpected_close_error();
+    ParserResult context_update_for_object();
+    ParserResult context_update_for_array();
+    void conditional_context_update_for_nesting_increase();
 
-    ParserResult report_error( ParserResult error )
+    ParserResult report_error( ParserResult error );
+};
+
+//----------------------------------------------------------------------------
+//                           class ParserException
+//----------------------------------------------------------------------------
+
+class ParserException : public std::exception
+{
+private:
+    struct Members {
+        Parser::ParserResult error;
+
+        Members( Parser::ParserResult error_in ) : error( error_in ) {}
+    } m;
+
+public:
+    ParserException( Parser::ParserResult error_in )
+        : m( error_in )
+    {}
+    Parser::ParserResult error() const { return m.error; }
+    const char * what() const throw()
     {
-        #if CLJP_THROW_ERRORS == 1
-            throw( error );
-        #endif;
-        return error;
+        return "cljp::ParserException";
     }
 };
 

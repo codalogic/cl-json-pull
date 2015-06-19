@@ -214,7 +214,7 @@ TFEATURE( "Basic Parser" )
 
     TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_UNRECOGNISED_VALUE_FORMAT );
 
-    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_END_OF_MESSAGE );
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_UNABLE_TO_CONTINUE_DUE_TO_ERRORS );
     }
 }
 
@@ -514,7 +514,7 @@ TFEATURE( "Parser Reading string Unicode escapes" )
     TCALL( string_fail_test( __LINE__, "\\uDF45\\u0022", cljp::Parser::PR_BAD_UNICODE_ESCAPE ) );
 }
 
-void string_fail_allows_follow_on_pulls_test(
+void string_fail_disallows_follow_on_pulls_test(
         int test_line,
         const char * p_input )
 {
@@ -535,14 +535,12 @@ void string_fail_allows_follow_on_pulls_test(
     TTEST( h.event.type == cljp::Event::T_STRING );
     TTEST( h.event.value.find( "Fred" ) != std::string::npos );
 
-    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
-    TTEST( h.event.type == cljp::Event::T_STRING );
-    TTEST( h.event.value == "Bill" );
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_UNABLE_TO_CONTINUE_DUE_TO_ERRORS );
 }
 
-TFEATURE( "Parser Reading string with bad Unicode escapes, check parsing not terminated mid-string" )
+TFEATURE( "Parser Reading string with bad Unicode escapes, check parsing terminated mid-string" )
 {
-    string_fail_allows_follow_on_pulls_test( __LINE__, " \\u002 " );
+    string_fail_disallows_follow_on_pulls_test( __LINE__, " \\u002 " );
 }
 
 TFEATURE( "Parser::get_string() - String end quote in middle of unicode escape code" )
@@ -556,9 +554,7 @@ TFEATURE( "Parser::get_string() - String end quote in middle of unicode escape c
     TTEST( h.event.type == cljp::Event::T_STRING );
     TTEST( h.event.value.find( "Fred" ) != std::string::npos );
 
-    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
-    TTEST( h.event.type == cljp::Event::T_STRING );
-    TTEST( h.event.value == "Bill" );
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_UNABLE_TO_CONTINUE_DUE_TO_ERRORS );
 }
 
 TFEATURE( "Parser Reading string unexpected EOF" )
@@ -608,5 +604,69 @@ TFEATURE( "Parser Read member" )
     TTEST( h.event.type == cljp::Event::T_OBJECT_END );
     }
 
-    TTODO( "Test that 'name' in a 'member' is correct format (inc opening quotes)" );
+    // Error cases
+
+    {
+    Harness h( "{ \"Field\" : 12, }" ); // Comma after first member, but no second member
+
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
+    TTEST( h.event.type == cljp::Event::T_OBJECT_START );
+
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
+    TTEST( h.event.name == "Field" );
+    TTEST( h.event.type == cljp::Event::T_NUMBER );
+    TTEST( h.event.value == "12" );
+
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_UNEXPECTED_OBJECT_CLOSE );
+
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_UNABLE_TO_CONTINUE_DUE_TO_ERRORS );
+    }
+
+    {
+    Harness h( "{ \"Field\" : 12, \"Jam\" }" );
+
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
+    TTEST( h.event.type == cljp::Event::T_OBJECT_START );
+
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
+    TTEST( h.event.name == "Field" );
+    TTEST( h.event.type == cljp::Event::T_NUMBER );
+    TTEST( h.event.value == "12" );
+
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_EXPECTED_COLON_NAME_SEPARATOR );
+
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_UNABLE_TO_CONTINUE_DUE_TO_ERRORS );
+    }
+
+    {
+    Harness h( "{ \"Field\" : 12, 15 }" );
+
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
+    TTEST( h.event.type == cljp::Event::T_OBJECT_START );
+
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
+    TTEST( h.event.name == "Field" );
+    TTEST( h.event.type == cljp::Event::T_NUMBER );
+    TTEST( h.event.value == "12" );
+
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_EXPECTED_MEMBER_NAME );
+
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_UNABLE_TO_CONTINUE_DUE_TO_ERRORS );
+    }
+
+    {
+    Harness h( "{ \"Field\" : 12, Jam }" );
+
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
+    TTEST( h.event.type == cljp::Event::T_OBJECT_START );
+
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
+    TTEST( h.event.name == "Field" );
+    TTEST( h.event.type == cljp::Event::T_NUMBER );
+    TTEST( h.event.value == "12" );
+
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_EXPECTED_MEMBER_NAME );
+
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_UNABLE_TO_CONTINUE_DUE_TO_ERRORS );
+    }
 }
