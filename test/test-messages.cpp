@@ -31,13 +31,92 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //----------------------------------------------------------------------------
 
+#include "cl-json-pull.h"   // Put file under test first to verify dependencies
+
 #include "clunit.h"
 
-#include "cl-json-pull.h"
+#include "test-harness.h"
 
-TFEATURE( "Messages" )
+TFEATURE( "Reading whole messages" )
 {
-    TTODO( "Reading whole messages using compound reader" );
+    TTODO( "Reading whole messages" );
+}
+
+TFEATURE( "Reading multiple messages in single stream" )
+{
+    {
+    Harness h( "\"Message 1\"      \"Message 2\"" );
+
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
+    TTEST( h.event.type == cljp::Event::T_STRING );
+    TTEST( h.event.value == "Message 1" );
+
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_END_OF_MESSAGE );
+
+    // Repeated reads at end of message return 'End of message' without reading more of the stream
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_END_OF_MESSAGE );
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_END_OF_MESSAGE );
+
+    // Read second message
+    h.parser.new_message();
+
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
+    TTEST( h.event.type == cljp::Event::T_STRING );
+    TTEST( h.event.value == "Message 2" );
+
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_END_OF_MESSAGE );
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_END_OF_MESSAGE );
+
+    // Read non-existent third message - Telling it to start reading a new message that isn't there
+    // results in "end of message"
+    h.parser.new_message();
+
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_END_OF_MESSAGE );
+    }
+
+    {
+    Harness h( " { \"rate\": 15 }{ \"rate\" :10}   " );     // Includes variation of whitespace to make life trickier!
+
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
+    TTEST( h.event.type == cljp::Event::T_OBJECT_START );
+
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
+    TTEST( h.event.type == cljp::Event::T_NUMBER );
+    TTEST( h.event.name == "rate" );
+    TTEST( h.event.value == "15" );
+
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
+    TTEST( h.event.type == cljp::Event::T_OBJECT_END );
+
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_END_OF_MESSAGE );
+
+    // Repeated reads at end of message return 'End of message' without reading more of the stream
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_END_OF_MESSAGE );
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_END_OF_MESSAGE );
+
+    // Read second message
+    h.parser.new_message();
+
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
+    TTEST( h.event.type == cljp::Event::T_OBJECT_START );
+
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
+    TTEST( h.event.type == cljp::Event::T_NUMBER );
+    TTEST( h.event.name == "rate" );
+    TTEST( h.event.value == "10" );
+
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
+    TTEST( h.event.type == cljp::Event::T_OBJECT_END );
+
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_END_OF_MESSAGE );
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_END_OF_MESSAGE );
+
+    // Read non-existent third message - Telling it to start reading a new message that isn't there
+    // results in "end of message"
+    h.parser.new_message();
+
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_END_OF_MESSAGE );
+    }
 }
 
 TFEATURE( "Parser truncated input" )

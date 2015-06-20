@@ -31,26 +31,13 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //----------------------------------------------------------------------------
 
-#include "clunit.h"
+#include "cl-json-pull.h"   // Put file under test first to verify dependencies
 
-#include "cl-json-pull.h"
+#include "clunit.h"
 
 #include <string>
 
-struct Harness
-{
-    std::string json;
-    cljp::ReaderString reader;
-    cljp::Parser parser;
-    cljp::Event event;
-
-    Harness( const std::string & r_json_in )
-        :
-        json( r_json_in ),
-        reader( json ),
-        parser( reader )
-    {}
-};
+#include "test-harness.h"
 
 TFEATURE( "Basic Parser" )
 {
@@ -101,7 +88,7 @@ TFEATURE( "Basic Parser" )
     TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
     TTEST( h.event.type == cljp::Event::T_ARRAY_END );
 
-    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_READ_PAST_END_OF_MESSAGE );
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_END_OF_MESSAGE );
     }
 
     {
@@ -215,6 +202,23 @@ TFEATURE( "Basic Parser" )
     TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_UNRECOGNISED_VALUE_FORMAT );
 
     TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_UNABLE_TO_CONTINUE_DUE_TO_ERRORS );
+    }
+}
+
+TFEATURE( "Repeated reads at end of message return 'End of message'" )
+{
+    {
+    Harness h( "12" );
+
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
+    TTEST( h.event.type == cljp::Event::T_NUMBER );
+    TTEST( h.event.value == "12" );
+
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_END_OF_MESSAGE );
+
+    // Repeated reads at end of message return 'End of message'
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_END_OF_MESSAGE );
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_END_OF_MESSAGE );
     }
 }
 

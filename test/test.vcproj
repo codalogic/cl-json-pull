@@ -181,6 +181,10 @@
 				>
 			</File>
 			<File
+				RelativePath=".\test-harness.h"
+				>
+			</File>
+			<File
 				RelativePath=".\test-messages.cpp"
 				>
 			</File>

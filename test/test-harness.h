@@ -1,5 +1,5 @@
 //----------------------------------------------------------------------------
-// Copyright (c) 2013, Codalogic Ltd (http://www.codalogic.com)
+// Copyright (c) 2015, Codalogic Ltd (http://www.codalogic.com)
 // All rights reserved.
 //
 // The license for this file is based on the BSD-3-Clause license
@@ -31,10 +31,21 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //----------------------------------------------------------------------------
 
-#include "clunit.h"
-
 #include "cl-json-pull.h"
 
-TFEATURE( "TODOs" )
+#include <string>
+
+struct Harness
 {
-}
+    std::string json;
+    cljp::ReaderString reader;
+    cljp::Parser parser;
+    cljp::Event event;
+
+    Harness( const std::string & r_json_in )
+        :
+        json( r_json_in ),
+        reader( json ),
+        parser( reader )
+    {}
+};

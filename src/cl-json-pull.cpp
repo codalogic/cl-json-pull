@@ -1192,6 +1192,9 @@ Parser::ParserResult Parser::get( Event * p_event_out )
     if( m.last_result != PR_OK )
         return PR_UNABLE_TO_CONTINUE_DUE_TO_ERRORS;
 
+    if( context() == C_DONE )
+        return PR_END_OF_MESSAGE;   // "End of message" is not treated as an error.
+
     m.p_event_out =  p_event_out;
     m.p_event_out->clear();
 
@@ -1199,8 +1202,8 @@ Parser::ParserResult Parser::get( Event * p_event_out )
 
     if( m.c == Reader::EOM )
     {
-        if( context() == C_DONE )
-            return report_error( PR_END_OF_MESSAGE );
+        if( context() == C_OUTER )
+            return (m.last_result = PR_END_OF_MESSAGE);
         return report_error( PR_UNEXPECTED_END_OF_MESSAGE );
     }
 
@@ -1222,11 +1225,16 @@ Parser::ParserResult Parser::get( Event * p_event_out )
         return get_in_array();
 
     case C_DONE:
-        return report_error( PR_READ_PAST_END_OF_MESSAGE );
+        assert( 0 );    // Handled above
     }
 
     assert( 0 );    // Shouldn't get here
     return report_error( PR_UNDOCUMENTED_FAIL );
+}
+
+void Parser::new_message()
+{
+    m.new_message();
 }
 
 Parser::ParserResult Parser::get_outer()

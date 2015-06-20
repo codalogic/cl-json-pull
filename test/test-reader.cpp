@@ -31,9 +31,9 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //----------------------------------------------------------------------------
 
-#include "clunit.h"
+#include "cl-json-pull.h"   // Put file under test first to verify dependencies
 
-#include "cl-json-pull.h"
+#include "clunit.h"
 
 TFEATURE( "class ReaderMemory" )
 {

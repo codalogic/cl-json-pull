@@ -171,6 +171,8 @@ public:
 
     void rewind();
 
+    Reader & reader() const { return m.r_reader; }
+
 private:
     struct CharPair
     {
@@ -266,6 +268,8 @@ public:
     void unget( int c );
 
     void rewind();
+
+    Reader & reader() const { return m.read_utf8.reader(); }
 };
 
 //----------------------------------------------------------------------------
@@ -321,8 +325,8 @@ class Parser
 public:
     enum ParserResult {
             PR_OK,
-            PR_UNABLE_TO_CONTINUE_DUE_TO_ERRORS,
             PR_END_OF_MESSAGE,
+            PR_UNABLE_TO_CONTINUE_DUE_TO_ERRORS,
             PR_UNEXPECTED_END_OF_MESSAGE,
             PR_READ_PAST_END_OF_MESSAGE,
             PR_EXPECTED_COLON_NAME_SEPARATOR,
@@ -348,15 +352,24 @@ private:
 
     struct Members {
         ReadUTF8WithUnget input;
+        typedef std::stack< Context > context_stack_t;
+        context_stack_t context_stack;
         int c;
-        std::stack< Context > context_stack;
         Event * p_event_out;
         ParserResult last_result;
 
         Members( Reader & reader_in )
-            : input( reader_in ), c( ' ' ), p_event_out( 0 ), last_result( PR_OK )
+            : input( reader_in )
         {
+            new_message();
+        }
+        void new_message()
+        {
+            context_stack = context_stack_t();
             context_stack.push( C_OUTER );
+            c = ' ';
+            p_event_out = 0;
+            last_result = PR_OK;
         }
     } m;
 
@@ -366,6 +379,7 @@ public:
     {}
 
     ParserResult get( Event * p_event_out );
+    void new_message();
 
 private:
     int get() { m.c = m.input.get(); return m.c; }
