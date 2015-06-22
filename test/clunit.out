@@ -1,4 +1,4 @@
-Tests run on Mon Jun 22 12:59:27 2015
+Tests run on Mon Jun 22 22:06:28 2015
 
     struct Event [test-event.cpp:38]
     ================================
@@ -414,8 +414,110 @@ Tests run on Mon Jun 22 12:59:27 2015
     ok: h.parser.get( &h.event ) == cljp::Parser::PR_END_OF_MESSAGE
     ok: ! _CrtMemDifference( &s3, &s1, &s2 )
 
-    Parser truncated input [test-messages.cpp:356]
+    Parser: illegally formed messages [test-messages.cpp:378]
+    =========================================================
+      Calling: test_invalid_message( "Illegal", cljp::Parser::PR_UNRECOGNISED_VALUE_FORMAT ) (382)
+    ok: result != cljp::Parser::PR_END_OF_MESSAGE
+    ok: result == expected_final_result
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
+      Calling: test_invalid_message( " fals ", cljp::Parser::PR_BAD_FORMAT_FALSE ) (383)
+    ok: result != cljp::Parser::PR_END_OF_MESSAGE
+    ok: result == expected_final_result
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
+      Calling: test_invalid_message( " falsey ", cljp::Parser::PR_BAD_FORMAT_FALSE ) (384)
+    ok: result != cljp::Parser::PR_END_OF_MESSAGE
+    ok: result == expected_final_result
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
+      Calling: test_invalid_message( " } ", cljp::Parser::PR_UNEXPECTED_OBJECT_CLOSE ) (385)
+    ok: result != cljp::Parser::PR_END_OF_MESSAGE
+    ok: result == expected_final_result
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
+      Calling: test_invalid_message( " ] ", cljp::Parser::PR_UNEXPECTED_ARRAY_CLOSE ) (386)
+    ok: result != cljp::Parser::PR_END_OF_MESSAGE
+    ok: result == expected_final_result
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
+      Calling: test_invalid_message( " [  ", cljp::Parser::PR_UNEXPECTED_END_OF_MESSAGE ) (388)
+    ok: result != cljp::Parser::PR_END_OF_MESSAGE
+    ok: result != cljp::Parser::PR_END_OF_MESSAGE
+    ok: result == expected_final_result
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
+      Calling: test_invalid_message( " [ fals ", cljp::Parser::PR_BAD_FORMAT_FALSE ) (389)
+    ok: result != cljp::Parser::PR_END_OF_MESSAGE
+    ok: result != cljp::Parser::PR_END_OF_MESSAGE
+    ok: result == expected_final_result
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
+      Calling: test_invalid_message( " [[false]} ", cljp::Parser::PR_UNEXPECTED_OBJECT_CLOSE ) (390)
+    ok: result != cljp::Parser::PR_END_OF_MESSAGE
+    ok: result != cljp::Parser::PR_END_OF_MESSAGE
+    ok: result != cljp::Parser::PR_END_OF_MESSAGE
+    ok: result != cljp::Parser::PR_END_OF_MESSAGE
+    ok: result != cljp::Parser::PR_END_OF_MESSAGE
+    ok: result == expected_final_result
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
+      Calling: test_invalid_message( " { \"tag1\" : fals } ", cljp::Parser::PR_BAD_FORMAT_FALSE ) (392)
+    ok: result != cljp::Parser::PR_END_OF_MESSAGE
+    ok: result != cljp::Parser::PR_END_OF_MESSAGE
+    ok: result == expected_final_result
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
+      Calling: test_invalid_message( " { tag1 : false } ", cljp::Parser::PR_EXPECTED_MEMBER_NAME ) (393)
+    ok: result != cljp::Parser::PR_END_OF_MESSAGE
+    ok: result != cljp::Parser::PR_END_OF_MESSAGE
+    ok: result == expected_final_result
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
+      Calling: test_invalid_message( " { 10 : false } ", cljp::Parser::PR_EXPECTED_MEMBER_NAME ) (394)
+    ok: result != cljp::Parser::PR_END_OF_MESSAGE
+    ok: result != cljp::Parser::PR_END_OF_MESSAGE
+    ok: result == expected_final_result
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
+      Calling: test_invalid_message( " { \"tag1\" } ", cljp::Parser::PR_EXPECTED_COLON_NAME_SEPARATOR ) (395)
+    ok: result != cljp::Parser::PR_END_OF_MESSAGE
+    ok: result != cljp::Parser::PR_END_OF_MESSAGE
+    ok: result == expected_final_result
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
+      Calling: test_invalid_message( " { \"tag1\" 10 } ", cljp::Parser::PR_EXPECTED_COLON_NAME_SEPARATOR ) (396)
+    ok: result != cljp::Parser::PR_END_OF_MESSAGE
+    ok: result != cljp::Parser::PR_END_OF_MESSAGE
+    ok: result == expected_final_result
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
+      Calling: test_invalid_message( " { \"tag1\" : false  true } ", cljp::Parser::PR_EXPECTED_COMMA_OR_END_OF_OBJECT ) (397)
+    ok: result != cljp::Parser::PR_END_OF_MESSAGE
+    ok: result != cljp::Parser::PR_END_OF_MESSAGE
+    ok: result != cljp::Parser::PR_END_OF_MESSAGE
+    ok: result == expected_final_result
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
+      Calling: test_invalid_message( " { \"tag1\" : false  \"tag2\" } ", cljp::Parser::PR_EXPECTED_COMMA_OR_END_OF_OBJECT ) (398)
+    ok: result != cljp::Parser::PR_END_OF_MESSAGE
+    ok: result != cljp::Parser::PR_END_OF_MESSAGE
+    ok: result != cljp::Parser::PR_END_OF_MESSAGE
+    ok: result == expected_final_result
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
+      Calling: test_invalid_message( " { \"tag1\" : false : \"tag2\" } ", cljp::Parser::PR_EXPECTED_COMMA_OR_END_OF_OBJECT ) (399)
+    ok: result != cljp::Parser::PR_END_OF_MESSAGE
+    ok: result != cljp::Parser::PR_END_OF_MESSAGE
+    ok: result != cljp::Parser::PR_END_OF_MESSAGE
+    ok: result == expected_final_result
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
+      Calling: test_invalid_message( " { \"tag1\" : false { \"tag2\" } ", cljp::Parser::PR_EXPECTED_COMMA_OR_END_OF_OBJECT ) (400)
+    ok: result != cljp::Parser::PR_END_OF_MESSAGE
+    ok: result != cljp::Parser::PR_END_OF_MESSAGE
+    ok: result != cljp::Parser::PR_END_OF_MESSAGE
+    ok: result == expected_final_result
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
+      Calling: test_invalid_message( " { \"tag1\" : false ] ", cljp::Parser::PR_UNEXPECTED_ARRAY_CLOSE ) (401)
+    ok: result != cljp::Parser::PR_END_OF_MESSAGE
+    ok: result != cljp::Parser::PR_END_OF_MESSAGE
+    ok: result != cljp::Parser::PR_END_OF_MESSAGE
+    ok: result == expected_final_result
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
+    ok: ! _CrtMemDifference( &s3, &s1, &s2 )
+
+    Parser truncated input [test-messages.cpp:424]
     ==============================================
+      Calling: test_invalid_message( "{", cljp::Parser::PR_UNEXPECTED_END_OF_MESSAGE ) (426)
+    ok: result != cljp::Parser::PR_END_OF_MESSAGE
+    ok: result != cljp::Parser::PR_END_OF_MESSAGE
+    ok: result == expected_final_result
+    ok: h.parser.get( &h.event ) == cljp::Parser::PR_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
     ok: ! _CrtMemDifference( &s3, &s1, &s2 )
 
     Basic Parser [test-parse.cpp:42]
@@ -2760,8 +2862,9 @@ Tests run on Mon Jun 22 12:59:27 2015
     ok: ! _CrtMemDifference( &s3, &s1, &s2 )
     ok: _CrtCheckMemory() != 0
 
-TODOs (1):
+TODOs (2):
 ------------------------
-- Parser truncated input [test-messages.cpp:358]
+- More Test illegally formed messages [test-messages.cpp:421]
+- More Parser truncated input [test-messages.cpp:428]
 
-0 error(s), 1 todo(s), 2182 test(s)
+0 error(s), 2 todo(s), 2262 test(s)

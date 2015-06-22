@@ -353,7 +353,77 @@ TFEATURE( "Reading multiple messages in single stream" )
     }
 }
 
+void test_invalid_message( const char * message, cljp::Parser::ParserResult expected_final_result )
+{
+    Harness h( message );
+
+    for(;;)
+    {
+        cljp::Parser::ParserResult result = h.parser.get( &h.event );
+        
+		TCRITICALTEST( result != cljp::Parser::PR_END_OF_MESSAGE );
+
+        if( result != cljp::Parser::PR_OK )
+        {
+			TTEST( result == expected_final_result );
+
+			// Further attempts to read will get PR_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
+			TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_UNABLE_TO_CONTINUE_DUE_TO_ERRORS );
+
+			return;
+        }
+    }
+}
+
+TFEATURE( "Parser: illegally formed messages" )
+{
+	// Note that truncated messages are tested elsewhere
+
+	TCALL( test_invalid_message( "Illegal", cljp::Parser::PR_UNRECOGNISED_VALUE_FORMAT ) );
+	TCALL( test_invalid_message( " fals ", cljp::Parser::PR_BAD_FORMAT_FALSE ) );
+	TCALL( test_invalid_message( " falsey ", cljp::Parser::PR_BAD_FORMAT_FALSE ) );
+	TCALL( test_invalid_message( " } ", cljp::Parser::PR_UNEXPECTED_OBJECT_CLOSE ) );
+	TCALL( test_invalid_message( " ] ", cljp::Parser::PR_UNEXPECTED_ARRAY_CLOSE ) );
+
+	TCALL( test_invalid_message( " [  ", cljp::Parser::PR_UNEXPECTED_END_OF_MESSAGE ) );
+	TCALL( test_invalid_message( " [ fals ", cljp::Parser::PR_BAD_FORMAT_FALSE ) );
+	TCALL( test_invalid_message( " [[false]} ", cljp::Parser::PR_UNEXPECTED_OBJECT_CLOSE ) );
+
+	TCALL( test_invalid_message( " { \"tag1\" : fals } ", cljp::Parser::PR_BAD_FORMAT_FALSE ) );
+	TCALL( test_invalid_message( " { tag1 : false } ", cljp::Parser::PR_EXPECTED_MEMBER_NAME ) );
+	TCALL( test_invalid_message( " { 10 : false } ", cljp::Parser::PR_EXPECTED_MEMBER_NAME ) );
+	TCALL( test_invalid_message( " { \"tag1\" } ", cljp::Parser::PR_EXPECTED_COLON_NAME_SEPARATOR ) );
+	TCALL( test_invalid_message( " { \"tag1\" 10 } ", cljp::Parser::PR_EXPECTED_COLON_NAME_SEPARATOR ) );
+	TCALL( test_invalid_message( " { \"tag1\" : false  true } ", cljp::Parser::PR_EXPECTED_COMMA_OR_END_OF_OBJECT ) );
+	TCALL( test_invalid_message( " { \"tag1\" : false  \"tag2\" } ", cljp::Parser::PR_EXPECTED_COMMA_OR_END_OF_OBJECT ) );
+	TCALL( test_invalid_message( " { \"tag1\" : false : \"tag2\" } ", cljp::Parser::PR_EXPECTED_COMMA_OR_END_OF_OBJECT ) );
+	TCALL( test_invalid_message( " { \"tag1\" : false { \"tag2\" } ", cljp::Parser::PR_EXPECTED_COMMA_OR_END_OF_OBJECT ) );
+	TCALL( test_invalid_message( " { \"tag1\" : false ] ", cljp::Parser::PR_UNEXPECTED_ARRAY_CLOSE ) );
+
+    //const char * p_message = "[ { \"tag1\" : false } ]";
+    //const char * p_message = "[ { } ]";
+    //const char * p_message = "[ { } , false ]";
+    //const char * p_message = "[ { } , {} ]";
+    //const char * p_message = "[ { } , [] ]  \t\r\n ";
+    //const char * p_message = "{ \"tag1\" : [ false ] }";
+    //const char * p_message = "{}";
+    //const char * p_message = "{  }";
+    //const char * p_message = "{ \"tag1\" : [ false ], \"tag2\" : 12 }";
+    //const char * p_message = "{ \"tag1\" : [ false ], \"tag2\" : { \"tag3\":1}}";
+
+	// Ensure we get the following ocdes at some point:
+    //PR_BAD_FORMAT_STRING,
+    //PR_BAD_FORMAT_TRUE,
+    //PR_BAD_FORMAT_NULL,
+    //PR_BAD_FORMAT_NUMBER,
+    //PR_BAD_UNICODE_ESCAPE,
+
+    TTODO( "More Test illegally formed messages" );
+}
+
 TFEATURE( "Parser truncated input" )
 {
-    TTODO( "Parser truncated input" );  // Put in a sample of test progressively long bits
+	TCALL( test_invalid_message( "{", cljp::Parser::PR_UNEXPECTED_END_OF_MESSAGE ) );
+
+    TTODO( "More Parser truncated input" );
 }
