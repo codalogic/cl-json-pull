@@ -1,4 +1,4 @@
-Tests run on Mon Jun 22 11:23:02 2015
+Tests run on Mon Jun 22 12:59:27 2015
 
     struct Event [test-event.cpp:38]
     ================================
@@ -80,12 +80,304 @@ Tests run on Mon Jun 22 11:23:02 2015
     ok: event.to_int() == 0
     ok: ! _CrtMemDifference( &s3, &s1, &s2 )
 
-    Reading whole messages [test-messages.cpp:40]
+    Reading whole messages [test-messages.cpp:67]
     =============================================
+      Calling: test_message_sequence( p_message, events ) (75)
+    ok: result == events[i].result
+      Calling: test_message_sequence( p_message, events ) (85)
+    ok: result == events[i].result
+    ok: h.event.type == events[i].type
+    ok: h.event.name == events[i].name
+    ok: h.event.value == events[i].value
+    ok: result == events[i].result
+      Calling: test_message_sequence( p_message, events ) (97)
+    ok: result == events[i].result
+    ok: h.event.type == events[i].type
+    ok: h.event.name == events[i].name
+    ok: h.event.value == events[i].value
+    ok: result == events[i].result
+    ok: h.event.type == events[i].type
+    ok: h.event.name == events[i].name
+    ok: h.event.value == events[i].value
+    ok: result == events[i].result
+    ok: h.event.type == events[i].type
+    ok: h.event.name == events[i].name
+    ok: h.event.value == events[i].value
+    ok: result == events[i].result
+      Calling: test_message_sequence( p_message, events ) (111)
+    ok: result == events[i].result
+    ok: h.event.type == events[i].type
+    ok: h.event.name == events[i].name
+    ok: h.event.value == events[i].value
+    ok: result == events[i].result
+    ok: h.event.type == events[i].type
+    ok: h.event.name == events[i].name
+    ok: h.event.value == events[i].value
+    ok: result == events[i].result
+    ok: h.event.type == events[i].type
+    ok: h.event.name == events[i].name
+    ok: h.event.value == events[i].value
+    ok: result == events[i].result
+    ok: h.event.type == events[i].type
+    ok: h.event.name == events[i].name
+    ok: h.event.value == events[i].value
+    ok: result == events[i].result
+    ok: h.event.type == events[i].type
+    ok: h.event.name == events[i].name
+    ok: h.event.value == events[i].value
+    ok: result == events[i].result
+      Calling: test_message_sequence( p_message, events ) (125)
+    ok: result == events[i].result
+    ok: h.event.type == events[i].type
+    ok: h.event.name == events[i].name
+    ok: h.event.value == events[i].value
+    ok: result == events[i].result
+    ok: h.event.type == events[i].type
+    ok: h.event.name == events[i].name
+    ok: h.event.value == events[i].value
+    ok: result == events[i].result
+    ok: h.event.type == events[i].type
+    ok: h.event.name == events[i].name
+    ok: h.event.value == events[i].value
+    ok: result == events[i].result
+    ok: h.event.type == events[i].type
+    ok: h.event.name == events[i].name
+    ok: h.event.value == events[i].value
+    ok: result == events[i].result
+    ok: h.event.type == events[i].type
+    ok: h.event.name == events[i].name
+    ok: h.event.value == events[i].value
+    ok: result == events[i].result
+      Calling: test_message_sequence( p_message, events ) (139)
+    ok: result == events[i].result
+    ok: h.event.type == events[i].type
+    ok: h.event.name == events[i].name
+    ok: h.event.value == events[i].value
+    ok: result == events[i].result
+    ok: h.event.type == events[i].type
+    ok: h.event.name == events[i].name
+    ok: h.event.value == events[i].value
+    ok: result == events[i].result
+    ok: h.event.type == events[i].type
+    ok: h.event.name == events[i].name
+    ok: h.event.value == events[i].value
+    ok: result == events[i].result
+    ok: h.event.type == events[i].type
+    ok: h.event.name == events[i].name
+    ok: h.event.value == events[i].value
+    ok: result == events[i].result
+    ok: h.event.type == events[i].type
+    ok: h.event.name == events[i].name
+    ok: h.event.value == events[i].value
+    ok: result == events[i].result
+      Calling: test_message_sequence( p_message, events ) (152)
+    ok: result == events[i].result
+    ok: h.event.type == events[i].type
+    ok: h.event.name == events[i].name
+    ok: h.event.value == events[i].value
+    ok: result == events[i].result
+    ok: h.event.type == events[i].type
+    ok: h.event.name == events[i].name
+    ok: h.event.value == events[i].value
+    ok: result == events[i].result
+    ok: h.event.type == events[i].type
+    ok: h.event.name == events[i].name
+    ok: h.event.value == events[i].value
+    ok: result == events[i].result
+    ok: h.event.type == events[i].type
+    ok: h.event.name == events[i].name
+    ok: h.event.value == events[i].value
+    ok: result == events[i].result
+      Calling: test_message_sequence( p_message, events ) (166)
+    ok: result == events[i].result
+    ok: h.event.type == events[i].type
+    ok: h.event.name == events[i].name
+    ok: h.event.value == events[i].value
+    ok: result == events[i].result
+    ok: h.event.type == events[i].type
+    ok: h.event.name == events[i].name
+    ok: h.event.value == events[i].value
+    ok: result == events[i].result
+    ok: h.event.type == events[i].type
+    ok: h.event.name == events[i].name
+    ok: h.event.value == events[i].value
+    ok: result == events[i].result
+    ok: h.event.type == events[i].type
+    ok: h.event.name == events[i].name
+    ok: h.event.value == events[i].value
+    ok: result == events[i].result
+    ok: h.event.type == events[i].type
+    ok: h.event.name == events[i].name
+    ok: h.event.value == events[i].value
+    ok: result == events[i].result
+      Calling: test_message_sequence( p_message, events ) (181)
+    ok: result == events[i].result
+    ok: h.event.type == events[i].type
+    ok: h.event.name == events[i].name
+    ok: h.event.value == events[i].value
+    ok: result == events[i].result
+    ok: h.event.type == events[i].type
+    ok: h.event.name == events[i].name
+    ok: h.event.value == events[i].value
+    ok: result == events[i].result
+    ok: h.event.type == events[i].type
+    ok: h.event.name == events[i].name
+    ok: h.event.value == events[i].value
+    ok: result == events[i].result
+    ok: h.event.type == events[i].type
+    ok: h.event.name == events[i].name
+    ok: h.event.value == events[i].value
+    ok: result == events[i].result
+    ok: h.event.type == events[i].type
+    ok: h.event.name == events[i].name
+    ok: h.event.value == events[i].value
+    ok: result == events[i].result
+    ok: h.event.type == events[i].type
+    ok: h.event.name == events[i].name
+    ok: h.event.value == events[i].value
+    ok: result == events[i].result
+      Calling: test_message_sequence( p_message, events ) (196)
+    ok: result == events[i].result
+    ok: h.event.type == events[i].type
+    ok: h.event.name == events[i].name
+    ok: h.event.value == events[i].value
+    ok: result == events[i].result
+    ok: h.event.type == events[i].type
+    ok: h.event.name == events[i].name
+    ok: h.event.value == events[i].value
+    ok: result == events[i].result
+    ok: h.event.type == events[i].type
+    ok: h.event.name == events[i].name
+    ok: h.event.value == events[i].value
+    ok: result == events[i].result
+    ok: h.event.type == events[i].type
+    ok: h.event.name == events[i].name
+    ok: h.event.value == events[i].value
+    ok: result == events[i].result
+    ok: h.event.type == events[i].type
+    ok: h.event.name == events[i].name
+    ok: h.event.value == events[i].value
+    ok: result == events[i].result
+    ok: h.event.type == events[i].type
+    ok: h.event.name == events[i].name
+    ok: h.event.value == events[i].value
+    ok: result == events[i].result
+      Calling: test_message_sequence( p_message, events ) (210)
+    ok: result == events[i].result
+    ok: h.event.type == events[i].type
+    ok: h.event.name == events[i].name
+    ok: h.event.value == events[i].value
+    ok: result == events[i].result
+    ok: h.event.type == events[i].type
+    ok: h.event.name == events[i].name
+    ok: h.event.value == events[i].value
+    ok: result == events[i].result
+    ok: h.event.type == events[i].type
+    ok: h.event.name == events[i].name
+    ok: h.event.value == events[i].value
+    ok: result == events[i].result
+    ok: h.event.type == events[i].type
+    ok: h.event.name == events[i].name
+    ok: h.event.value == events[i].value
+    ok: result == events[i].result
+    ok: h.event.type == events[i].type
+    ok: h.event.name == events[i].name
+    ok: h.event.value == events[i].value
+    ok: result == events[i].result
+      Calling: test_message_sequence( p_message, events ) (221)
+    ok: result == events[i].result
+    ok: h.event.type == events[i].type
+    ok: h.event.name == events[i].name
+    ok: h.event.value == events[i].value
+    ok: result == events[i].result
+    ok: h.event.type == events[i].type
+    ok: h.event.name == events[i].name
+    ok: h.event.value == events[i].value
+    ok: result == events[i].result
+      Calling: test_message_sequence( p_message, events ) (232)
+    ok: result == events[i].result
+    ok: h.event.type == events[i].type
+    ok: h.event.name == events[i].name
+    ok: h.event.value == events[i].value
+    ok: result == events[i].result
+    ok: h.event.type == events[i].type
+    ok: h.event.name == events[i].name
+    ok: h.event.value == events[i].value
+    ok: result == events[i].result
+      Calling: test_message_sequence( p_message, events ) (247)
+    ok: result == events[i].result
+    ok: h.event.type == events[i].type
+    ok: h.event.name == events[i].name
+    ok: h.event.value == events[i].value
+    ok: result == events[i].result
+    ok: h.event.type == events[i].type
+    ok: h.event.name == events[i].name
+    ok: h.event.value == events[i].value
+    ok: result == events[i].result
+    ok: h.event.type == events[i].type
+    ok: h.event.name == events[i].name
+    ok: h.event.value == events[i].value
+    ok: result == events[i].result
+    ok: h.event.type == events[i].type
+    ok: h.event.name == events[i].name
+    ok: h.event.value == events[i].value
+    ok: result == events[i].result
+    ok: h.event.type == events[i].type
+    ok: h.event.name == events[i].name
+    ok: h.event.value == events[i].value
+    ok: result == events[i].result
+    ok: h.event.type == events[i].type
+    ok: h.event.name == events[i].name
+    ok: h.event.value == events[i].value
+    ok: result == events[i].result
+      Calling: test_message_sequence( p_message, events ) (264)
+    ok: result == events[i].result
+    ok: h.event.type == events[i].type
+    ok: h.event.name == events[i].name
+    ok: h.event.value == events[i].value
+    ok: result == events[i].result
+    ok: h.event.type == events[i].type
+    ok: h.event.name == events[i].name
+    ok: h.event.value == events[i].value
+    ok: result == events[i].result
+    ok: h.event.type == events[i].type
+    ok: h.event.name == events[i].name
+    ok: h.event.value == events[i].value
+    ok: result == events[i].result
+    ok: h.event.type == events[i].type
+    ok: h.event.name == events[i].name
+    ok: h.event.value == events[i].value
+    ok: result == events[i].result
+    ok: h.event.type == events[i].type
+    ok: h.event.name == events[i].name
+    ok: h.event.value == events[i].value
+    ok: result == events[i].result
+    ok: h.event.type == events[i].type
+    ok: h.event.name == events[i].name
+    ok: h.event.value == events[i].value
+    ok: result == events[i].result
+    ok: h.event.type == events[i].type
+    ok: h.event.name == events[i].name
+    ok: h.event.value == events[i].value
+    ok: result == events[i].result
+    ok: h.event.type == events[i].type
+    ok: h.event.name == events[i].name
+    ok: h.event.value == events[i].value
+    ok: result == events[i].result
+      Calling: test_message_sequence( p_message, events ) (275)
+    ok: result == events[i].result
+    ok: h.event.type == events[i].type
+    ok: h.event.name == events[i].name
+    ok: h.event.value == events[i].value
+    ok: result == events[i].result
+    ok: h.event.type == events[i].type
+    ok: h.event.name == events[i].name
+    ok: h.event.value == events[i].value
+    ok: result == events[i].result
     ok: ! _CrtMemDifference( &s3, &s1, &s2 )
 
-    Reading multiple messages in single stream [test-messages.cpp:45]
-    =================================================================
+    Reading multiple messages in single stream [test-messages.cpp:279]
+    ==================================================================
     ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
     ok: h.event.type == cljp::Event::T_STRING
     ok: h.event.value == "Message 1"
@@ -122,7 +414,7 @@ Tests run on Mon Jun 22 11:23:02 2015
     ok: h.parser.get( &h.event ) == cljp::Parser::PR_END_OF_MESSAGE
     ok: ! _CrtMemDifference( &s3, &s1, &s2 )
 
-    Parser truncated input [test-messages.cpp:122]
+    Parser truncated input [test-messages.cpp:356]
     ==============================================
     ok: ! _CrtMemDifference( &s3, &s1, &s2 )
 
@@ -2468,9 +2760,8 @@ Tests run on Mon Jun 22 11:23:02 2015
     ok: ! _CrtMemDifference( &s3, &s1, &s2 )
     ok: _CrtCheckMemory() != 0
 
-TODOs (2):
+TODOs (1):
 ------------------------
-- Reading whole messages [test-messages.cpp:42]
-- Parser truncated input [test-messages.cpp:124]
+- Parser truncated input [test-messages.cpp:358]
 
-0 error(s), 2 todo(s), 1906 test(s)
+0 error(s), 1 todo(s), 2182 test(s)

@@ -37,9 +37,243 @@
 
 #include "test-harness.h"
 
+struct ExpectedEvent
+{
+    cljp::Parser::ParserResult result;
+    cljp::Event::Type type;
+    std::string name;
+    std::string value;
+};
+
+void test_message_sequence( const char * message, ExpectedEvent events[] )
+{
+    Harness h( message );
+
+    for( size_t i=0; ; ++i )
+    {
+        cljp::Parser::ParserResult result = h.parser.get( &h.event );
+
+        TCRITICALTEST( result == events[i].result );
+
+        if( result == cljp::Parser::PR_END_OF_MESSAGE )
+            return;
+
+        TCRITICALTEST( h.event.type == events[i].type );
+        TCRITICALTEST( h.event.name == events[i].name );
+        TCRITICALTEST( h.event.value == events[i].value );
+    }
+}
+
 TFEATURE( "Reading whole messages" )
 {
-    TTODO( "Reading whole messages" );
+    {
+    const char * p_message = "";
+    ExpectedEvent events[] = {
+                    {cljp::Parser::PR_END_OF_MESSAGE, cljp::Event::T_UNKNOWN, "", ""}
+                };
+
+    TCALL( test_message_sequence( p_message, events ) );
+    }
+
+    {
+    const char * p_message = "false";
+    ExpectedEvent events[] = {
+                    {cljp::Parser::PR_OK, cljp::Event::T_BOOLEAN, "", "false"},
+                    {cljp::Parser::PR_END_OF_MESSAGE, cljp::Event::T_UNKNOWN, "", ""}
+                };
+
+    TCALL( test_message_sequence( p_message, events ) );
+    }
+
+    {
+    const char * p_message = " [false] ";
+    ExpectedEvent events[] = {
+                    {cljp::Parser::PR_OK, cljp::Event::T_ARRAY_START, "", ""},
+                    {cljp::Parser::PR_OK, cljp::Event::T_BOOLEAN, "", "false"},
+                    {cljp::Parser::PR_OK, cljp::Event::T_ARRAY_END, "", ""},
+                    {cljp::Parser::PR_END_OF_MESSAGE, cljp::Event::T_UNKNOWN, "", ""}
+                };
+
+    TCALL( test_message_sequence( p_message, events ) );
+    }
+
+    {
+    const char * p_message = " [[false]] ";
+    ExpectedEvent events[] = {
+                    {cljp::Parser::PR_OK, cljp::Event::T_ARRAY_START, "", ""},
+                    {cljp::Parser::PR_OK, cljp::Event::T_ARRAY_START, "", ""},
+                    {cljp::Parser::PR_OK, cljp::Event::T_BOOLEAN, "", "false"},
+                    {cljp::Parser::PR_OK, cljp::Event::T_ARRAY_END, "", ""},
+                    {cljp::Parser::PR_OK, cljp::Event::T_ARRAY_END, "", ""},
+                    {cljp::Parser::PR_END_OF_MESSAGE, cljp::Event::T_UNKNOWN, "", ""}
+                };
+
+    TCALL( test_message_sequence( p_message, events ) );
+    }
+
+    {
+    const char * p_message = "[ [ false ] ]";
+    ExpectedEvent events[] = {
+                    {cljp::Parser::PR_OK, cljp::Event::T_ARRAY_START, "", ""},
+                    {cljp::Parser::PR_OK, cljp::Event::T_ARRAY_START, "", ""},
+                    {cljp::Parser::PR_OK, cljp::Event::T_BOOLEAN, "", "false"},
+                    {cljp::Parser::PR_OK, cljp::Event::T_ARRAY_END, "", ""},
+                    {cljp::Parser::PR_OK, cljp::Event::T_ARRAY_END, "", ""},
+                    {cljp::Parser::PR_END_OF_MESSAGE, cljp::Event::T_UNKNOWN, "", ""}
+                };
+
+    TCALL( test_message_sequence( p_message, events ) );
+    }
+
+    {
+    const char * p_message = "[ { \"tag1\" : false } ]";
+    ExpectedEvent events[] = {
+                    {cljp::Parser::PR_OK, cljp::Event::T_ARRAY_START, "", ""},
+                    {cljp::Parser::PR_OK, cljp::Event::T_OBJECT_START, "", ""},
+                    {cljp::Parser::PR_OK, cljp::Event::T_BOOLEAN, "tag1", "false"},
+                    {cljp::Parser::PR_OK, cljp::Event::T_OBJECT_END, "", ""},
+                    {cljp::Parser::PR_OK, cljp::Event::T_ARRAY_END, "", ""},
+                    {cljp::Parser::PR_END_OF_MESSAGE, cljp::Event::T_UNKNOWN, "", ""}
+                };
+
+    TCALL( test_message_sequence( p_message, events ) );
+    }
+
+    {
+    const char * p_message = "[ { } ]";
+    ExpectedEvent events[] = {
+                    {cljp::Parser::PR_OK, cljp::Event::T_ARRAY_START, "", ""},
+                    {cljp::Parser::PR_OK, cljp::Event::T_OBJECT_START, "", ""},
+                    {cljp::Parser::PR_OK, cljp::Event::T_OBJECT_END, "", ""},
+                    {cljp::Parser::PR_OK, cljp::Event::T_ARRAY_END, "", ""},
+                    {cljp::Parser::PR_END_OF_MESSAGE, cljp::Event::T_UNKNOWN, "", ""}
+                };
+
+    TCALL( test_message_sequence( p_message, events ) );
+    }
+
+    {
+    const char * p_message = "[ { } , false ]";
+    ExpectedEvent events[] = {
+                    {cljp::Parser::PR_OK, cljp::Event::T_ARRAY_START, "", ""},
+                    {cljp::Parser::PR_OK, cljp::Event::T_OBJECT_START, "", ""},
+                    {cljp::Parser::PR_OK, cljp::Event::T_OBJECT_END, "", ""},
+                    {cljp::Parser::PR_OK, cljp::Event::T_BOOLEAN, "", "false"},
+                    {cljp::Parser::PR_OK, cljp::Event::T_ARRAY_END, "", ""},
+                    {cljp::Parser::PR_END_OF_MESSAGE, cljp::Event::T_UNKNOWN, "", ""}
+                };
+
+    TCALL( test_message_sequence( p_message, events ) );
+    }
+
+    {
+    const char * p_message = "[ { } , {} ]";
+    ExpectedEvent events[] = {
+                    {cljp::Parser::PR_OK, cljp::Event::T_ARRAY_START, "", ""},
+                    {cljp::Parser::PR_OK, cljp::Event::T_OBJECT_START, "", ""},
+                    {cljp::Parser::PR_OK, cljp::Event::T_OBJECT_END, "", ""},
+                    {cljp::Parser::PR_OK, cljp::Event::T_OBJECT_START, "", ""},
+                    {cljp::Parser::PR_OK, cljp::Event::T_OBJECT_END, "", ""},
+                    {cljp::Parser::PR_OK, cljp::Event::T_ARRAY_END, "", ""},
+                    {cljp::Parser::PR_END_OF_MESSAGE, cljp::Event::T_UNKNOWN, "", ""}
+                };
+
+    TCALL( test_message_sequence( p_message, events ) );
+    }
+
+    {
+    const char * p_message = "[ { } , [] ]  \t\r\n ";
+    ExpectedEvent events[] = {
+                    {cljp::Parser::PR_OK, cljp::Event::T_ARRAY_START, "", ""},
+                    {cljp::Parser::PR_OK, cljp::Event::T_OBJECT_START, "", ""},
+                    {cljp::Parser::PR_OK, cljp::Event::T_OBJECT_END, "", ""},
+                    {cljp::Parser::PR_OK, cljp::Event::T_ARRAY_START, "", ""},
+                    {cljp::Parser::PR_OK, cljp::Event::T_ARRAY_END, "", ""},
+                    {cljp::Parser::PR_OK, cljp::Event::T_ARRAY_END, "", ""},
+                    {cljp::Parser::PR_END_OF_MESSAGE, cljp::Event::T_UNKNOWN, "", ""}
+                };
+
+    TCALL( test_message_sequence( p_message, events ) );
+    }
+
+    {
+    const char * p_message = "{ \"tag1\" : [ false ] }";
+    ExpectedEvent events[] = {
+                    {cljp::Parser::PR_OK, cljp::Event::T_OBJECT_START, "", ""},
+                    {cljp::Parser::PR_OK, cljp::Event::T_ARRAY_START, "tag1", ""},
+                    {cljp::Parser::PR_OK, cljp::Event::T_BOOLEAN, "", "false"},
+                    {cljp::Parser::PR_OK, cljp::Event::T_ARRAY_END, "", ""},
+                    {cljp::Parser::PR_OK, cljp::Event::T_OBJECT_END, "", ""},
+                    {cljp::Parser::PR_END_OF_MESSAGE, cljp::Event::T_UNKNOWN, "", ""}
+                };
+
+    TCALL( test_message_sequence( p_message, events ) );
+    }
+
+    {
+    const char * p_message = "{}";
+    ExpectedEvent events[] = {
+                    {cljp::Parser::PR_OK, cljp::Event::T_OBJECT_START, "", ""},
+                    {cljp::Parser::PR_OK, cljp::Event::T_OBJECT_END, "", ""},
+                    {cljp::Parser::PR_END_OF_MESSAGE, cljp::Event::T_UNKNOWN, "", ""}
+                };
+
+    TCALL( test_message_sequence( p_message, events ) );
+    }
+
+    {
+    const char * p_message = "{  }";
+    ExpectedEvent events[] = {
+                    {cljp::Parser::PR_OK, cljp::Event::T_OBJECT_START, "", ""},
+                    {cljp::Parser::PR_OK, cljp::Event::T_OBJECT_END, "", ""},
+                    {cljp::Parser::PR_END_OF_MESSAGE, cljp::Event::T_UNKNOWN, "", ""}
+                };
+
+    TCALL( test_message_sequence( p_message, events ) );
+    }
+
+    {
+    const char * p_message = "{ \"tag1\" : [ false ], \"tag2\" : 12 }";
+    ExpectedEvent events[] = {
+                    {cljp::Parser::PR_OK, cljp::Event::T_OBJECT_START, "", ""},
+                    {cljp::Parser::PR_OK, cljp::Event::T_ARRAY_START, "tag1", ""},
+                    {cljp::Parser::PR_OK, cljp::Event::T_BOOLEAN, "", "false"},
+                    {cljp::Parser::PR_OK, cljp::Event::T_ARRAY_END, "", ""},
+                    {cljp::Parser::PR_OK, cljp::Event::T_NUMBER, "tag2", "12"},
+                    {cljp::Parser::PR_OK, cljp::Event::T_OBJECT_END, "", ""},
+                    {cljp::Parser::PR_END_OF_MESSAGE, cljp::Event::T_UNKNOWN, "", ""}
+                };
+
+    TCALL( test_message_sequence( p_message, events ) );
+    }
+
+    {
+    const char * p_message = "{ \"tag1\" : [ false ], \"tag2\" : { \"tag3\":1}}";
+    ExpectedEvent events[] = {
+                    {cljp::Parser::PR_OK, cljp::Event::T_OBJECT_START, "", ""},
+                    {cljp::Parser::PR_OK, cljp::Event::T_ARRAY_START, "tag1", ""},
+                    {cljp::Parser::PR_OK, cljp::Event::T_BOOLEAN, "", "false"},
+                    {cljp::Parser::PR_OK, cljp::Event::T_ARRAY_END, "", ""},
+                    {cljp::Parser::PR_OK, cljp::Event::T_OBJECT_START, "tag2", ""},
+                    {cljp::Parser::PR_OK, cljp::Event::T_NUMBER, "tag3", "1"},
+                    {cljp::Parser::PR_OK, cljp::Event::T_OBJECT_END, "", ""},
+                    {cljp::Parser::PR_OK, cljp::Event::T_OBJECT_END, "", ""},
+                    {cljp::Parser::PR_END_OF_MESSAGE, cljp::Event::T_UNKNOWN, "", ""}
+                };
+
+    TCALL( test_message_sequence( p_message, events ) );
+    }
+
+    {
+    const char * p_message = "{  } \"Ignored\" ";
+    ExpectedEvent events[] = {
+                    {cljp::Parser::PR_OK, cljp::Event::T_OBJECT_START, "", ""},
+                    {cljp::Parser::PR_OK, cljp::Event::T_OBJECT_END, "", ""},
+                    {cljp::Parser::PR_END_OF_MESSAGE, cljp::Event::T_UNKNOWN, "", ""}
+                };
+
+    TCALL( test_message_sequence( p_message, events ) );
+    }
 }
 
 TFEATURE( "Reading multiple messages in single stream" )
