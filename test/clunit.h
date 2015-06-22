@@ -448,6 +448,18 @@ public:
         { my_singleton.clear(); }
 };
 
+#ifdef CLUNIT_MAIN
+#define CLUNIT_HOME 
+    } // End of namespace cl
+
+    int main( int argc, char * argv[] )
+    {
+        TRUNALL();
+    }
+
+    namespace cl {
+#endif
+
 #ifdef CLUNIT_HOME
     clunit::singleton clunit::my_singleton;
     job_list & clunit::singleton::get_jobs()
