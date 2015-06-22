@@ -42,8 +42,6 @@
 #include <stack>
 #include <cassert>
 
-#include "../test/sdd.h"    // Temporary inclusion while being designed
-
 namespace cljp {    // Codalogic JSON Pull (Parser)
 
 //----------------------------------------------------------------------------
@@ -159,8 +157,6 @@ private:
     } m;
 
 public:
-    SDD_CLASS( "Converts any Reader input into UTF8" )
-
     ReadUTF8( Reader & r_reader_in )
         : m( r_reader_in )
     {}
@@ -445,19 +441,6 @@ public:
     {
         return "cljp::ParserException";
     }
-};
-
-//----------------------------------------------------------------------------
-//                           class SmartParser
-//----------------------------------------------------------------------------
-
-class SmartParser : public Parser
-{
-public:
-    SDD_CLASS( "Adds context to the basic parser to keep track of whether reading name/value pairs or just values" )
-    SDD_EXTENDS( Parser )
-
-    SDD_METHOD( get, "Reads either a name/value pair or just a value dependin on context" )
 };
 
 }   // End of namespace cljp
