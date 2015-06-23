@@ -245,3 +245,8 @@ TFEATURE( "Event to_float, to_int" )
     TTEST( event.to_int() == 0 );
     }
 }
+
+TFEATURE( "Event to_string, to_wstring" )
+{
+    TTODO( "Test Event.to_string() and to_wstring()" );
+}

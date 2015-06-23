@@ -302,7 +302,6 @@ struct Event
     // is_true() and is_false() don't do implicit type casting
     bool is_true() const { return type == T_BOOLEAN && value == "true"; }
     bool is_false() const { return type == T_BOOLEAN && value == "false"; }
-
     bool is_int() const;
     bool is_float() const { return is_number(); }           // For convenience
 
@@ -310,6 +309,8 @@ struct Event
     double to_float() const;
     int to_int() const;
     long to_long() const;
+    const std::string & to_string() const { return value; } // For completeness
+    std::wstring to_wstring() const;                        // For convenience
 };
 
 //----------------------------------------------------------------------------
