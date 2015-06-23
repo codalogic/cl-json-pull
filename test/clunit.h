@@ -449,7 +449,7 @@ public:
 };
 
 #ifdef CLUNIT_MAIN
-#define CLUNIT_HOME 
+#define CLUNIT_HOME
     } // End of namespace cl
 
     int main( int argc, char * argv[] )
