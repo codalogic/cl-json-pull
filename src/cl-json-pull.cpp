@@ -1283,6 +1283,9 @@ Parser::ParserResult Parser::get_in_object()
 
     get_non_ws();
 
+    if( m.c == Reader::EOM )
+        return report_error( PR_UNEXPECTED_END_OF_MESSAGE );
+
     if( is_unexpected_close() )
         return unexpected_close_error();
 
@@ -1330,6 +1333,9 @@ Parser::ParserResult Parser::get_in_array()
         return report_error( PR_EXPECTED_COMMA_OR_END_OF_ARRAY );
 
     get_non_ws();
+
+    if( m.c == Reader::EOM )
+        return report_error( PR_UNEXPECTED_END_OF_MESSAGE );
 
     if( is_unexpected_close() )
         return unexpected_close_error();
@@ -1381,6 +1387,9 @@ Parser::ParserResult Parser::skip_name_separator()
 {
     get_non_ws();
 
+    if( m.c == Reader::EOM )
+        return report_error( PR_UNEXPECTED_END_OF_MESSAGE );
+
     if( m.c != ':' )
         return report_error( PR_EXPECTED_COLON_NAME_SEPARATOR );
 
@@ -1424,23 +1433,27 @@ Parser::ParserResult Parser::get_value()
     }
 
     else
+        return error_on_unrecognised_value_start();
+}
+
+Parser::ParserResult Parser::error_on_unrecognised_value_start()
+{
+    if( m.c == Reader::EOM )
+        return report_error( PR_UNEXPECTED_END_OF_MESSAGE );
+
+    if( is_invalid_json_number_start_char() )
     {
-        // An unexpected character has been received - sort out a suitable error code
-
-        if( is_invalid_json_number_start_char() )
-        {
-            m.p_event_out->type = Event::T_NUMBER;
-            read_to_non_quoted_value_end();
-            return report_error( PR_BAD_FORMAT_NUMBER );
-        }
-
-        else if( is_unexpected_close() )
-            return unexpected_close_error();
-
+        m.p_event_out->type = Event::T_NUMBER;
         read_to_non_quoted_value_end();
-
-        return report_error( PR_UNRECOGNISED_VALUE_FORMAT );
+        return report_error( PR_BAD_FORMAT_NUMBER );
     }
+
+    if( is_unexpected_close() )
+        return unexpected_close_error();
+
+    read_to_non_quoted_value_end();
+
+    return report_error( PR_UNRECOGNISED_VALUE_FORMAT );
 }
 
 Parser::ParserResult Parser::get_false()

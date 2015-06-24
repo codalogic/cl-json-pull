@@ -394,6 +394,7 @@ private:
     ParserResult get_name();
     ParserResult skip_name_separator();
     ParserResult get_value();
+    ParserResult error_on_unrecognised_value_start();
     ParserResult get_false();
     ParserResult get_true();
     ParserResult get_null();
