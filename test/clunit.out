@@ -1,4 +1,4 @@
-Tests run on Wed Jun 24 12:18:46 2015
+Tests run on Wed Jun 24 13:46:49 2015
 
     struct Event [test-event.cpp:38]
     ================================
@@ -72,6 +72,7 @@ Tests run on Wed Jun 24 12:18:46 2015
     ok: event.to_float() == -11.5
     ok: event.to_int() == -11
     ok: event.to_long() == -11
+      Event to_float, to_int for string to bool then to int/float conversions
     ok: event.to_float() == 1.0
     ok: event.to_float() == 1.0
     ok: event.to_float() == 0.0
@@ -80,8 +81,10 @@ Tests run on Wed Jun 24 12:18:46 2015
     ok: event.to_int() == 0
     ok: ! _CrtMemDifference( &s3, &s1, &s2 )
 
-    Event to_string, to_wstring [test-event.cpp:249]
+    Event to_string, to_wstring [test-event.cpp:250]
     ================================================
+    ok: event.to_string() == "MyString"
+    ok: event.to_wstring() == L"MyString"
     ok: ! _CrtMemDifference( &s3, &s1, &s2 )
 
     Reading whole messages [test-messages.cpp:67]
@@ -3176,6 +3179,6 @@ Tests run on Wed Jun 24 12:18:46 2015
 
 TODOs (1):
 ------------------------
-- Test Event::to_string() and to_wstring() [test-event.cpp:251]
+- Test Event::to_wstring() [test-event.cpp:268]
 
-0 error(s), 1 todo(s), 2531 test(s)
+0 error(s), 1 todo(s), 2533 test(s)

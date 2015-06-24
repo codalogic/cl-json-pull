@@ -200,7 +200,7 @@ TFEATURE( "Event::to_bool" )
 
 TFEATURE( "Event to_float, to_int" )
 {
-    {
+	{
     cljp::Event event;
     event.type = cljp::Event::T_NUMBER;
 
@@ -222,7 +222,8 @@ TFEATURE( "Event to_float, to_int" )
     TTEST( event.to_long() == -11 );
     }
 
-    {
+	{
+	TDOC( "Event to_float, to_int for string to bool then to int/float conversions" );
     cljp::Event event;
     event.type = cljp::Event::T_STRING;
 
@@ -248,5 +249,21 @@ TFEATURE( "Event to_float, to_int" )
 
 TFEATURE( "Event to_string, to_wstring" )
 {
-    TTODO( "Test Event.to_string() and to_wstring()" );
+    {
+    cljp::Event event;
+    event.type = cljp::Event::T_STRING;
+
+    event.value = "MyString";
+    TTEST( event.to_string() == "MyString" );
+    }
+
+    {
+    cljp::Event event;
+    event.type = cljp::Event::T_STRING;
+
+    event.value = "MyString";
+    TTEST( event.to_wstring() == L"MyString" );
+    }
+
+    TTODO( "Test Event::to_wstring()" );
 }
