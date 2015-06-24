@@ -1,4 +1,99 @@
 cl-json-pull
 ============
 
-cl-json-pull is Codalogic's JSON Pull Parser, a simple C++ pull parser for JSON.  It's intended to be a lower layer component on top of which more functional layers can be built.
+cl-json-pull is Codalogic's C++ JSON Pull Parser.
+It's intended to be a lower layer component on top of which more functional
+layers can be built.
+
+It can accept input in any of UTF-8, UTF-16 (LE or BE) and UTF-32 (LE or BE),
+with or without a BOM.
+
+The main class is `Parser` in the `cljp` namespace.
+
+The primary method in this is
+`ParserResult Parser::get( Event * p_event_out )`.  Each call of this method
+retrieves another event from the JSON input until the end of the message
+is encountered or an error is detected.  The same 'Event' object can be
+used in multiple `Parser::get()` calls, or different ones can be used.
+
+The returned `ParserResult` value indicates the success or otherwise of the
+get operation.  `PR_OK` indicates that the get operation was successful, and
+the `Event` object pointed to by `p_event_out` has been populated.
+`PR_END_OF_MESSAGE` indicates that the end of the message has been reached.
+Other values of `ParserResult` indicate various error conditions.
+
+On a succesful `get()` operation, the retrieved `Event` object indicates the
+`type` of event that was retrieved, the member `name` if applicable, and the
+`value` if applicable.  The indicated types include `T_STRING`, `T_NUMBER`,
+`T_BOOLEAN`, `T_NULL`, `T_OBJECT_START`, `T_OBJECT_END`, `T_ARRAY_START`,
+and `T_ARRAY_END`.
+
+The `Event` object also includes helper methods to determine the type of the
+event, including `is_string()`, `is_number()`, `is_boolean()`, `is_bool()`,
+`is_null()`, `is_object_start()`, `is_object_end()`, `is_array_start()` and
+`is_array_end()`.  Higher order methods that derive more details about the event
+include `is_true()`, `is_false()`, `is_int()` and `is_float()`.  (Note that the
+`is_true()` and `is_false()` methods require the underlying JSON type to be
+Boolean in order to return a `true` value.  In other words, `is_true()` will
+return `false` if the underlying JSON type is a string with the value "true".)
+
+The `Event` object also contains conversion methods that allows the stored `value`
+field to be converted to other useful types, for example, `to_bool()`, `to_float()`
+`to_int()`, `to_long()`, `to_string()` and `to_wstring()`.  Unlike `is_true()` and
+`is_false()` mentiond above, `to_bool()` will 'cast' non-Boolean values into
+such a value.  For example, empty strings will yield `false`, and non-empty strings
+`true`.  Numerical values equal to `0` will yield `false` and non-zero values
+will yield `true`.
+
+To create a `Parser` object on which `Parser::get()` can be called, it is necessary
+to create an object that derives from the `Reader` class.  The supplied derivations
+are `ReaderMemory`, `ReaderString` and `ReaderFile`, which read from memory, a
+std::string, or a file respectively.  Other derivations of `Reader` can be created
+to read input from other sources, such as a socket.
+
+Putting it all together, a trivial (albeit useless!) program would look like:
+
+```cpp
+#include "cl-json-pull.h"
+
+#include <iostream>
+
+int main()
+{
+    cljp::ReaderFile reader( "myfile.json" );
+
+    if( reader.is_open() )
+    {
+        cljp::Parser parser( reader );
+        cljp::Event event;
+
+        while( parser.get( &event ) == cljp::Parser::PR_OK )
+        {
+            // TODO: Do something with event, e.g.:
+            switch( event.type )
+            {
+            case cljp::Event::T_OBJECT_START:
+                std::cout << "Object start\n";
+            break;
+
+            case cljp::Event::T_OBJECT_END:
+                std::cout << "Object end\n";
+            break;
+
+            case cljp::Event::T_ARRAY_START:
+                std::cout << "Array start\n";
+            break;
+
+            case cljp::Event::T_ARRAY_END:
+                std::cout << "Array end\n";
+            break;
+
+            default:
+                std::cout << "Some other event\n";
+            }
+        }
+    }
+}
+```
+
+The `test-messages.cpp` test file gives some examples of expected event sequences.

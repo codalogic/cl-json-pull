@@ -40,3 +40,41 @@ int main()
 {
     TRUNALL();
 }
+
+int example_check()
+{
+    cljp::ReaderFile reader( "myfile.json" );
+
+    if( reader.is_open() )
+    {
+        cljp::Parser parser( reader );
+        cljp::Event event;
+
+        while( parser.get( &event ) == cljp::Parser::PR_OK )
+        {
+            // TODO: Do something with event, e.g.:
+            switch( event.type )
+            {
+            case cljp::Event::T_OBJECT_START:
+                std::cout << "Object start\n";
+            break;
+
+            case cljp::Event::T_OBJECT_END:
+                std::cout << "Object end\n";
+            break;
+
+            case cljp::Event::T_ARRAY_START:
+                std::cout << "Array start\n";
+            break;
+
+            case cljp::Event::T_ARRAY_END:
+                std::cout << "Array end\n";
+            break;
+
+            default:
+                std::cout << "Some other event\n";
+            }
+        }
+    }
+    return 0;
+}

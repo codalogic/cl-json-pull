@@ -299,7 +299,7 @@ struct Event
     bool is_array_start() const { return type == T_ARRAY_START; }
     bool is_array_end() const { return type == T_ARRAY_END; }
 
-    // is_true() and is_false() don't do implicit type casting
+    // is_true() and is_false() don't do implicit type casting. i.e. JSON type must be Boolean to yield true.
     bool is_true() const { return type == T_BOOLEAN && value == "true"; }
     bool is_false() const { return type == T_BOOLEAN && value == "false"; }
     bool is_int() const;
