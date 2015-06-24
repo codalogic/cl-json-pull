@@ -200,7 +200,7 @@ TFEATURE( "Event::to_bool" )
 
 TFEATURE( "Event to_float, to_int" )
 {
-	{
+    {
     cljp::Event event;
     event.type = cljp::Event::T_NUMBER;
 
@@ -222,8 +222,8 @@ TFEATURE( "Event to_float, to_int" )
     TTEST( event.to_long() == -11 );
     }
 
-	{
-	TDOC( "Event to_float, to_int for string to bool then to int/float conversions" );
+    {
+    TDOC( "Event to_float, to_int for string to bool then to int/float conversions" );
     cljp::Event event;
     event.type = cljp::Event::T_STRING;
 
@@ -265,5 +265,28 @@ TFEATURE( "Event to_string, to_wstring" )
     TTEST( event.to_wstring() == L"MyString" );
     }
 
-    TTODO( "Test Event::to_wstring()" );
+    {
+    cljp::Event event;
+    event.type = cljp::Event::T_STRING;
+
+    // From rfc3629
+    event.value = "\xE6\x97\xA5\xE6\x9C\xAC\xE8\xAA\x9E";
+    TTEST( event.to_wstring() == L"\x65E5\x672C\x8A9E" );
+    }
+
+    {
+    cljp::Event event;
+    event.type = cljp::Event::T_STRING;
+
+    // From rfc2781 (surrogates)
+    event.value = "\xF0\x92\x8D\x85=Ra";
+    #if defined( _MSC_VER )
+        { TTEST( event.to_wstring() == L"\xD808\xDF45=Ra" ); }
+    #elif defined( __GNUC__ )
+        { TTEST( event.to_wstring() == L"\x12345=Ra" ); }
+    #else
+        TTODO( "Event::to_wstring() with surrogate range needs fully tested" );
+        TTEST( false );
+    #endif
+    }
 }

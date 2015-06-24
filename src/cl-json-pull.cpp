@@ -549,6 +549,94 @@ private:
     }
 };
 
+class UTF8ToWideString
+{
+private:
+    struct Members {
+        std::wstring * p_out;
+        const std::string & r_in;
+        const char * p_c;
+        int c;
+
+        Members( std::wstring * p_out_in, const std::string & r_in_in )
+            : p_out( p_out_in ), r_in( r_in_in ), c( 0 )
+        {
+            p_c = r_in.c_str();
+        }
+    } m;
+
+public:
+    UTF8ToWideString( std::wstring * p_out, const std::string & r_in )
+        :
+        m( p_out, r_in )
+    {
+        for( next(); m.c != '\0'; next() )
+        {
+            if( m.c < 0x7f )
+                *p_out += m.c;
+            else
+                append_multi_byte_character();
+        }
+    }
+
+private:
+    void next()
+    {
+        m.c = static_cast<unsigned char>( *m.p_c );
+        if( m.c != '\0' )
+            m.p_c++;
+    }
+
+    void append_multi_byte_character()
+    {
+        int code_point = extract_code_point();
+        append_code_point( code_point );
+    }
+
+    int extract_code_point()
+    {
+        int code_point;
+        if( m.c >= 0xf0 )
+            code_point = code_point_from_utf8( 4, 0x07 );
+        else if( m.c >= 0xe0 )
+            code_point = code_point_from_utf8( 3, 0x0f );
+        else if( m.c >= 0xc0 )
+            code_point = code_point_from_utf8( 2, 0x1f );
+        return code_point;
+    }
+
+    int code_point_from_utf8( size_t n_chars, char first_byte_mask )
+    {
+        int code_point = m.c & first_byte_mask;
+        for( size_t i=1; i<n_chars; ++i )
+        {
+            next();
+            if( m.c < 0x80 )
+                return 0;   // Also detects unexpected '\0' case
+            code_point <<= 6;
+            code_point += m.c & 0x3f;
+        }
+        return code_point;
+    }
+
+    void append_code_point( int code_point )
+    {
+        if( is_surrogate_pair_needed( code_point ) )
+        {
+            code_point -= 0x10000;
+            *m.p_out += ((code_point >> 10) & 0x03ff) + 0xd800;
+            *m.p_out += (code_point & 0x03ff) + 0xdc00;
+        }
+        else
+            *m.p_out += code_point;
+    }
+
+    bool is_surrogate_pair_needed( int code_point )
+    {
+        return sizeof( wchar_t ) == 2 && code_point >= 0x10000;
+    }
+};
+
 }   // End of anonymous namespace
 
 //----------------------------------------------------------------------------
@@ -1181,6 +1269,13 @@ int Event::to_int() const
 long Event::to_long() const
 {
     return static_cast<long>( to_float() );
+}
+
+std::wstring Event::to_wstring() const
+{
+    std::wstring result;
+    UTF8ToWideString( &result, value );
+    return result;
 }
 
 //----------------------------------------------------------------------------
