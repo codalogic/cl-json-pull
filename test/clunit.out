@@ -1,4 +1,4 @@
-Tests run on Wed Jun 24 14:20:20 2015
+Tests run on Wed Jun 24 14:40:21 2015
 
     struct Event [test-event.cpp:38]
     ================================
@@ -84,9 +84,12 @@ Tests run on Wed Jun 24 14:20:20 2015
     Event to_string, to_wstring [test-event.cpp:250]
     ================================================
     ok: event.to_string() == "MyString"
+    ok: event.to_string() == "\xE6\x97\xA5\xE6\x9C\xAC\xE8\xAA\x9E"
     ok: event.to_wstring() == L"MyString"
     ok: event.to_wstring() == L"\x65E5\x672C\x8A9E"
+    ok: event.to_wstring() == L"with\x65E5\x672C\x8A9EHold"
     ok: event.to_wstring() == L"\xD808\xDF45=Ra"
+    ok: event.to_wstring() == L"with\xD808\xDF45=Ra"
     ok: ! _CrtMemDifference( &s3, &s1, &s2 )
 
     Reading whole messages [test-messages.cpp:67]
@@ -3178,4 +3181,4 @@ Tests run on Wed Jun 24 14:20:20 2015
     ========================
     ok: ! _CrtMemDifference( &s3, &s1, &s2 )
     ok: _CrtCheckMemory() != 0
-0 error(s), 0 todo(s), 2535 test(s)
+0 error(s), 0 todo(s), 2538 test(s)

@@ -1712,7 +1712,7 @@ Parser::ParserResult Parser::report_error( ParserResult error )
 
     #if CLJP_THROW_ERRORS == 1
         throw( ParserException( error ) );
-    #endif;
+    #endif
     return error;
 }
 
