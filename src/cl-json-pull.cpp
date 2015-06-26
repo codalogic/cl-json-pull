@@ -325,6 +325,9 @@ private:
         // escape = %x5C              ; \
         // quotation-mark = %x22      ; "
 
+        // Read whole string or to EOM rather than terminate at an error
+        // in case we want to try to continue parsing more JSON later
+
         while( m.c != '"' && m.c != Reader::EOM )
         {
             if( m.c != '\\' )
