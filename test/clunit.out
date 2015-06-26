@@ -1,4 +1,4 @@
-Tests run on Fri Jun 26 15:29:34 2015
+Tests run on Fri Jun 26 16:49:16 2015
 
     struct Event [test-event.cpp:38]
     ================================
@@ -3181,4 +3181,10 @@ Tests run on Fri Jun 26 15:29:34 2015
     ========================
     ok: ! _CrtMemDifference( &s3, &s1, &s2 )
     ok: _CrtCheckMemory() != 0
-0 error(s), 0 todo(s), 2538 test(s)
+
+TODOs (2):
+------------------------
+- Add a Parser::skip() method to skip end of current object or array [test-todo.cpp:40]
+- Add Event::on( "name", type, handler ) method to allow easier handling of events [test-todo.cpp:42]
+
+0 error(s), 2 todo(s), 2538 test(s)
