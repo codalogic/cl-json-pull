@@ -37,5 +37,4 @@
 
 TFEATURE( "TODOs" )
 {
-    TTODO( "Add a Parser::skip() method to skip to end of current object or array" );
 }

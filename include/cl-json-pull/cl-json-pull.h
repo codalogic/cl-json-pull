@@ -377,6 +377,7 @@ public:
     {}
 
     ParserResult get( Event * p_event_out );
+    ParserResult skip();
     void new_message();
 
 private:

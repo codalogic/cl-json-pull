@@ -48,6 +48,10 @@ such a value.  For example, empty strings will yield `false`, and non-empty stri
 `true`.  Numerical values equal to `0` will yield `false` and non-zero values
 will yield `true`.
 
+The `Parser::skip()` method skips the rest of an object or array.  It is used to
+easily ignore the contents of objects or arrays you are not interested in.
+
+
 To create a `Parser` object on which `Parser::get()` can be called, it is necessary
 to create an object that derives from the `Reader` class.  The supplied derivations
 are `ReaderMemory`, `ReaderString` and `ReaderFile`, which read from memory, a

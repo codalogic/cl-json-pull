@@ -57,6 +57,20 @@ int example_check()
             {
             case cljp::Event::T_OBJECT_START:
                 std::cout << "Object start\n";
+                if( event.is( "Wanted1" ) )
+                {
+                    // record something about Wanted1
+                }
+                else if( event.is( "Wanted2" ) )
+                {
+                    // record something about Wanted2
+                }
+                else
+                {
+                    // Skip contents of unwanted object
+                    if( parser.skip() != cljp::Parser::PR_OK )
+                        return 0;
+                }
             break;
 
             case cljp::Event::T_OBJECT_END:

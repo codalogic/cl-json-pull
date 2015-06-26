@@ -674,3 +674,132 @@ TFEATURE( "Parser Read member" )
     TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_UNABLE_TO_CONTINUE_DUE_TO_ERRORS );
     }
 }
+
+TFEATURE( "Parser::skip()" )
+{
+    {
+    // Edge case - not skip()s intended application
+    Harness h( " " );
+
+    TTEST( h.parser.skip() == cljp::Parser::PR_END_OF_MESSAGE );
+    }
+
+    {
+    // Edge case - not skip()s intended application
+    Harness h( " false " );
+
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
+    TTEST( h.event.type == cljp::Event::T_BOOLEAN );
+
+    TTEST( h.parser.skip() == cljp::Parser::PR_END_OF_MESSAGE );
+    }
+
+    {
+    Harness h( "{ \"Field\" : 12, \"Jam\":\"High\" }" );
+
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
+    TTEST( h.event.type == cljp::Event::T_OBJECT_START );
+
+    TTEST( h.parser.skip() == cljp::Parser::PR_OK );
+
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_END_OF_MESSAGE );
+    }
+
+    {
+    Harness h( "{ \"Field\" : 12, \"Jam\":[] }" );
+
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
+    TTEST( h.event.type == cljp::Event::T_OBJECT_START );
+
+    TTEST( h.parser.skip() == cljp::Parser::PR_OK );
+
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_END_OF_MESSAGE );
+    }
+
+    {
+    Harness h( "{ \"Field\" : { \"Jam\":[], \"Spread\": null}, \"Honey\": 10 }" );
+
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
+    TTEST( h.event.type == cljp::Event::T_OBJECT_START );
+
+    TTEST( h.parser.skip() == cljp::Parser::PR_OK );
+
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_END_OF_MESSAGE );
+    }
+
+    {
+    Harness h( "{ \"Field\" : { \"Jam\":[], \"Spread\": null}, \"Honey\": 10 }" );
+
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
+    TTEST( h.event.type == cljp::Event::T_OBJECT_START );
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
+    TTEST( h.event.type == cljp::Event::T_OBJECT_START );
+    TTEST( h.event.name == "Field" );
+
+    TTEST( h.parser.skip() == cljp::Parser::PR_OK );
+
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
+    TTEST( h.event.type == cljp::Event::T_NUMBER );
+    TTEST( h.event.name == "Honey" );
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
+    TTEST( h.event.type == cljp::Event::T_OBJECT_END );
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_END_OF_MESSAGE );
+    }
+
+    {
+    Harness h( "{ \"Field\" : { \"Jam\":[], \"Spread\": null}, \"Honey\": 10 }" );
+
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
+    TTEST( h.event.type == cljp::Event::T_OBJECT_START );
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
+    TTEST( h.event.type == cljp::Event::T_OBJECT_START );
+    TTEST( h.event.name == "Field" );
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
+    TTEST( h.event.type == cljp::Event::T_ARRAY_START );
+    TTEST( h.event.name == "Jam" );
+
+    TTEST( h.parser.skip() == cljp::Parser::PR_OK );
+
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
+    TTEST( h.event.type == cljp::Event::T_NULL );
+    TTEST( h.event.name == "Spread" );
+    }
+
+    {
+    Harness h( "{ \"Field\" : { \"Jam\":[1,2,3,4], \"Spread\": null}, \"Honey\": 10 }" );
+
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
+    TTEST( h.event.type == cljp::Event::T_OBJECT_START );
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
+    TTEST( h.event.type == cljp::Event::T_OBJECT_START );
+    TTEST( h.event.name == "Field" );
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
+    TTEST( h.event.type == cljp::Event::T_ARRAY_START );
+    TTEST( h.event.name == "Jam" );
+
+    TTEST( h.parser.skip() == cljp::Parser::PR_OK );
+
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
+    TTEST( h.event.type == cljp::Event::T_NULL );
+    TTEST( h.event.name == "Spread" );
+    }
+
+    {
+    Harness h( "{ \"Field\" : { \"Jam\":[1,{\"t1\":1,\"t2\":[9,8,7]},3,4], \"Spread\": null}, \"Honey\": 10 }" );
+
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
+    TTEST( h.event.type == cljp::Event::T_OBJECT_START );
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
+    TTEST( h.event.type == cljp::Event::T_OBJECT_START );
+    TTEST( h.event.name == "Field" );
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
+    TTEST( h.event.type == cljp::Event::T_ARRAY_START );
+    TTEST( h.event.name == "Jam" );
+
+    TTEST( h.parser.skip() == cljp::Parser::PR_OK );
+
+    TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
+    TTEST( h.event.type == cljp::Event::T_NULL );
+    TTEST( h.event.name == "Spread" );
+    }
+}

@@ -1330,6 +1330,19 @@ Parser::ParserResult Parser::get( Event * p_event_out )
     return report_error( PR_UNDOCUMENTED_FAIL );
 }
 
+Parser::ParserResult Parser::skip()
+{
+    Event event;
+    size_t done_depth = m.context_stack.size() - 1;
+    while( m.context_stack.size() > done_depth )
+    {
+        ParserResult result = get( &event );
+        if( result != PR_OK )
+            return report_error( result );
+    }
+    return PR_OK;
+}
+
 void Parser::new_message()
 {
     m.new_message();
@@ -1718,9 +1731,5 @@ Parser::ParserResult Parser::report_error( ParserResult error )
     #endif
     return error;
 }
-
-//----------------------------------------------------------------------------
-//                               class SmartParser
-//----------------------------------------------------------------------------
 
 }   // End of namespace cljp
