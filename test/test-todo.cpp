@@ -37,12 +37,5 @@
 
 TFEATURE( "TODOs" )
 {
-    TTODO( "Add a Parser::skip() method to skip end of current object or array" );
-
-    TTODO( "Add Event::on( \"name\", type, handler ) method to allow easier handling of events" );
-    // e.g.:
-    // Event event;
-    // parser.get( &event );
-    // event.on( "foo", T_STRING, handle_foo ).
-    //       on( "bar", T_NUMBER, handle_bar );
+    TTODO( "Add a Parser::skip() method to skip to end of current object or array" );
 }

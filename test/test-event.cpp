@@ -141,6 +141,30 @@ TFEATURE( "Event::is_int" )
     TTEST( event.is_int() == false );
 }
 
+TFEATURE( "Event::is() [name]" )
+{
+    cljp::Event event;
+
+    event.type = cljp::Event::T_NUMBER;
+    event.name = "myEvent";
+
+    TTEST( event.is( "myEvent" ) );
+    TTEST( event.is( "myEvent", cljp::Event::T_NUMBER ) );
+    TTEST( ! event.is( "notMyEvent" ) );
+    TTEST( ! event.is( "notMyEvent", cljp::Event::T_NUMBER ) );
+    TTEST( ! event.is( "myEvent", cljp::Event::T_STRING ) );
+}
+
+TFEATURE( "Event::on() [name]" )
+{
+    TTODO( "Add Event::on( \"name\", type, handler ) method to allow easier handling of events" );
+    // e.g.:
+    // Event event;
+    // parser.get( &event );
+    // event.on( "foo", T_STRING, handle_foo ).
+    //       on( "bar", T_NUMBER, handle_bar );
+}
+
 TFEATURE( "Event::to_bool" )
 {
     {

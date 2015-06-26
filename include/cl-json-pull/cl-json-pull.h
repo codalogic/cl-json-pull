@@ -305,6 +305,9 @@ struct Event
     bool is_int() const;
     bool is_float() const { return is_number(); }           // For convenience
 
+    bool is( const char * p_name_in ) { return name == p_name_in; }
+    bool is( const char * p_name_in, Type type_in ) { return name == p_name_in && type == type_in; }
+
     bool to_bool() const;
     double to_float() const;
     int to_int() const;

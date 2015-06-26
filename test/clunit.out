@@ -1,4 +1,4 @@
-Tests run on Fri Jun 26 16:49:16 2015
+Tests run on Fri Jun 26 18:55:24 2015
 
     struct Event [test-event.cpp:38]
     ================================
@@ -45,7 +45,16 @@ Tests run on Fri Jun 26 16:49:16 2015
     ok: event.is_int() == false
     ok: ! _CrtMemDifference( &s3, &s1, &s2 )
 
-    Event::to_bool [test-event.cpp:144]
+    Event::is() [name] [test-event.cpp:144]
+    =======================================
+    ok: event.is( "myEvent" )
+    ok: event.is( "myEvent", cljp::Event::T_NUMBER )
+    ok: ! event.is( "notMyEvent" )
+    ok: ! event.is( "notMyEvent", cljp::Event::T_NUMBER )
+    ok: ! event.is( "myEvent", cljp::Event::T_STRING )
+    ok: ! _CrtMemDifference( &s3, &s1, &s2 )
+
+    Event::to_bool [test-event.cpp:158]
     ===================================
       Test Event::to_bool() for booleans
     ok: event.to_bool() == false
@@ -63,7 +72,7 @@ Tests run on Fri Jun 26 16:49:16 2015
     ok: event.to_bool() == false
     ok: ! _CrtMemDifference( &s3, &s1, &s2 )
 
-    Event to_float, to_int [test-event.cpp:201]
+    Event to_float, to_int [test-event.cpp:215]
     ===========================================
     ok: event.to_float() == 1.0
     ok: event.to_float() == 1.5
@@ -81,7 +90,7 @@ Tests run on Fri Jun 26 16:49:16 2015
     ok: event.to_int() == 0
     ok: ! _CrtMemDifference( &s3, &s1, &s2 )
 
-    Event to_string, to_wstring [test-event.cpp:250]
+    Event to_string, to_wstring [test-event.cpp:264]
     ================================================
     ok: event.to_string() == "MyString"
     ok: event.to_string() == "\xE6\x97\xA5\xE6\x9C\xAC\xE8\xAA\x9E"
@@ -3184,7 +3193,7 @@ Tests run on Fri Jun 26 16:49:16 2015
 
 TODOs (2):
 ------------------------
-- Add a Parser::skip() method to skip end of current object or array [test-todo.cpp:40]
+- Add a Parser::skip() method to skip to end of current object or array [test-todo.cpp:40]
 - Add Event::on( "name", type, handler ) method to allow easier handling of events [test-todo.cpp:42]
 
-0 error(s), 2 todo(s), 2538 test(s)
+0 error(s), 2 todo(s), 2544 test(s)
