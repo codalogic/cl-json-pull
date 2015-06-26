@@ -328,16 +328,16 @@ private:
         while( m.c != '"' && m.c != Reader::EOM )
         {
             if( m.c != '\\' )
-                handled_unescaped();
+                handle_unescaped();
             else
-                handled_escaped();
+                handle_escaped();
         }
 
         if( m.c == Reader::EOM )
             m.result = Parser::PR_UNEXPECTED_END_OF_MESSAGE;
     }
 
-    void handled_unescaped()
+    void handle_unescaped()
     {
         // unescaped = %x20-21 / %x23-5B / %x5D-10FFFF
         // %x22 = ", %x5c = \ which are already handled elsewhere
@@ -348,7 +348,7 @@ private:
         accept_and_get();
     }
 
-    void handled_escaped()
+    void handle_escaped()
     {
         //           %x22 /          ; "    quotation mark  U+0022
         //           %x5C /          ; \    reverse solidus U+005C
