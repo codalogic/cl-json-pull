@@ -50,7 +50,7 @@ int example_check()
         cljp::Parser parser( reader );
         cljp::Event event;
 
-        while( parser.get( &event ) == cljp::Parser::PR_OK )
+        while( parser.get( &event ) == cljp::Parser::PS_OK )
         {
             // TODO: Do something with event, e.g.:
             switch( event.type )
@@ -68,7 +68,7 @@ int example_check()
                 else
                 {
                     // Skip contents of unwanted object
-                    if( parser.skip() != cljp::Parser::PR_OK )
+                    if( parser.skip() != cljp::Parser::PS_OK )
                         return 0;
                 }
             break;

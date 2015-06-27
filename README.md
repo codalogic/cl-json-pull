@@ -14,16 +14,16 @@ with or without a BOM.
 The main class is `Parser` in the `cljp` namespace.
 
 The primary method in this is
-`Parser::Result Parser::get( Event * p_event_out )`.  Each call of this method
+`Parser::Status Parser::get( Event * p_event_out )`.  Each call of this method
 retrieves another event from the JSON input until the end of the message
 is encountered or an error is detected.  The same 'Event' object can be
 used in multiple `Parser::get()` calls, or different ones can be used.
 
-The returned `Parser::Result` value indicates the success or otherwise of the
-get operation.  `PR_OK` indicates that the get operation was successful, and
+The returned `Parser::Status` value indicates the success or otherwise of the
+get operation.  `PS_OK` indicates that the get operation was successful, and
 the `Event` object pointed to by `p_event_out` has been populated.
-`PR_END_OF_MESSAGE` indicates that the end of the message has been reached.
-Other values of `Parser::Result` indicate various error conditions.
+`PS_END_OF_MESSAGE` indicates that the end of the message has been reached.
+Other values of `Parser::Status` indicate various error conditions.
 
 On a succesful `get()` operation, the retrieved `Event` object indicates the
 `type` of event that was retrieved, the member `name` if applicable, and the
@@ -74,7 +74,7 @@ int main()
         cljp::Parser parser( reader );
         cljp::Event event;
 
-        while( parser.get( &event ) == cljp::Parser::PR_OK )
+        while( parser.get( &event ) == cljp::Parser::PS_OK )
         {
             // TODO: Do something with event, e.g.:
             switch( event.type )
@@ -92,7 +92,7 @@ int main()
                 else
                 {
                     // Skip contents of unwanted object
-                    if( parser.skip() != cljp::Parser::PR_OK )
+                    if( parser.skip() != cljp::Parser::PS_OK )
                         return 0;
                 }
             break;
@@ -114,6 +114,7 @@ int main()
             }
         }
     }
+    return 0;
 }
 ```
 

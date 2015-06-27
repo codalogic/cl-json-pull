@@ -323,25 +323,25 @@ struct Event
 class Parser
 {
 public:
-    enum Result {
-            PR_OK,
-            PR_END_OF_MESSAGE,
-            PR_UNABLE_TO_CONTINUE_DUE_TO_ERRORS,
-            PR_UNEXPECTED_END_OF_MESSAGE,
-            PR_EXPECTED_COLON_NAME_SEPARATOR,
-            PR_UNEXPECTED_OBJECT_CLOSE,
-            PR_UNEXPECTED_ARRAY_CLOSE,
-            PR_EXPECTED_COMMA_OR_END_OF_ARRAY,
-            PR_EXPECTED_COMMA_OR_END_OF_OBJECT,
-            PR_UNRECOGNISED_VALUE_FORMAT,
-            PR_BAD_FORMAT_STRING,
-            PR_BAD_FORMAT_FALSE,
-            PR_BAD_FORMAT_TRUE,
-            PR_BAD_FORMAT_NULL,
-            PR_BAD_FORMAT_NUMBER,
-            PR_BAD_UNICODE_ESCAPE,
-            PR_EXPECTED_MEMBER_NAME,
-            PR_UNDOCUMENTED_FAIL = 100
+    enum Status {
+            PS_OK,
+            PS_END_OF_MESSAGE,
+            PS_UNABLE_TO_CONTINUE_DUE_TO_ERRORS,
+            PS_UNEXPECTED_END_OF_MESSAGE,
+            PS_EXPECTED_COLON_NAME_SEPARATOR,
+            PS_UNEXPECTED_OBJECT_CLOSE,
+            PS_UNEXPECTED_ARRAY_CLOSE,
+            PS_EXPECTED_COMMA_OR_END_OF_ARRAY,
+            PS_EXPECTED_COMMA_OR_END_OF_OBJECT,
+            PS_UNRECOGNISED_VALUE_FORMAT,
+            PS_BAD_FORMAT_STRING,
+            PS_BAD_FORMAT_FALSE,
+            PS_BAD_FORMAT_TRUE,
+            PS_BAD_FORMAT_NULL,
+            PS_BAD_FORMAT_NUMBER,
+            PS_BAD_UNICODE_ESCAPE,
+            PS_EXPECTED_MEMBER_NAME,
+            PS_UNDOCUMENTED_FAIL = 100
             };
 
 private:
@@ -354,7 +354,7 @@ private:
         context_stack_t context_stack;
         int c;
         Event * p_event_out;
-        Result last_result;
+        Status last_status;
 
         Members( Reader & reader_in )
             : input( reader_in )
@@ -367,7 +367,7 @@ private:
             context_stack.push( C_OUTER );
             c = ' ';
             p_event_out = 0;
-            last_result = PR_OK;
+            last_status = PS_OK;
         }
     } m;
 
@@ -376,8 +376,8 @@ public:
         : m( reader_in )
     {}
 
-    Result get( Event * p_event_out );
-    Result skip();
+    Status get( Event * p_event_out );
+    Status skip();
     void new_message();
 
 private:
@@ -387,42 +387,42 @@ private:
     void unget( int c ) { m.input.unget( c ); }
     void unget() { m.input.unget( m.c ); }
     Context context() const { return m.context_stack.top(); }
-    Result get_outer();
-    Result get_start_object();
-    Result get_in_object();
-    Result get_for_object();
-    Result get_start_array();
-    Result get_in_array();
-    Result get_for_array();
-    Result get_member();
-    Result get_name();
-    Result skip_name_separator();
-    Result get_value();
-    Result error_on_unrecognised_value_start();
-    Result get_false();
-    Result get_true();
-    Result get_null();
-    Result get_constant_string(
+    Status get_outer();
+    Status get_start_object();
+    Status get_in_object();
+    Status get_for_object();
+    Status get_start_array();
+    Status get_in_array();
+    Status get_for_array();
+    Status get_member();
+    Status get_name();
+    Status skip_name_separator();
+    Status get_value();
+    Status error_on_unrecognised_value_start();
+    Status get_false();
+    Status get_true();
+    Status get_null();
+    Status get_constant_string(
                             const char * const p_chars_start,
                             Event::Type on_success_type,
-                            Result on_error_code );
+                            Status on_error_code );
     bool is_number_start_char();
     bool is_invalid_json_number_start_char();
-    Result get_number();
-    Result get_string();
+    Status get_number();
+    Status get_string();
     void read_to_non_quoted_value_end();
     bool is_separator();
     bool is_unexpected_object_close();
-    Result unexpected_object_close_error();
+    Status unexpected_object_close_error();
     bool is_unexpected_array_close();
-    Result unexpected_array_close_error();
+    Status unexpected_array_close_error();
     bool is_unexpected_close();
-    Result unexpected_close_error();
-    Result context_update_for_object();
-    Result context_update_for_array();
+    Status unexpected_close_error();
+    Status context_update_for_object();
+    Status context_update_for_array();
     void conditional_context_update_for_nesting_increase();
 
-    Result report_error( Result error );
+    Status report_error( Status error );
 };
 
 //----------------------------------------------------------------------------
@@ -433,16 +433,16 @@ class ParserException : public std::exception
 {
 private:
     struct Members {
-        Parser::Result error;
+        Parser::Status error;
 
-        Members( Parser::Result error_in ) : error( error_in ) {}
+        Members( Parser::Status error_in ) : error( error_in ) {}
     } m;
 
 public:
-    ParserException( Parser::Result error_in )
+    ParserException( Parser::Status error_in )
         : m( error_in )
     {}
-    Parser::Result error() const { return m.error; }
+    Parser::Status error() const { return m.error; }
     const char * what() const throw()
     {
         return "cljp::ParserException";

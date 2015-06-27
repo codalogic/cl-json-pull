@@ -1,4 +1,4 @@
-Tests run on Sat Jun 27 09:18:24 2015
+Tests run on Sat Jun 27 10:55:49 2015
 
     struct Event [test-event.cpp:38]
     ================================
@@ -108,1227 +108,1227 @@ Tests run on Sat Jun 27 09:18:24 2015
     Reading whole messages [test-messages.cpp:67]
     =============================================
       Calling: test_message_sequence( p_message, events ) (75)
-    ok: result == events[i].result
+    ok: status == events[i].status
       Calling: test_message_sequence( p_message, events ) (85)
-    ok: result == events[i].result
+    ok: status == events[i].status
     ok: h.event.type == events[i].type
     ok: h.event.name == events[i].name
     ok: h.event.value == events[i].value
-    ok: result == events[i].result
+    ok: status == events[i].status
       Calling: test_message_sequence( p_message, events ) (97)
-    ok: result == events[i].result
+    ok: status == events[i].status
     ok: h.event.type == events[i].type
     ok: h.event.name == events[i].name
     ok: h.event.value == events[i].value
-    ok: result == events[i].result
+    ok: status == events[i].status
     ok: h.event.type == events[i].type
     ok: h.event.name == events[i].name
     ok: h.event.value == events[i].value
-    ok: result == events[i].result
+    ok: status == events[i].status
     ok: h.event.type == events[i].type
     ok: h.event.name == events[i].name
     ok: h.event.value == events[i].value
-    ok: result == events[i].result
+    ok: status == events[i].status
       Calling: test_message_sequence( p_message, events ) (111)
-    ok: result == events[i].result
+    ok: status == events[i].status
     ok: h.event.type == events[i].type
     ok: h.event.name == events[i].name
     ok: h.event.value == events[i].value
-    ok: result == events[i].result
+    ok: status == events[i].status
     ok: h.event.type == events[i].type
     ok: h.event.name == events[i].name
     ok: h.event.value == events[i].value
-    ok: result == events[i].result
+    ok: status == events[i].status
     ok: h.event.type == events[i].type
     ok: h.event.name == events[i].name
     ok: h.event.value == events[i].value
-    ok: result == events[i].result
+    ok: status == events[i].status
     ok: h.event.type == events[i].type
     ok: h.event.name == events[i].name
     ok: h.event.value == events[i].value
-    ok: result == events[i].result
+    ok: status == events[i].status
     ok: h.event.type == events[i].type
     ok: h.event.name == events[i].name
     ok: h.event.value == events[i].value
-    ok: result == events[i].result
+    ok: status == events[i].status
       Calling: test_message_sequence( p_message, events ) (125)
-    ok: result == events[i].result
+    ok: status == events[i].status
     ok: h.event.type == events[i].type
     ok: h.event.name == events[i].name
     ok: h.event.value == events[i].value
-    ok: result == events[i].result
+    ok: status == events[i].status
     ok: h.event.type == events[i].type
     ok: h.event.name == events[i].name
     ok: h.event.value == events[i].value
-    ok: result == events[i].result
+    ok: status == events[i].status
     ok: h.event.type == events[i].type
     ok: h.event.name == events[i].name
     ok: h.event.value == events[i].value
-    ok: result == events[i].result
+    ok: status == events[i].status
     ok: h.event.type == events[i].type
     ok: h.event.name == events[i].name
     ok: h.event.value == events[i].value
-    ok: result == events[i].result
+    ok: status == events[i].status
     ok: h.event.type == events[i].type
     ok: h.event.name == events[i].name
     ok: h.event.value == events[i].value
-    ok: result == events[i].result
+    ok: status == events[i].status
       Calling: test_message_sequence( p_message, events ) (139)
-    ok: result == events[i].result
+    ok: status == events[i].status
     ok: h.event.type == events[i].type
     ok: h.event.name == events[i].name
     ok: h.event.value == events[i].value
-    ok: result == events[i].result
+    ok: status == events[i].status
     ok: h.event.type == events[i].type
     ok: h.event.name == events[i].name
     ok: h.event.value == events[i].value
-    ok: result == events[i].result
+    ok: status == events[i].status
     ok: h.event.type == events[i].type
     ok: h.event.name == events[i].name
     ok: h.event.value == events[i].value
-    ok: result == events[i].result
+    ok: status == events[i].status
     ok: h.event.type == events[i].type
     ok: h.event.name == events[i].name
     ok: h.event.value == events[i].value
-    ok: result == events[i].result
+    ok: status == events[i].status
     ok: h.event.type == events[i].type
     ok: h.event.name == events[i].name
     ok: h.event.value == events[i].value
-    ok: result == events[i].result
+    ok: status == events[i].status
       Calling: test_message_sequence( p_message, events ) (152)
-    ok: result == events[i].result
+    ok: status == events[i].status
     ok: h.event.type == events[i].type
     ok: h.event.name == events[i].name
     ok: h.event.value == events[i].value
-    ok: result == events[i].result
+    ok: status == events[i].status
     ok: h.event.type == events[i].type
     ok: h.event.name == events[i].name
     ok: h.event.value == events[i].value
-    ok: result == events[i].result
+    ok: status == events[i].status
     ok: h.event.type == events[i].type
     ok: h.event.name == events[i].name
     ok: h.event.value == events[i].value
-    ok: result == events[i].result
+    ok: status == events[i].status
     ok: h.event.type == events[i].type
     ok: h.event.name == events[i].name
     ok: h.event.value == events[i].value
-    ok: result == events[i].result
+    ok: status == events[i].status
       Calling: test_message_sequence( p_message, events ) (166)
-    ok: result == events[i].result
+    ok: status == events[i].status
     ok: h.event.type == events[i].type
     ok: h.event.name == events[i].name
     ok: h.event.value == events[i].value
-    ok: result == events[i].result
+    ok: status == events[i].status
     ok: h.event.type == events[i].type
     ok: h.event.name == events[i].name
     ok: h.event.value == events[i].value
-    ok: result == events[i].result
+    ok: status == events[i].status
     ok: h.event.type == events[i].type
     ok: h.event.name == events[i].name
     ok: h.event.value == events[i].value
-    ok: result == events[i].result
+    ok: status == events[i].status
     ok: h.event.type == events[i].type
     ok: h.event.name == events[i].name
     ok: h.event.value == events[i].value
-    ok: result == events[i].result
+    ok: status == events[i].status
     ok: h.event.type == events[i].type
     ok: h.event.name == events[i].name
     ok: h.event.value == events[i].value
-    ok: result == events[i].result
+    ok: status == events[i].status
       Calling: test_message_sequence( p_message, events ) (181)
-    ok: result == events[i].result
+    ok: status == events[i].status
     ok: h.event.type == events[i].type
     ok: h.event.name == events[i].name
     ok: h.event.value == events[i].value
-    ok: result == events[i].result
+    ok: status == events[i].status
     ok: h.event.type == events[i].type
     ok: h.event.name == events[i].name
     ok: h.event.value == events[i].value
-    ok: result == events[i].result
+    ok: status == events[i].status
     ok: h.event.type == events[i].type
     ok: h.event.name == events[i].name
     ok: h.event.value == events[i].value
-    ok: result == events[i].result
+    ok: status == events[i].status
     ok: h.event.type == events[i].type
     ok: h.event.name == events[i].name
     ok: h.event.value == events[i].value
-    ok: result == events[i].result
+    ok: status == events[i].status
     ok: h.event.type == events[i].type
     ok: h.event.name == events[i].name
     ok: h.event.value == events[i].value
-    ok: result == events[i].result
+    ok: status == events[i].status
     ok: h.event.type == events[i].type
     ok: h.event.name == events[i].name
     ok: h.event.value == events[i].value
-    ok: result == events[i].result
+    ok: status == events[i].status
       Calling: test_message_sequence( p_message, events ) (196)
-    ok: result == events[i].result
+    ok: status == events[i].status
     ok: h.event.type == events[i].type
     ok: h.event.name == events[i].name
     ok: h.event.value == events[i].value
-    ok: result == events[i].result
+    ok: status == events[i].status
     ok: h.event.type == events[i].type
     ok: h.event.name == events[i].name
     ok: h.event.value == events[i].value
-    ok: result == events[i].result
+    ok: status == events[i].status
     ok: h.event.type == events[i].type
     ok: h.event.name == events[i].name
     ok: h.event.value == events[i].value
-    ok: result == events[i].result
+    ok: status == events[i].status
     ok: h.event.type == events[i].type
     ok: h.event.name == events[i].name
     ok: h.event.value == events[i].value
-    ok: result == events[i].result
+    ok: status == events[i].status
     ok: h.event.type == events[i].type
     ok: h.event.name == events[i].name
     ok: h.event.value == events[i].value
-    ok: result == events[i].result
+    ok: status == events[i].status
     ok: h.event.type == events[i].type
     ok: h.event.name == events[i].name
     ok: h.event.value == events[i].value
-    ok: result == events[i].result
+    ok: status == events[i].status
       Calling: test_message_sequence( p_message, events ) (210)
-    ok: result == events[i].result
+    ok: status == events[i].status
     ok: h.event.type == events[i].type
     ok: h.event.name == events[i].name
     ok: h.event.value == events[i].value
-    ok: result == events[i].result
+    ok: status == events[i].status
     ok: h.event.type == events[i].type
     ok: h.event.name == events[i].name
     ok: h.event.value == events[i].value
-    ok: result == events[i].result
+    ok: status == events[i].status
     ok: h.event.type == events[i].type
     ok: h.event.name == events[i].name
     ok: h.event.value == events[i].value
-    ok: result == events[i].result
+    ok: status == events[i].status
     ok: h.event.type == events[i].type
     ok: h.event.name == events[i].name
     ok: h.event.value == events[i].value
-    ok: result == events[i].result
+    ok: status == events[i].status
     ok: h.event.type == events[i].type
     ok: h.event.name == events[i].name
     ok: h.event.value == events[i].value
-    ok: result == events[i].result
+    ok: status == events[i].status
       Calling: test_message_sequence( p_message, events ) (221)
-    ok: result == events[i].result
+    ok: status == events[i].status
     ok: h.event.type == events[i].type
     ok: h.event.name == events[i].name
     ok: h.event.value == events[i].value
-    ok: result == events[i].result
+    ok: status == events[i].status
     ok: h.event.type == events[i].type
     ok: h.event.name == events[i].name
     ok: h.event.value == events[i].value
-    ok: result == events[i].result
+    ok: status == events[i].status
       Calling: test_message_sequence( p_message, events ) (232)
-    ok: result == events[i].result
+    ok: status == events[i].status
     ok: h.event.type == events[i].type
     ok: h.event.name == events[i].name
     ok: h.event.value == events[i].value
-    ok: result == events[i].result
+    ok: status == events[i].status
     ok: h.event.type == events[i].type
     ok: h.event.name == events[i].name
     ok: h.event.value == events[i].value
-    ok: result == events[i].result
+    ok: status == events[i].status
       Calling: test_message_sequence( p_message, events ) (247)
-    ok: result == events[i].result
+    ok: status == events[i].status
     ok: h.event.type == events[i].type
     ok: h.event.name == events[i].name
     ok: h.event.value == events[i].value
-    ok: result == events[i].result
+    ok: status == events[i].status
     ok: h.event.type == events[i].type
     ok: h.event.name == events[i].name
     ok: h.event.value == events[i].value
-    ok: result == events[i].result
+    ok: status == events[i].status
     ok: h.event.type == events[i].type
     ok: h.event.name == events[i].name
     ok: h.event.value == events[i].value
-    ok: result == events[i].result
+    ok: status == events[i].status
     ok: h.event.type == events[i].type
     ok: h.event.name == events[i].name
     ok: h.event.value == events[i].value
-    ok: result == events[i].result
+    ok: status == events[i].status
     ok: h.event.type == events[i].type
     ok: h.event.name == events[i].name
     ok: h.event.value == events[i].value
-    ok: result == events[i].result
+    ok: status == events[i].status
     ok: h.event.type == events[i].type
     ok: h.event.name == events[i].name
     ok: h.event.value == events[i].value
-    ok: result == events[i].result
+    ok: status == events[i].status
       Calling: test_message_sequence( p_message, events ) (264)
-    ok: result == events[i].result
+    ok: status == events[i].status
     ok: h.event.type == events[i].type
     ok: h.event.name == events[i].name
     ok: h.event.value == events[i].value
-    ok: result == events[i].result
+    ok: status == events[i].status
     ok: h.event.type == events[i].type
     ok: h.event.name == events[i].name
     ok: h.event.value == events[i].value
-    ok: result == events[i].result
+    ok: status == events[i].status
     ok: h.event.type == events[i].type
     ok: h.event.name == events[i].name
     ok: h.event.value == events[i].value
-    ok: result == events[i].result
+    ok: status == events[i].status
     ok: h.event.type == events[i].type
     ok: h.event.name == events[i].name
     ok: h.event.value == events[i].value
-    ok: result == events[i].result
+    ok: status == events[i].status
     ok: h.event.type == events[i].type
     ok: h.event.name == events[i].name
     ok: h.event.value == events[i].value
-    ok: result == events[i].result
+    ok: status == events[i].status
     ok: h.event.type == events[i].type
     ok: h.event.name == events[i].name
     ok: h.event.value == events[i].value
-    ok: result == events[i].result
+    ok: status == events[i].status
     ok: h.event.type == events[i].type
     ok: h.event.name == events[i].name
     ok: h.event.value == events[i].value
-    ok: result == events[i].result
+    ok: status == events[i].status
     ok: h.event.type == events[i].type
     ok: h.event.name == events[i].name
     ok: h.event.value == events[i].value
-    ok: result == events[i].result
+    ok: status == events[i].status
       Calling: test_message_sequence( p_message, events ) (285)
-    ok: result == events[i].result
+    ok: status == events[i].status
     ok: h.event.type == events[i].type
     ok: h.event.name == events[i].name
     ok: h.event.value == events[i].value
-    ok: result == events[i].result
+    ok: status == events[i].status
     ok: h.event.type == events[i].type
     ok: h.event.name == events[i].name
     ok: h.event.value == events[i].value
-    ok: result == events[i].result
+    ok: status == events[i].status
     ok: h.event.type == events[i].type
     ok: h.event.name == events[i].name
     ok: h.event.value == events[i].value
-    ok: result == events[i].result
+    ok: status == events[i].status
     ok: h.event.type == events[i].type
     ok: h.event.name == events[i].name
     ok: h.event.value == events[i].value
-    ok: result == events[i].result
+    ok: status == events[i].status
     ok: h.event.type == events[i].type
     ok: h.event.name == events[i].name
     ok: h.event.value == events[i].value
-    ok: result == events[i].result
+    ok: status == events[i].status
     ok: h.event.type == events[i].type
     ok: h.event.name == events[i].name
     ok: h.event.value == events[i].value
-    ok: result == events[i].result
+    ok: status == events[i].status
     ok: h.event.type == events[i].type
     ok: h.event.name == events[i].name
     ok: h.event.value == events[i].value
-    ok: result == events[i].result
+    ok: status == events[i].status
     ok: h.event.type == events[i].type
     ok: h.event.name == events[i].name
     ok: h.event.value == events[i].value
-    ok: result == events[i].result
+    ok: status == events[i].status
     ok: h.event.type == events[i].type
     ok: h.event.name == events[i].name
     ok: h.event.value == events[i].value
-    ok: result == events[i].result
+    ok: status == events[i].status
     ok: h.event.type == events[i].type
     ok: h.event.name == events[i].name
     ok: h.event.value == events[i].value
-    ok: result == events[i].result
+    ok: status == events[i].status
     ok: h.event.type == events[i].type
     ok: h.event.name == events[i].name
     ok: h.event.value == events[i].value
-    ok: result == events[i].result
+    ok: status == events[i].status
     ok: h.event.type == events[i].type
     ok: h.event.name == events[i].name
     ok: h.event.value == events[i].value
-    ok: result == events[i].result
+    ok: status == events[i].status
       Calling: test_message_sequence( p_message, events ) (296)
-    ok: result == events[i].result
+    ok: status == events[i].status
     ok: h.event.type == events[i].type
     ok: h.event.name == events[i].name
     ok: h.event.value == events[i].value
-    ok: result == events[i].result
+    ok: status == events[i].status
     ok: h.event.type == events[i].type
     ok: h.event.name == events[i].name
     ok: h.event.value == events[i].value
-    ok: result == events[i].result
+    ok: status == events[i].status
     ok: ! _CrtMemDifference( &s3, &s1, &s2 )
 
     Reading multiple messages in single stream [test-messages.cpp:300]
     ==================================================================
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_STRING
     ok: h.event.value == "Message 1"
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_END_OF_MESSAGE
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_END_OF_MESSAGE
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_END_OF_MESSAGE
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_END_OF_MESSAGE
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_END_OF_MESSAGE
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_END_OF_MESSAGE
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_STRING
     ok: h.event.value == "Message 2"
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_END_OF_MESSAGE
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_END_OF_MESSAGE
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_END_OF_MESSAGE
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_END_OF_MESSAGE
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_END_OF_MESSAGE
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_END_OF_MESSAGE
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_OBJECT_START
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_NUMBER
     ok: h.event.name == "rate"
     ok: h.event.value == "15"
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_OBJECT_END
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_END_OF_MESSAGE
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_END_OF_MESSAGE
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_END_OF_MESSAGE
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_END_OF_MESSAGE
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_END_OF_MESSAGE
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_END_OF_MESSAGE
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_OBJECT_START
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_NUMBER
     ok: h.event.name == "rate"
     ok: h.event.value == "10"
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_OBJECT_END
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_END_OF_MESSAGE
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_END_OF_MESSAGE
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_END_OF_MESSAGE
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_END_OF_MESSAGE
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_END_OF_MESSAGE
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_END_OF_MESSAGE
     ok: ! _CrtMemDifference( &s3, &s1, &s2 )
 
     Parser: illegally formed messages [test-messages.cpp:399]
     =========================================================
-      Calling: test_invalid_message( "Illegal", cljp::Parser::PR_UNRECOGNISED_VALUE_FORMAT ) (421)
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result == expected_final_result
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
-      Calling: test_invalid_message( " fals ", cljp::Parser::PR_BAD_FORMAT_FALSE ) (422)
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result == expected_final_result
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
-      Calling: test_invalid_message( " falsey ", cljp::Parser::PR_BAD_FORMAT_FALSE ) (423)
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result == expected_final_result
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
-      Calling: test_invalid_message( " truey ", cljp::Parser::PR_BAD_FORMAT_TRUE ) (424)
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result == expected_final_result
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
-      Calling: test_invalid_message( " nully ", cljp::Parser::PR_BAD_FORMAT_NULL ) (425)
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result == expected_final_result
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
-      Calling: test_invalid_message( " falsey ", cljp::Parser::PR_BAD_FORMAT_FALSE ) (426)
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result == expected_final_result
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
-      Calling: test_invalid_message( " 1.0.0 ", cljp::Parser::PR_BAD_FORMAT_NUMBER ) (427)
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result == expected_final_result
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
-      Calling: test_invalid_message( " \"abc\\u00xxabc\" ", cljp::Parser::PR_BAD_UNICODE_ESCAPE ) (428)
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result == expected_final_result
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
-      Calling: test_invalid_message( " \"abc\\qabc\" ", cljp::Parser::PR_BAD_FORMAT_STRING ) (429)
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result == expected_final_result
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
-      Calling: test_invalid_message( " } ", cljp::Parser::PR_UNEXPECTED_OBJECT_CLOSE ) (431)
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result == expected_final_result
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
-      Calling: test_invalid_message( " ] ", cljp::Parser::PR_UNEXPECTED_ARRAY_CLOSE ) (432)
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result == expected_final_result
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
-      Calling: test_invalid_message( " [ fals ", cljp::Parser::PR_BAD_FORMAT_FALSE ) (434)
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result == expected_final_result
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
-      Calling: test_invalid_message( " [[false]} ", cljp::Parser::PR_UNEXPECTED_OBJECT_CLOSE ) (435)
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result == expected_final_result
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
-      Calling: test_invalid_message( " { \"tag1\" : fals } ", cljp::Parser::PR_BAD_FORMAT_FALSE ) (437)
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result == expected_final_result
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
-      Calling: test_invalid_message( " { tag1 : false } ", cljp::Parser::PR_EXPECTED_MEMBER_NAME ) (438)
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result == expected_final_result
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
-      Calling: test_invalid_message( " { 10 : false } ", cljp::Parser::PR_EXPECTED_MEMBER_NAME ) (439)
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result == expected_final_result
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
-      Calling: test_invalid_message( " { \"tag1\" } ", cljp::Parser::PR_EXPECTED_COLON_NAME_SEPARATOR ) (440)
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result == expected_final_result
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
-      Calling: test_invalid_message( " { \"tag1\" 10 } ", cljp::Parser::PR_EXPECTED_COLON_NAME_SEPARATOR ) (441)
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result == expected_final_result
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
-      Calling: test_invalid_message( " { \"tag1\" : false  true } ", cljp::Parser::PR_EXPECTED_COMMA_OR_END_OF_OBJECT ) (442)
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result == expected_final_result
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
-      Calling: test_invalid_message( " { \"tag1\" : false  \"tag2\" } ", cljp::Parser::PR_EXPECTED_COMMA_OR_END_OF_OBJECT ) (443)
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result == expected_final_result
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
-      Calling: test_invalid_message( " { \"tag1\" : false : \"tag2\" } ", cljp::Parser::PR_EXPECTED_COMMA_OR_END_OF_OBJECT ) (444)
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result == expected_final_result
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
-      Calling: test_invalid_message( " { \"tag1\" : false { \"tag2\" } ", cljp::Parser::PR_EXPECTED_COMMA_OR_END_OF_OBJECT ) (445)
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result == expected_final_result
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
-      Calling: test_invalid_message( " { \"tag1\" : false ] ", cljp::Parser::PR_UNEXPECTED_ARRAY_CLOSE ) (446)
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result == expected_final_result
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
-      Calling: test_invalid_message( "[ { \"tag1\" = false } ]", cljp::Parser::PR_EXPECTED_COLON_NAME_SEPARATOR ) (448)
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result == expected_final_result
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
-      Calling: test_invalid_message( "[ {},[],{ ]", cljp::Parser::PR_UNEXPECTED_ARRAY_CLOSE ) (449)
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result == expected_final_result
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
-      Calling: test_invalid_message( "[ [{}, 12, .],{} ]", cljp::Parser::PR_BAD_FORMAT_NUMBER ) (450)
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result == expected_final_result
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
-      Calling: test_invalid_message( "[ {},[], ]", cljp::Parser::PR_UNEXPECTED_ARRAY_CLOSE ) (451)
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result == expected_final_result
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
+      Calling: test_invalid_message( "Illegal", cljp::Parser::PS_UNRECOGNISED_VALUE_FORMAT ) (421)
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status == expected_final_status
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
+      Calling: test_invalid_message( " fals ", cljp::Parser::PS_BAD_FORMAT_FALSE ) (422)
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status == expected_final_status
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
+      Calling: test_invalid_message( " falsey ", cljp::Parser::PS_BAD_FORMAT_FALSE ) (423)
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status == expected_final_status
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
+      Calling: test_invalid_message( " truey ", cljp::Parser::PS_BAD_FORMAT_TRUE ) (424)
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status == expected_final_status
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
+      Calling: test_invalid_message( " nully ", cljp::Parser::PS_BAD_FORMAT_NULL ) (425)
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status == expected_final_status
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
+      Calling: test_invalid_message( " falsey ", cljp::Parser::PS_BAD_FORMAT_FALSE ) (426)
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status == expected_final_status
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
+      Calling: test_invalid_message( " 1.0.0 ", cljp::Parser::PS_BAD_FORMAT_NUMBER ) (427)
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status == expected_final_status
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
+      Calling: test_invalid_message( " \"abc\\u00xxabc\" ", cljp::Parser::PS_BAD_UNICODE_ESCAPE ) (428)
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status == expected_final_status
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
+      Calling: test_invalid_message( " \"abc\\qabc\" ", cljp::Parser::PS_BAD_FORMAT_STRING ) (429)
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status == expected_final_status
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
+      Calling: test_invalid_message( " } ", cljp::Parser::PS_UNEXPECTED_OBJECT_CLOSE ) (431)
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status == expected_final_status
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
+      Calling: test_invalid_message( " ] ", cljp::Parser::PS_UNEXPECTED_ARRAY_CLOSE ) (432)
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status == expected_final_status
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
+      Calling: test_invalid_message( " [ fals ", cljp::Parser::PS_BAD_FORMAT_FALSE ) (434)
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status == expected_final_status
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
+      Calling: test_invalid_message( " [[false]} ", cljp::Parser::PS_UNEXPECTED_OBJECT_CLOSE ) (435)
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status == expected_final_status
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
+      Calling: test_invalid_message( " { \"tag1\" : fals } ", cljp::Parser::PS_BAD_FORMAT_FALSE ) (437)
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status == expected_final_status
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
+      Calling: test_invalid_message( " { tag1 : false } ", cljp::Parser::PS_EXPECTED_MEMBER_NAME ) (438)
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status == expected_final_status
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
+      Calling: test_invalid_message( " { 10 : false } ", cljp::Parser::PS_EXPECTED_MEMBER_NAME ) (439)
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status == expected_final_status
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
+      Calling: test_invalid_message( " { \"tag1\" } ", cljp::Parser::PS_EXPECTED_COLON_NAME_SEPARATOR ) (440)
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status == expected_final_status
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
+      Calling: test_invalid_message( " { \"tag1\" 10 } ", cljp::Parser::PS_EXPECTED_COLON_NAME_SEPARATOR ) (441)
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status == expected_final_status
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
+      Calling: test_invalid_message( " { \"tag1\" : false  true } ", cljp::Parser::PS_EXPECTED_COMMA_OR_END_OF_OBJECT ) (442)
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status == expected_final_status
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
+      Calling: test_invalid_message( " { \"tag1\" : false  \"tag2\" } ", cljp::Parser::PS_EXPECTED_COMMA_OR_END_OF_OBJECT ) (443)
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status == expected_final_status
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
+      Calling: test_invalid_message( " { \"tag1\" : false : \"tag2\" } ", cljp::Parser::PS_EXPECTED_COMMA_OR_END_OF_OBJECT ) (444)
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status == expected_final_status
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
+      Calling: test_invalid_message( " { \"tag1\" : false { \"tag2\" } ", cljp::Parser::PS_EXPECTED_COMMA_OR_END_OF_OBJECT ) (445)
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status == expected_final_status
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
+      Calling: test_invalid_message( " { \"tag1\" : false ] ", cljp::Parser::PS_UNEXPECTED_ARRAY_CLOSE ) (446)
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status == expected_final_status
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
+      Calling: test_invalid_message( "[ { \"tag1\" = false } ]", cljp::Parser::PS_EXPECTED_COLON_NAME_SEPARATOR ) (448)
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status == expected_final_status
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
+      Calling: test_invalid_message( "[ {},[],{ ]", cljp::Parser::PS_UNEXPECTED_ARRAY_CLOSE ) (449)
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status == expected_final_status
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
+      Calling: test_invalid_message( "[ [{}, 12, .],{} ]", cljp::Parser::PS_BAD_FORMAT_NUMBER ) (450)
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status == expected_final_status
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
+      Calling: test_invalid_message( "[ {},[], ]", cljp::Parser::PS_UNEXPECTED_ARRAY_CLOSE ) (451)
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status == expected_final_status
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
     ok: ! _CrtMemDifference( &s3, &s1, &s2 )
 
     Parser truncated input [test-messages.cpp:454]
     ==============================================
-      Calling: test_invalid_message( "[ ", cljp::Parser::PR_UNEXPECTED_END_OF_MESSAGE ) (457)
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result == expected_final_result
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
-      Calling: test_invalid_message( "[ { ", cljp::Parser::PR_UNEXPECTED_END_OF_MESSAGE ) (458)
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result == expected_final_result
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
-      Calling: test_invalid_message( "[ { \"", cljp::Parser::PR_UNEXPECTED_END_OF_MESSAGE ) (459)
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result == expected_final_result
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
-      Calling: test_invalid_message( "[ { \"ta", cljp::Parser::PR_UNEXPECTED_END_OF_MESSAGE ) (460)
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result == expected_final_result
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
-      Calling: test_invalid_message( "[ { \"tag1\" ", cljp::Parser::PR_UNEXPECTED_END_OF_MESSAGE ) (461)
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result == expected_final_result
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
-      Calling: test_invalid_message( "[ { \"tag1\" :", cljp::Parser::PR_UNEXPECTED_END_OF_MESSAGE ) (462)
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result == expected_final_result
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
-      Calling: test_invalid_message( "[ { \"tag1\" : fal", cljp::Parser::PR_BAD_FORMAT_FALSE ) (463)
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result == expected_final_result
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
-      Calling: test_invalid_message( "[ { \"tag1\" : false", cljp::Parser::PR_UNEXPECTED_END_OF_MESSAGE ) (464)
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result == expected_final_result
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
-      Calling: test_invalid_message( "[ { \"tag1\" : false }", cljp::Parser::PR_UNEXPECTED_END_OF_MESSAGE ) (465)
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result == expected_final_result
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
-      Calling: test_invalid_message( "[ { }", cljp::Parser::PR_UNEXPECTED_END_OF_MESSAGE ) (468)
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result == expected_final_result
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
-      Calling: test_invalid_message( "[ { } , ", cljp::Parser::PR_UNEXPECTED_END_OF_MESSAGE ) (469)
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result == expected_final_result
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
-      Calling: test_invalid_message( "[ { } , {", cljp::Parser::PR_UNEXPECTED_END_OF_MESSAGE ) (470)
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result == expected_final_result
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
-      Calling: test_invalid_message( "[ { } , {}", cljp::Parser::PR_UNEXPECTED_END_OF_MESSAGE ) (471)
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result == expected_final_result
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
-      Calling: test_invalid_message( "{", cljp::Parser::PR_UNEXPECTED_END_OF_MESSAGE ) (474)
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result == expected_final_result
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
-      Calling: test_invalid_message( "{ \"", cljp::Parser::PR_UNEXPECTED_END_OF_MESSAGE ) (475)
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result == expected_final_result
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
-      Calling: test_invalid_message( "{ \"  ", cljp::Parser::PR_UNEXPECTED_END_OF_MESSAGE ) (476)
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result == expected_final_result
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
-      Calling: test_invalid_message( "{ \"ta", cljp::Parser::PR_UNEXPECTED_END_OF_MESSAGE ) (477)
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result == expected_final_result
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
-      Calling: test_invalid_message( "{ \"tag1\"", cljp::Parser::PR_UNEXPECTED_END_OF_MESSAGE ) (478)
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result == expected_final_result
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
-      Calling: test_invalid_message( "{ \"tag1\" :", cljp::Parser::PR_UNEXPECTED_END_OF_MESSAGE ) (479)
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result == expected_final_result
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
-      Calling: test_invalid_message( "{ \"tag1\" : [ ", cljp::Parser::PR_UNEXPECTED_END_OF_MESSAGE ) (480)
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result == expected_final_result
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
-      Calling: test_invalid_message( "{ \"tag1\" : [ fal", cljp::Parser::PR_BAD_FORMAT_FALSE ) (481)
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result == expected_final_result
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
-      Calling: test_invalid_message( "{ \"tag1\" : [ false ", cljp::Parser::PR_UNEXPECTED_END_OF_MESSAGE ) (482)
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result == expected_final_result
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
-      Calling: test_invalid_message( "{ \"tag1\" : [ false ]", cljp::Parser::PR_UNEXPECTED_END_OF_MESSAGE ) (483)
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result == expected_final_result
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
-      Calling: test_invalid_message( "{ \"tag1\" : [ false ], ", cljp::Parser::PR_UNEXPECTED_END_OF_MESSAGE ) (484)
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result == expected_final_result
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
-      Calling: test_invalid_message( "{ \"tag1\" : [ false ], \"", cljp::Parser::PR_UNEXPECTED_END_OF_MESSAGE ) (485)
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result == expected_final_result
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
-      Calling: test_invalid_message( "{ \"tag1\" : [ false ], \"ta", cljp::Parser::PR_UNEXPECTED_END_OF_MESSAGE ) (486)
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result == expected_final_result
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
-      Calling: test_invalid_message( "{ \"tag1\" : [ false ], \"tag2\"", cljp::Parser::PR_UNEXPECTED_END_OF_MESSAGE ) (487)
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result == expected_final_result
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
-      Calling: test_invalid_message( "{ \"tag1\" : [ false ], \"tag2\"  ", cljp::Parser::PR_UNEXPECTED_END_OF_MESSAGE ) (488)
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result == expected_final_result
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
-      Calling: test_invalid_message( "{ \"tag1\" : [ false ], \"tag2\" : ", cljp::Parser::PR_UNEXPECTED_END_OF_MESSAGE ) (489)
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result == expected_final_result
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
-      Calling: test_invalid_message( "{ \"tag1\" : [ false ], \"tag2\" : 12", cljp::Parser::PR_UNEXPECTED_END_OF_MESSAGE ) (490)
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result == expected_final_result
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
-      Calling: test_invalid_message( "{ \"tag1\" : [ false ], \"tag2\" : 12 ", cljp::Parser::PR_UNEXPECTED_END_OF_MESSAGE ) (491)
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result != cljp::Parser::PR_END_OF_MESSAGE
-    ok: result == expected_final_result
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
+      Calling: test_invalid_message( "[ ", cljp::Parser::PS_UNEXPECTED_END_OF_MESSAGE ) (457)
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status == expected_final_status
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
+      Calling: test_invalid_message( "[ { ", cljp::Parser::PS_UNEXPECTED_END_OF_MESSAGE ) (458)
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status == expected_final_status
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
+      Calling: test_invalid_message( "[ { \"", cljp::Parser::PS_UNEXPECTED_END_OF_MESSAGE ) (459)
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status == expected_final_status
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
+      Calling: test_invalid_message( "[ { \"ta", cljp::Parser::PS_UNEXPECTED_END_OF_MESSAGE ) (460)
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status == expected_final_status
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
+      Calling: test_invalid_message( "[ { \"tag1\" ", cljp::Parser::PS_UNEXPECTED_END_OF_MESSAGE ) (461)
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status == expected_final_status
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
+      Calling: test_invalid_message( "[ { \"tag1\" :", cljp::Parser::PS_UNEXPECTED_END_OF_MESSAGE ) (462)
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status == expected_final_status
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
+      Calling: test_invalid_message( "[ { \"tag1\" : fal", cljp::Parser::PS_BAD_FORMAT_FALSE ) (463)
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status == expected_final_status
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
+      Calling: test_invalid_message( "[ { \"tag1\" : false", cljp::Parser::PS_UNEXPECTED_END_OF_MESSAGE ) (464)
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status == expected_final_status
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
+      Calling: test_invalid_message( "[ { \"tag1\" : false }", cljp::Parser::PS_UNEXPECTED_END_OF_MESSAGE ) (465)
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status == expected_final_status
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
+      Calling: test_invalid_message( "[ { }", cljp::Parser::PS_UNEXPECTED_END_OF_MESSAGE ) (468)
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status == expected_final_status
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
+      Calling: test_invalid_message( "[ { } , ", cljp::Parser::PS_UNEXPECTED_END_OF_MESSAGE ) (469)
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status == expected_final_status
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
+      Calling: test_invalid_message( "[ { } , {", cljp::Parser::PS_UNEXPECTED_END_OF_MESSAGE ) (470)
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status == expected_final_status
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
+      Calling: test_invalid_message( "[ { } , {}", cljp::Parser::PS_UNEXPECTED_END_OF_MESSAGE ) (471)
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status == expected_final_status
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
+      Calling: test_invalid_message( "{", cljp::Parser::PS_UNEXPECTED_END_OF_MESSAGE ) (474)
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status == expected_final_status
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
+      Calling: test_invalid_message( "{ \"", cljp::Parser::PS_UNEXPECTED_END_OF_MESSAGE ) (475)
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status == expected_final_status
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
+      Calling: test_invalid_message( "{ \"  ", cljp::Parser::PS_UNEXPECTED_END_OF_MESSAGE ) (476)
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status == expected_final_status
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
+      Calling: test_invalid_message( "{ \"ta", cljp::Parser::PS_UNEXPECTED_END_OF_MESSAGE ) (477)
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status == expected_final_status
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
+      Calling: test_invalid_message( "{ \"tag1\"", cljp::Parser::PS_UNEXPECTED_END_OF_MESSAGE ) (478)
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status == expected_final_status
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
+      Calling: test_invalid_message( "{ \"tag1\" :", cljp::Parser::PS_UNEXPECTED_END_OF_MESSAGE ) (479)
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status == expected_final_status
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
+      Calling: test_invalid_message( "{ \"tag1\" : [ ", cljp::Parser::PS_UNEXPECTED_END_OF_MESSAGE ) (480)
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status == expected_final_status
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
+      Calling: test_invalid_message( "{ \"tag1\" : [ fal", cljp::Parser::PS_BAD_FORMAT_FALSE ) (481)
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status == expected_final_status
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
+      Calling: test_invalid_message( "{ \"tag1\" : [ false ", cljp::Parser::PS_UNEXPECTED_END_OF_MESSAGE ) (482)
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status == expected_final_status
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
+      Calling: test_invalid_message( "{ \"tag1\" : [ false ]", cljp::Parser::PS_UNEXPECTED_END_OF_MESSAGE ) (483)
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status == expected_final_status
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
+      Calling: test_invalid_message( "{ \"tag1\" : [ false ], ", cljp::Parser::PS_UNEXPECTED_END_OF_MESSAGE ) (484)
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status == expected_final_status
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
+      Calling: test_invalid_message( "{ \"tag1\" : [ false ], \"", cljp::Parser::PS_UNEXPECTED_END_OF_MESSAGE ) (485)
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status == expected_final_status
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
+      Calling: test_invalid_message( "{ \"tag1\" : [ false ], \"ta", cljp::Parser::PS_UNEXPECTED_END_OF_MESSAGE ) (486)
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status == expected_final_status
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
+      Calling: test_invalid_message( "{ \"tag1\" : [ false ], \"tag2\"", cljp::Parser::PS_UNEXPECTED_END_OF_MESSAGE ) (487)
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status == expected_final_status
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
+      Calling: test_invalid_message( "{ \"tag1\" : [ false ], \"tag2\"  ", cljp::Parser::PS_UNEXPECTED_END_OF_MESSAGE ) (488)
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status == expected_final_status
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
+      Calling: test_invalid_message( "{ \"tag1\" : [ false ], \"tag2\" : ", cljp::Parser::PS_UNEXPECTED_END_OF_MESSAGE ) (489)
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status == expected_final_status
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
+      Calling: test_invalid_message( "{ \"tag1\" : [ false ], \"tag2\" : 12", cljp::Parser::PS_UNEXPECTED_END_OF_MESSAGE ) (490)
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status == expected_final_status
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
+      Calling: test_invalid_message( "{ \"tag1\" : [ false ], \"tag2\" : 12 ", cljp::Parser::PS_UNEXPECTED_END_OF_MESSAGE ) (491)
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status != cljp::Parser::PS_END_OF_MESSAGE
+    ok: status == expected_final_status
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
     ok: ! _CrtMemDifference( &s3, &s1, &s2 )
 
     Basic Parser [test-parse.cpp:42]
     ================================
       Testing outer parsing handling
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_OBJECT_START
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_END
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_END
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_END_OF_MESSAGE
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_END_OF_MESSAGE
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_END
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_END_OF_MESSAGE
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_END_OF_MESSAGE
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_UNEXPECTED_OBJECT_CLOSE
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_UNEXPECTED_OBJECT_CLOSE
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_OBJECT_START
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_UNEXPECTED_ARRAY_CLOSE
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_UNEXPECTED_ARRAY_CLOSE
       Parser::get_in_array();
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_OBJECT_START
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_OBJECT_END
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_END
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_END_OF_MESSAGE
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_END_OF_MESSAGE
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_OBJECT_START
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_OBJECT_END
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_OBJECT_START
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_OBJECT_END
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_END
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_OBJECT_START
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_OBJECT_END
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_UNEXPECTED_ARRAY_CLOSE
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_UNEXPECTED_ARRAY_CLOSE
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_NUMBER
     ok: h.event.value == "12"
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_END_OF_MESSAGE
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_END_OF_MESSAGE
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_STRING
     ok: h.event.value == "String"
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_END_OF_MESSAGE
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_END_OF_MESSAGE
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_BOOLEAN
     ok: h.event.value == "false"
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_END_OF_MESSAGE
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_UNRECOGNISED_VALUE_FORMAT
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_END_OF_MESSAGE
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_UNRECOGNISED_VALUE_FORMAT
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
     ok: ! _CrtMemDifference( &s3, &s1, &s2 )
 
     Repeated reads at end of message return 'End of message' [test-parse.cpp:208]
     =============================================================================
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_NUMBER
     ok: h.event.value == "12"
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_END_OF_MESSAGE
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_END_OF_MESSAGE
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_END_OF_MESSAGE
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_END_OF_MESSAGE
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_END_OF_MESSAGE
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_END_OF_MESSAGE
     ok: ! _CrtMemDifference( &s3, &s1, &s2 )
 
     Parser Reading constant values [test-parse.cpp:252]
     ===================================================
       Parser::get_false()
       Line: 255, input: false
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
-    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.parser.get( &h.event ) == expected_status
     ok: h.event.type == expected_type
     ok: h.event.value == p_expected_value
       Line: 256, input:  false
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
-    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.parser.get( &h.event ) == expected_status
     ok: h.event.type == expected_type
     ok: h.event.value == p_expected_value
       Line: 257, input: false,
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
-    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.parser.get( &h.event ) == expected_status
     ok: h.event.type == expected_type
     ok: h.event.value == p_expected_value
       Line: 258, input: false
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
-    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.parser.get( &h.event ) == expected_status
     ok: h.event.type == expected_type
     ok: h.event.value == p_expected_value
       Line: 259, input: false 
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
-    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.parser.get( &h.event ) == expected_status
     ok: h.event.type == expected_type
     ok: h.event.value == p_expected_value
       Line: 260, input: false]
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
-    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.parser.get( &h.event ) == expected_status
     ok: h.event.type == expected_type
     ok: h.event.value == p_expected_value
       Line: 261, input: false}
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
-    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.parser.get( &h.event ) == expected_status
     ok: h.event.type == expected_type
     ok: h.event.value == p_expected_value
       Line: 264, input: f
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
-    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.parser.get( &h.event ) == expected_status
       Line: 265, input: fal
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
-    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.parser.get( &h.event ) == expected_status
       Line: 266, input: falsey
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
-    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.parser.get( &h.event ) == expected_status
       Line: 267, input: false:
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
-    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.parser.get( &h.event ) == expected_status
       Parser::get_true()
       Line: 270, input: true
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
-    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.parser.get( &h.event ) == expected_status
     ok: h.event.type == expected_type
     ok: h.event.value == p_expected_value
       Line: 271, input:  true
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
-    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.parser.get( &h.event ) == expected_status
     ok: h.event.type == expected_type
     ok: h.event.value == p_expected_value
       Line: 272, input: true,
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
-    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.parser.get( &h.event ) == expected_status
     ok: h.event.type == expected_type
     ok: h.event.value == p_expected_value
       Line: 273, input: true
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
-    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.parser.get( &h.event ) == expected_status
     ok: h.event.type == expected_type
     ok: h.event.value == p_expected_value
       Line: 274, input: true 
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
-    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.parser.get( &h.event ) == expected_status
     ok: h.event.type == expected_type
     ok: h.event.value == p_expected_value
       Line: 275, input: true]
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
-    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.parser.get( &h.event ) == expected_status
     ok: h.event.type == expected_type
     ok: h.event.value == p_expected_value
       Line: 276, input: true}
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
-    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.parser.get( &h.event ) == expected_status
     ok: h.event.type == expected_type
     ok: h.event.value == p_expected_value
       Line: 279, input: t
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
-    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.parser.get( &h.event ) == expected_status
       Line: 280, input: tru
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
-    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.parser.get( &h.event ) == expected_status
       Line: 281, input: truey
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
-    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.parser.get( &h.event ) == expected_status
       Line: 282, input: true:
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
-    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.parser.get( &h.event ) == expected_status
       Parser::get_null()
       Line: 285, input: null
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
-    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.parser.get( &h.event ) == expected_status
     ok: h.event.type == expected_type
     ok: h.event.value == p_expected_value
       Line: 286, input:  null
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
-    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.parser.get( &h.event ) == expected_status
     ok: h.event.type == expected_type
     ok: h.event.value == p_expected_value
       Line: 287, input: null,
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
-    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.parser.get( &h.event ) == expected_status
     ok: h.event.type == expected_type
     ok: h.event.value == p_expected_value
       Line: 288, input: null
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
-    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.parser.get( &h.event ) == expected_status
     ok: h.event.type == expected_type
     ok: h.event.value == p_expected_value
       Line: 289, input: null 
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
-    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.parser.get( &h.event ) == expected_status
     ok: h.event.type == expected_type
     ok: h.event.value == p_expected_value
       Line: 290, input: null]
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
-    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.parser.get( &h.event ) == expected_status
     ok: h.event.type == expected_type
     ok: h.event.value == p_expected_value
       Line: 291, input: null}
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
-    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.parser.get( &h.event ) == expected_status
     ok: h.event.type == expected_type
     ok: h.event.value == p_expected_value
       Line: 294, input: n
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
-    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.parser.get( &h.event ) == expected_status
       Line: 295, input: nul
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
-    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.parser.get( &h.event ) == expected_status
       Line: 296, input: nully
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
-    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.parser.get( &h.event ) == expected_status
       Line: 297, input: null:
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
-    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.parser.get( &h.event ) == expected_status
     ok: ! _CrtMemDifference( &s3, &s1, &s2 )
 
     Parser Reading number values [test-parse.cpp:322]
     =================================================
       Line: 324, input: 1
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
-    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.parser.get( &h.event ) == expected_status
     ok: h.event.type == expected_type
     ok: h.event.value == p_expected_value
       Line: 325, input: 12
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
-    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.parser.get( &h.event ) == expected_status
     ok: h.event.type == expected_type
     ok: h.event.value == p_expected_value
       Line: 326, input: 12,
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
-    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.parser.get( &h.event ) == expected_status
     ok: h.event.type == expected_type
     ok: h.event.value == p_expected_value
       Line: 327, input: 12 
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
-    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.parser.get( &h.event ) == expected_status
     ok: h.event.type == expected_type
     ok: h.event.value == p_expected_value
       Line: 329, input: -1
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
-    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.parser.get( &h.event ) == expected_status
     ok: h.event.type == expected_type
     ok: h.event.value == p_expected_value
       Line: 330, input: -12
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
-    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.parser.get( &h.event ) == expected_status
     ok: h.event.type == expected_type
     ok: h.event.value == p_expected_value
       Line: 331, input: -
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
-    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.parser.get( &h.event ) == expected_status
       Line: 332, input: +1
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
-    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.parser.get( &h.event ) == expected_status
       Line: 334, input: 0
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
-    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.parser.get( &h.event ) == expected_status
     ok: h.event.type == expected_type
     ok: h.event.value == p_expected_value
       Line: 335, input: -0
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
-    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.parser.get( &h.event ) == expected_status
     ok: h.event.type == expected_type
     ok: h.event.value == p_expected_value
       Line: 336, input: 00
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
-    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.parser.get( &h.event ) == expected_status
       Line: 337, input: 01
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
-    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.parser.get( &h.event ) == expected_status
       Line: 338, input: -01
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
-    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.parser.get( &h.event ) == expected_status
       Line: 340, input: 1.1
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
-    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.parser.get( &h.event ) == expected_status
     ok: h.event.type == expected_type
     ok: h.event.value == p_expected_value
       Line: 341, input: 12.12
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
-    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.parser.get( &h.event ) == expected_status
     ok: h.event.type == expected_type
     ok: h.event.value == p_expected_value
       Line: 342, input: -12.12
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
-    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.parser.get( &h.event ) == expected_status
     ok: h.event.type == expected_type
     ok: h.event.value == p_expected_value
       Line: 343, input: .
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
-    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.parser.get( &h.event ) == expected_status
       Line: 344, input: 1.
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
-    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.parser.get( &h.event ) == expected_status
       Line: 345, input: .1
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
-    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.parser.get( &h.event ) == expected_status
       Line: 346, input: -.
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
-    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.parser.get( &h.event ) == expected_status
       Line: 347, input: -1.
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
-    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.parser.get( &h.event ) == expected_status
       Line: 348, input: -.1
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
-    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.parser.get( &h.event ) == expected_status
       Line: 350, input: 1e1
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
-    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.parser.get( &h.event ) == expected_status
     ok: h.event.type == expected_type
     ok: h.event.value == p_expected_value
       Line: 351, input: 1E1
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
-    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.parser.get( &h.event ) == expected_status
     ok: h.event.type == expected_type
     ok: h.event.value == p_expected_value
       Line: 352, input: 1e+12
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
-    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.parser.get( &h.event ) == expected_status
     ok: h.event.type == expected_type
     ok: h.event.value == p_expected_value
       Line: 353, input: 12e+12
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
-    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.parser.get( &h.event ) == expected_status
     ok: h.event.type == expected_type
     ok: h.event.value == p_expected_value
       Line: 354, input: 1e-12
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
-    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.parser.get( &h.event ) == expected_status
     ok: h.event.type == expected_type
     ok: h.event.value == p_expected_value
       Line: 355, input: 12e-12
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
-    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.parser.get( &h.event ) == expected_status
     ok: h.event.type == expected_type
     ok: h.event.value == p_expected_value
       Line: 356, input: 1.1e+12
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
-    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.parser.get( &h.event ) == expected_status
     ok: h.event.type == expected_type
     ok: h.event.value == p_expected_value
       Line: 357, input: 12.12e-12
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
-    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.parser.get( &h.event ) == expected_status
     ok: h.event.type == expected_type
     ok: h.event.value == p_expected_value
       Line: 358, input: -12.12e-12
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
-    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.parser.get( &h.event ) == expected_status
     ok: h.event.type == expected_type
     ok: h.event.value == p_expected_value
       Line: 359, input: 12.12e12
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
-    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.parser.get( &h.event ) == expected_status
     ok: h.event.type == expected_type
     ok: h.event.value == p_expected_value
       Line: 360, input: -12.12e12
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
-    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.parser.get( &h.event ) == expected_status
     ok: h.event.type == expected_type
     ok: h.event.value == p_expected_value
       Line: 361, input: 1.e
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
-    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.parser.get( &h.event ) == expected_status
       Line: 362, input: 1e
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
-    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.parser.get( &h.event ) == expected_status
       Line: 363, input: 1e+ 
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
-    ok: h.parser.get( &h.event ) == expected_result
+    ok: h.parser.get( &h.event ) == expected_status
     ok: ! _CrtMemDifference( &s3, &s1, &s2 )
 
     Parser Back-to-back numbers [test-parse.cpp:366]
     ================================================
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_NUMBER
     ok: h.event.value == "12.3"
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_NUMBER
     ok: h.event.value == "4.2e+6"
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_END
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_NUMBER
     ok: h.event.value == "12.3"
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_NUMBER
     ok: h.event.value == "4.2e+6"
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_END
     ok: ! _CrtMemDifference( &s3, &s1, &s2 )
 
@@ -1336,54 +1336,54 @@ Tests run on Sat Jun 27 09:18:24 2015
     =================================================
       Parser::get_string()
       Line: 460, input: Fred
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_STRING
     ok: h.event.value == p_expected_value
       Line: 469, input: Say \"Fred\"
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_STRING
     ok: h.event.value == p_expected_value
       Line: 470, input: Say \nFred\n
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_STRING
     ok: h.event.value == p_expected_value
       Line: 472, input: Say \\Fred\/
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_STRING
     ok: h.event.value == p_expected_value
       Line: 473, input: Say \bFred\f
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_STRING
     ok: h.event.value == p_expected_value
       Line: 474, input: Say \nFred\r
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_STRING
     ok: h.event.value == p_expected_value
       Line: 475, input: Say \tFred\t
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_STRING
     ok: h.event.value == p_expected_value
       Line: 477, input: Say \qFred
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
     ok: h.parser.get( &h.event ) == expected_error_code
       Parser::get_string() - char outside unescaped = %x20-21 / %x23-5B / %x5D-10FFFF fails
       Line: 480, input: Say  Fred
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
     ok: h.parser.get( &h.event ) == expected_error_code
     ok: ! _CrtMemDifference( &s3, &s1, &s2 )
@@ -1392,127 +1392,127 @@ Tests run on Sat Jun 27 09:18:24 2015
     ==========================================================
       Calling: string_ok_test( __LINE__, "Say \\u002fFred", "Say /Fred" ) (485)
       Line: 485, input: Say \u002fFred
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_STRING
     ok: h.event.value == p_expected_value
       Calling: string_ok_test( __LINE__, "\\uD800\\uDC02", "\xF0\x90\x80\x82" ) (488)
       Line: 488, input: \uD800\uDC02
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_STRING
     ok: h.event.value == p_expected_value
       Calling: string_ok_test( __LINE__, "\\ud800\\udc02", "\xF0\x90\x80\x82" ) (489)
       Line: 489, input: \ud800\udc02
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_STRING
     ok: h.event.value == p_expected_value
       Calling: string_ok_test( __LINE__, "\\u0802", "\xE0\xA0\x82" ) (490)
       Line: 490, input: \u0802
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_STRING
     ok: h.event.value == p_expected_value
       Calling: string_ok_test( __LINE__, "\\uFFFC", "\xEF\xBF\xBC" ) (491)
       Line: 491, input: \uFFFC
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_STRING
     ok: h.event.value == p_expected_value
       Calling: string_ok_test( __LINE__, "\\ufffc", "\xEF\xBF\xBC" ) (492)
       Line: 492, input: \ufffc
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_STRING
     ok: h.event.value == p_expected_value
       Calling: string_ok_test( __LINE__, "\\u0082", "\xC2\x82" ) (493)
       Line: 493, input: \u0082
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_STRING
     ok: h.event.value == p_expected_value
       Calling: string_ok_test( __LINE__, "\\u07FC", "\xDF\xBC" ) (494)
       Line: 494, input: \u07FC
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_STRING
     ok: h.event.value == p_expected_value
       Calling: string_ok_test( __LINE__, "X\\uD800\\uDC02A", "X\xF0\x90\x80\x82""A" ) (497)
       Line: 497, input: X\uD800\uDC02A
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_STRING
     ok: h.event.value == p_expected_value
       Calling: string_ok_test( __LINE__, "X\\u0802A", "X\xE0\xA0\x82""A" ) (498)
       Line: 498, input: X\u0802A
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_STRING
     ok: h.event.value == p_expected_value
       Calling: string_ok_test( __LINE__, "X\\u0082A", "X\xC2\x82""A" ) (499)
       Line: 499, input: X\u0082A
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_STRING
     ok: h.event.value == p_expected_value
       Parser::get_string() - truncated BMP unicode escape fails
-      Calling: string_fail_test( __LINE__, "Say \\u002 Fred", cljp::Parser::PR_BAD_UNICODE_ESCAPE ) (502)
+      Calling: string_fail_test( __LINE__, "Say \\u002 Fred", cljp::Parser::PS_BAD_UNICODE_ESCAPE ) (502)
       Line: 502, input: Say \u002 Fred
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
     ok: h.parser.get( &h.event ) == expected_error_code
-      Calling: string_fail_test( __LINE__, "Say \\u002QFred", cljp::Parser::PR_BAD_UNICODE_ESCAPE ) (503)
+      Calling: string_fail_test( __LINE__, "Say \\u002QFred", cljp::Parser::PS_BAD_UNICODE_ESCAPE ) (503)
       Line: 503, input: Say \u002QFred
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
     ok: h.parser.get( &h.event ) == expected_error_code
       Calling: string_ok_test( __LINE__, "\\u65E5\\u672C\\u8A9E", "\xE6\x97\xA5\xE6\x9C\xAC\xE8\xAA\x9E" ) (506)
       Line: 506, input: \u65E5\u672C\u8A9E
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_STRING
     ok: h.event.value == p_expected_value
       Parser::get_string() - Surrogates unicode escape
       Calling: string_ok_test( __LINE__, "\\uD808\\uDF45=Ra", "\xF0\x92\x8D\x85=Ra" ) (510)
       Line: 510, input: \uD808\uDF45=Ra
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_STRING
     ok: h.event.value == p_expected_value
       Parser::get_string() - High surrogate without following low surrogate fails
-      Calling: string_fail_test( __LINE__, "\\uD808Fred", cljp::Parser::PR_BAD_UNICODE_ESCAPE ) (513)
+      Calling: string_fail_test( __LINE__, "\\uD808Fred", cljp::Parser::PS_BAD_UNICODE_ESCAPE ) (513)
       Line: 513, input: \uD808Fred
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
     ok: h.parser.get( &h.event ) == expected_error_code
-      Calling: string_fail_test( __LINE__, "\\uD808\\u0022", cljp::Parser::PR_BAD_UNICODE_ESCAPE ) (514)
+      Calling: string_fail_test( __LINE__, "\\uD808\\u0022", cljp::Parser::PS_BAD_UNICODE_ESCAPE ) (514)
       Line: 514, input: \uD808\u0022
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
     ok: h.parser.get( &h.event ) == expected_error_code
       Parser::get_string() - Low surrogate without preceeding high surrogate fails
-      Calling: string_fail_test( __LINE__, "\\uDF45Fred", cljp::Parser::PR_BAD_UNICODE_ESCAPE ) (517)
+      Calling: string_fail_test( __LINE__, "\\uDF45Fred", cljp::Parser::PS_BAD_UNICODE_ESCAPE ) (517)
       Line: 517, input: \uDF45Fred
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
     ok: h.parser.get( &h.event ) == expected_error_code
-      Calling: string_fail_test( __LINE__, "\\uDF45\\u0022", cljp::Parser::PR_BAD_UNICODE_ESCAPE ) (518)
+      Calling: string_fail_test( __LINE__, "\\uDF45\\u0022", cljp::Parser::PS_BAD_UNICODE_ESCAPE ) (518)
       Line: 518, input: \uDF45\u0022
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
     ok: h.parser.get( &h.event ) == expected_error_code
     ok: ! _CrtMemDifference( &s3, &s1, &s2 )
@@ -1520,151 +1520,151 @@ Tests run on Sat Jun 27 09:18:24 2015
     Parser Reading string with bad Unicode escapes, check parsing terminated mid-string [test-parse.cpp:545]
     ========================================================================================================
       Line: 547, input:  \u002 
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
-    ok: h.parser.get( &h.event ) != cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) != cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_STRING
     ok: h.event.value.find( "Fred" ) != std::string::npos
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
     ok: ! _CrtMemDifference( &s3, &s1, &s2 )
 
     Parser::get_string() - String end quote in middle of unicode escape code [test-parse.cpp:550]
     =============================================================================================
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
-    ok: h.parser.get( &h.event ) != cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) != cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_STRING
     ok: h.event.value.find( "Fred" ) != std::string::npos
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
     ok: ! _CrtMemDifference( &s3, &s1, &s2 )
 
     Parser Reading string unexpected EOF [test-parse.cpp:564]
     =========================================================
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_UNEXPECTED_END_OF_MESSAGE
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_UNEXPECTED_END_OF_MESSAGE
     ok: ! _CrtMemDifference( &s3, &s1, &s2 )
 
     Parser Read member [test-parse.cpp:574]
     =======================================
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_OBJECT_START
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.name == "Field"
     ok: h.event.type == cljp::Event::T_NUMBER
     ok: h.event.value == "12"
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_OBJECT_END
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_OBJECT_START
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.name == "Field"
     ok: h.event.type == cljp::Event::T_NUMBER
     ok: h.event.value == "12"
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.name == "Jam"
     ok: h.event.type == cljp::Event::T_STRING
     ok: h.event.value == "High"
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_OBJECT_END
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_OBJECT_START
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.name == "Field"
     ok: h.event.type == cljp::Event::T_NUMBER
     ok: h.event.value == "12"
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_UNEXPECTED_OBJECT_CLOSE
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_UNEXPECTED_OBJECT_CLOSE
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_OBJECT_START
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.name == "Field"
     ok: h.event.type == cljp::Event::T_NUMBER
     ok: h.event.value == "12"
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_EXPECTED_COLON_NAME_SEPARATOR
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_EXPECTED_COLON_NAME_SEPARATOR
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_OBJECT_START
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.name == "Field"
     ok: h.event.type == cljp::Event::T_NUMBER
     ok: h.event.value == "12"
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_EXPECTED_MEMBER_NAME
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_EXPECTED_MEMBER_NAME
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_OBJECT_START
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.name == "Field"
     ok: h.event.type == cljp::Event::T_NUMBER
     ok: h.event.value == "12"
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_EXPECTED_MEMBER_NAME
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_EXPECTED_MEMBER_NAME
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_UNABLE_TO_CONTINUE_DUE_TO_ERRORS
     ok: ! _CrtMemDifference( &s3, &s1, &s2 )
 
     Parser::skip() [test-parse.cpp:678]
     ===================================
-    ok: h.parser.skip() == cljp::Parser::PR_END_OF_MESSAGE
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.skip() == cljp::Parser::PS_END_OF_MESSAGE
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_BOOLEAN
-    ok: h.parser.skip() == cljp::Parser::PR_END_OF_MESSAGE
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.skip() == cljp::Parser::PS_END_OF_MESSAGE
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_OBJECT_START
-    ok: h.parser.skip() == cljp::Parser::PR_OK
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_END_OF_MESSAGE
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.skip() == cljp::Parser::PS_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_END_OF_MESSAGE
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_OBJECT_START
-    ok: h.parser.skip() == cljp::Parser::PR_OK
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_END_OF_MESSAGE
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.skip() == cljp::Parser::PS_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_END_OF_MESSAGE
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_OBJECT_START
-    ok: h.parser.skip() == cljp::Parser::PR_OK
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_END_OF_MESSAGE
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.skip() == cljp::Parser::PS_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_END_OF_MESSAGE
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_OBJECT_START
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_OBJECT_START
     ok: h.event.name == "Field"
-    ok: h.parser.skip() == cljp::Parser::PR_OK
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.skip() == cljp::Parser::PS_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_NUMBER
     ok: h.event.name == "Honey"
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_OBJECT_END
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_END_OF_MESSAGE
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_END_OF_MESSAGE
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_OBJECT_START
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_OBJECT_START
     ok: h.event.name == "Field"
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
     ok: h.event.name == "Jam"
-    ok: h.parser.skip() == cljp::Parser::PR_OK
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.skip() == cljp::Parser::PS_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_NULL
     ok: h.event.name == "Spread"
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_OBJECT_START
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_OBJECT_START
     ok: h.event.name == "Field"
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
     ok: h.event.name == "Jam"
-    ok: h.parser.skip() == cljp::Parser::PR_OK
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.skip() == cljp::Parser::PS_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_NULL
     ok: h.event.name == "Spread"
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_OBJECT_START
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_OBJECT_START
     ok: h.event.name == "Field"
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_ARRAY_START
     ok: h.event.name == "Jam"
-    ok: h.parser.skip() == cljp::Parser::PR_OK
-    ok: h.parser.get( &h.event ) == cljp::Parser::PR_OK
+    ok: h.parser.skip() == cljp::Parser::PS_OK
+    ok: h.parser.get( &h.event ) == cljp::Parser::PS_OK
     ok: h.event.type == cljp::Event::T_NULL
     ok: h.event.name == "Spread"
     ok: ! _CrtMemDifference( &s3, &s1, &s2 )
