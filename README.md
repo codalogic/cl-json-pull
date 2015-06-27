@@ -125,7 +125,7 @@ Future Work
 Possible future work includes allowing member names to not be quoted, and JavaScript
 style comments.
 
-Consider adding an Event::on( \"name\", type, handler ) method to allow easier
+Consider adding an Event::on( "name", type, handler ) method to allow easier
 handling of events.  For example:
 
 ```cpp
