@@ -14,16 +14,16 @@ with or without a BOM.
 The main class is `Parser` in the `cljp` namespace.
 
 The primary method in this is
-`ParserResult Parser::get( Event * p_event_out )`.  Each call of this method
+`Parser::Result Parser::get( Event * p_event_out )`.  Each call of this method
 retrieves another event from the JSON input until the end of the message
 is encountered or an error is detected.  The same 'Event' object can be
 used in multiple `Parser::get()` calls, or different ones can be used.
 
-The returned `ParserResult` value indicates the success or otherwise of the
+The returned `Parser::Result` value indicates the success or otherwise of the
 get operation.  `PR_OK` indicates that the get operation was successful, and
 the `Event` object pointed to by `p_event_out` has been populated.
 `PR_END_OF_MESSAGE` indicates that the end of the message has been reached.
-Other values of `ParserResult` indicate various error conditions.
+Other values of `Parser::Result` indicate various error conditions.
 
 On a succesful `get()` operation, the retrieved `Event` object indicates the
 `type` of event that was retrieved, the member `name` if applicable, and the
@@ -118,6 +118,22 @@ int main()
 ```
 
 The `test-messages.cpp` test file gives some examples of expected event sequences.
+
+Future Work
+===========
+
+Possible future work includes allowing member names to not be quoted, and JavaScript
+style comments.
+
+Consider adding an Event::on( \"name\", type, handler ) method to allow easier
+handling of events.  For example:
+
+```cpp
+    Event event;
+    parser.get( &event );
+    event.on( "foo", T_STRING, handle_foo ).
+          on( "bar", T_NUMBER, handle_bar );
+```
 
 License
 =======
