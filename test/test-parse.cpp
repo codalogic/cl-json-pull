@@ -678,14 +678,14 @@ TFEATURE( "Parser Read member" )
 TFEATURE( "Parser::skip()" )
 {
     {
-    // Edge case - not skip()s intended application
+    // Edge case - not skip()'s intended application
     Harness h( " " );
 
     TTEST( h.parser.skip() == cljp::Parser::PR_END_OF_MESSAGE );
     }
 
     {
-    // Edge case - not skip()s intended application
+    // Edge case - not skip()'s intended application
     Harness h( " false " );
 
     TTEST( h.parser.get( &h.event ) == cljp::Parser::PR_OK );
