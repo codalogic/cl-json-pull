@@ -177,7 +177,7 @@ class UnicodeCodePointReader
     struct Members {
         ReadUTF8WithUnget & r_input;
         int c;
-        Parser::ParserResult result;
+        Parser::Result result;
         int code_point;
 
         Members( ReadUTF8WithUnget & r_input_in )
@@ -206,8 +206,8 @@ public:
         }
     }
 
-    Parser::ParserResult result() const { return m.result; }
-    operator Parser::ParserResult() const { return result(); }
+    Parser::Result result() const { return m.result; }
+    operator Parser::Result() const { return result(); }
     int code_point() const { return m.code_point; }
     UTF8Sequence as_utf8() const { return UTF8Sequence( m.code_point ); }
 
@@ -268,7 +268,7 @@ private:
         ReadUTF8WithUnget & r_input;
         int c;
         std::string * p_string;
-        Parser::ParserResult result;
+        Parser::Result result;
 
         Members( ReadUTF8WithUnget & r_input_in, int c_in, std::string * p_string_out )
             : r_input( r_input_in ), c( c_in ), p_string( p_string_out ),
@@ -289,8 +289,8 @@ public:
         parse_string();
     }
 
-    Parser::ParserResult result() const { return m.result; }
-    operator Parser::ParserResult() const { return result(); }
+    Parser::Result result() const { return m.result; }
+    operator Parser::Result() const { return result(); }
 
 private:
     void get()
@@ -405,7 +405,7 @@ private:
         UnicodeCodePointReader code_point_reader( m.r_input );
 
         // Allow for a successful operation, without overwriting the error code of a previous unsuccessful operation
-        Parser::ParserResult current_result = code_point_reader.result();
+        Parser::Result current_result = code_point_reader.result();
         get();
 
         record_first_error( current_result );
@@ -417,7 +417,7 @@ private:
         return true;
     }
 
-    void record_first_error( Parser::ParserResult current_result )
+    void record_first_error( Parser::Result current_result )
     {
         if( m.result == Parser::PR_OK )
             m.result = current_result;
@@ -431,7 +431,7 @@ private:
         ReadUTF8WithUnget & r_input;
         int c;
         Event * p_event;
-        Parser::ParserResult result;
+        Parser::Result result;
 
         Members( ReadUTF8WithUnget & r_input_in, int c_in, Event * p_event_out )
             : r_input( r_input_in ), c( c_in ), p_event( p_event_out ),
@@ -459,8 +459,8 @@ public:
         if( is_separator( m.c ) )
             m.r_input.unget( m.c );
     }
-    Parser::ParserResult result() const { return m.result; }
-    operator Parser::ParserResult() const { return result(); }
+    Parser::Result result() const { return m.result; }
+    operator Parser::Result() const { return result(); }
 
 private:
     void accept_and_get()
@@ -1285,7 +1285,7 @@ std::wstring Event::to_wstring() const
 //                               class Parser
 //----------------------------------------------------------------------------
 
-Parser::ParserResult Parser::get( Event * p_event_out )
+Parser::Result Parser::get( Event * p_event_out )
 {
     if( m.last_result != PR_OK )
         return PR_UNABLE_TO_CONTINUE_DUE_TO_ERRORS;
@@ -1330,13 +1330,13 @@ Parser::ParserResult Parser::get( Event * p_event_out )
     return report_error( PR_UNDOCUMENTED_FAIL );
 }
 
-Parser::ParserResult Parser::skip()
+Parser::Result Parser::skip()
 {
     Event event;
     size_t done_depth = m.context_stack.size() - 1;
     while( m.context_stack.size() > done_depth )
     {
-        ParserResult result = get( &event );
+        Result result = get( &event );
         if( result != PR_OK )
             return report_error( result );
     }
@@ -1348,13 +1348,13 @@ void Parser::new_message()
     m.new_message();
 }
 
-Parser::ParserResult Parser::get_outer()
+Parser::Result Parser::get_outer()
 {
     // JSON-text = value
 
     m.context_stack.top() = Parser::C_DONE;
 
-    Parser::ParserResult result = get_value();
+    Result result = get_value();
 
     conditional_context_update_for_nesting_increase();
 
@@ -1364,7 +1364,7 @@ Parser::ParserResult Parser::get_outer()
     return PR_OK;
 }
 
-Parser::ParserResult Parser::get_start_object()
+Parser::Result Parser::get_start_object()
 {
     if( m.c == '}' )
     {
@@ -1378,7 +1378,7 @@ Parser::ParserResult Parser::get_start_object()
     return get_for_object();
 }
 
-Parser::ParserResult Parser::get_in_object()
+Parser::Result Parser::get_in_object()
 {
     if( m.c == '}' )
     {
@@ -1403,11 +1403,11 @@ Parser::ParserResult Parser::get_in_object()
     return get_for_object();
 }
 
-Parser::ParserResult Parser::get_for_object()
+Parser::Result Parser::get_for_object()
 {
-    ParserResult get_member_result = get_member();
+    Result get_member_result = get_member();
 
-    ParserResult context_update_result = context_update_for_object();
+    Result context_update_result = context_update_for_object();
 
     if( get_member_result != PR_OK )
         return get_member_result;
@@ -1415,7 +1415,7 @@ Parser::ParserResult Parser::get_for_object()
     return context_update_result;
 }
 
-Parser::ParserResult Parser::get_start_array()
+Parser::Result Parser::get_start_array()
 {
     if( m.c == ']' )
     {
@@ -1429,7 +1429,7 @@ Parser::ParserResult Parser::get_start_array()
     return get_for_array();
 }
 
-Parser::ParserResult Parser::get_in_array()
+Parser::Result Parser::get_in_array()
 {
     if( m.c == ']' )
     {
@@ -1454,11 +1454,11 @@ Parser::ParserResult Parser::get_in_array()
     return get_for_array();
 }
 
-Parser::ParserResult Parser::get_for_array()
+Parser::Result Parser::get_for_array()
 {
-    ParserResult get_value_result = get_value();
+    Result get_value_result = get_value();
 
-    ParserResult context_update_result = context_update_for_array();
+    Result context_update_result = context_update_for_array();
 
     if( get_value_result != PR_OK )
         return get_value_result;
@@ -1466,11 +1466,11 @@ Parser::ParserResult Parser::get_for_array()
     return context_update_result;
 }
 
-Parser::ParserResult Parser::get_member()
+Parser::Result Parser::get_member()
 {
     // member = string name-separator value
 
-    ParserResult result = get_name();
+    Result result = get_name();
 
     if( result == PR_OK )
         result = skip_name_separator();
@@ -1481,12 +1481,12 @@ Parser::ParserResult Parser::get_member()
     return result;
 }
 
-Parser::ParserResult Parser::get_name()
+Parser::Result Parser::get_name()
 {
     if( m.c != '"' )
         return report_error( PR_EXPECTED_MEMBER_NAME );
 
-    Parser::ParserResult result = StringReader( m.input, m.c, &m.p_event_out->name );
+    Result result = StringReader( m.input, m.c, &m.p_event_out->name );
 
     if( result != PR_OK )
         return report_error( result );
@@ -1494,7 +1494,7 @@ Parser::ParserResult Parser::get_name()
     return PR_OK;
 }
 
-Parser::ParserResult Parser::skip_name_separator()
+Parser::Result Parser::skip_name_separator()
 {
     get_non_ws();
 
@@ -1512,7 +1512,7 @@ Parser::ParserResult Parser::skip_name_separator()
     return PR_OK;
 }
 
-Parser::ParserResult Parser::get_value()
+Parser::Result Parser::get_value()
 {
     // value = false / null / true / object (start) / array (start) / number / string
 
@@ -1547,7 +1547,7 @@ Parser::ParserResult Parser::get_value()
         return error_on_unrecognised_value_start();
 }
 
-Parser::ParserResult Parser::error_on_unrecognised_value_start()
+Parser::Result Parser::error_on_unrecognised_value_start()
 {
     if( m.c == Reader::EOM )
         return report_error( PR_UNEXPECTED_END_OF_MESSAGE );
@@ -1567,25 +1567,25 @@ Parser::ParserResult Parser::error_on_unrecognised_value_start()
     return report_error( PR_UNRECOGNISED_VALUE_FORMAT );
 }
 
-Parser::ParserResult Parser::get_false()
+Parser::Result Parser::get_false()
 {
     return get_constant_string( "false", Event::T_BOOLEAN, PR_BAD_FORMAT_FALSE );
 }
 
-Parser::ParserResult Parser::get_true()
+Parser::Result Parser::get_true()
 {
     return get_constant_string( "true", Event::T_BOOLEAN, PR_BAD_FORMAT_TRUE );
 }
 
-Parser::ParserResult Parser::get_null()
+Parser::Result Parser::get_null()
 {
     return get_constant_string( "null", Event::T_NULL, PR_BAD_FORMAT_NULL );
 }
 
-Parser::ParserResult Parser::get_constant_string(
+Parser::Result Parser::get_constant_string(
                                         const char * const p_chars_start,
                                         Event::Type on_success_type,
-                                        ParserResult on_error_code )
+                                        Result on_error_code )
 {
     read_to_non_quoted_value_end();
 
@@ -1611,9 +1611,9 @@ bool Parser::is_invalid_json_number_start_char()
     return m.c == '+' || m.c == '.';
 }
 
-Parser::ParserResult Parser::get_number()
+Parser::Result Parser::get_number()
 {
-    Parser::ParserResult result = NumberReader( m.input, m.c, m.p_event_out );
+    Result result = NumberReader( m.input, m.c, m.p_event_out );
 
     if( result != PR_OK )
         return report_error( result );
@@ -1621,11 +1621,11 @@ Parser::ParserResult Parser::get_number()
     return PR_OK;
 }
 
-Parser::ParserResult Parser::get_string()
+Parser::Result Parser::get_string()
 {
     m.p_event_out->type = Event::T_STRING;
 
-    Parser::ParserResult result = StringReader( m.input, m.c, &m.p_event_out->value );
+    Result result = StringReader( m.input, m.c, &m.p_event_out->value );
 
     if( result != PR_OK )
         return report_error( result );
@@ -1655,7 +1655,7 @@ bool Parser::is_unexpected_object_close()
     return m.c == '}';
 }
 
-Parser::ParserResult Parser::unexpected_object_close_error()
+Parser::Result Parser::unexpected_object_close_error()
 {
     return report_error( PR_UNEXPECTED_OBJECT_CLOSE );
 }
@@ -1665,7 +1665,7 @@ bool Parser::is_unexpected_array_close()
     return m.c == ']';
 }
 
-Parser::ParserResult Parser::unexpected_array_close_error()
+Parser::Result Parser::unexpected_array_close_error()
 {
     return report_error( PR_UNEXPECTED_ARRAY_CLOSE );
 }
@@ -1675,7 +1675,7 @@ bool Parser::is_unexpected_close()
     return m.c == '}' || m.c == ']';
 }
 
-Parser::ParserResult Parser::unexpected_close_error()
+Parser::Result Parser::unexpected_close_error()
 {
     if( m.c == '}' )
         return report_error( PR_UNEXPECTED_OBJECT_CLOSE );
@@ -1686,7 +1686,7 @@ Parser::ParserResult Parser::unexpected_close_error()
     return PR_OK;
 }
 
-Parser::ParserResult Parser::context_update_for_object()
+Parser::Result Parser::context_update_for_object()
 {
     if( m.p_event_out->type == Event::T_OBJECT_END )
         m.context_stack.pop();
@@ -1700,7 +1700,7 @@ Parser::ParserResult Parser::context_update_for_object()
     return PR_OK;
 }
 
-Parser::ParserResult Parser::context_update_for_array()
+Parser::Result Parser::context_update_for_array()
 {
     if( m.p_event_out->type == Event::T_ARRAY_END )
         m.context_stack.pop();
@@ -1722,7 +1722,7 @@ void Parser::conditional_context_update_for_nesting_increase()
         m.context_stack.push( C_START_OBJECT );
 }
 
-Parser::ParserResult Parser::report_error( ParserResult error )
+Parser::Result Parser::report_error( Result error )
 {
     m.last_result = error;
 

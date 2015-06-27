@@ -323,7 +323,7 @@ struct Event
 class Parser
 {
 public:
-    enum ParserResult {
+    enum Result {
             PR_OK,
             PR_END_OF_MESSAGE,
             PR_UNABLE_TO_CONTINUE_DUE_TO_ERRORS,
@@ -354,7 +354,7 @@ private:
         context_stack_t context_stack;
         int c;
         Event * p_event_out;
-        ParserResult last_result;
+        Result last_result;
 
         Members( Reader & reader_in )
             : input( reader_in )
@@ -376,8 +376,8 @@ public:
         : m( reader_in )
     {}
 
-    ParserResult get( Event * p_event_out );
-    ParserResult skip();
+    Result get( Event * p_event_out );
+    Result skip();
     void new_message();
 
 private:
@@ -387,42 +387,42 @@ private:
     void unget( int c ) { m.input.unget( c ); }
     void unget() { m.input.unget( m.c ); }
     Context context() const { return m.context_stack.top(); }
-    ParserResult get_outer();
-    ParserResult get_start_object();
-    ParserResult get_in_object();
-    ParserResult get_for_object();
-    ParserResult get_start_array();
-    ParserResult get_in_array();
-    ParserResult get_for_array();
-    ParserResult get_member();
-    ParserResult get_name();
-    ParserResult skip_name_separator();
-    ParserResult get_value();
-    ParserResult error_on_unrecognised_value_start();
-    ParserResult get_false();
-    ParserResult get_true();
-    ParserResult get_null();
-    ParserResult get_constant_string(
+    Result get_outer();
+    Result get_start_object();
+    Result get_in_object();
+    Result get_for_object();
+    Result get_start_array();
+    Result get_in_array();
+    Result get_for_array();
+    Result get_member();
+    Result get_name();
+    Result skip_name_separator();
+    Result get_value();
+    Result error_on_unrecognised_value_start();
+    Result get_false();
+    Result get_true();
+    Result get_null();
+    Result get_constant_string(
                             const char * const p_chars_start,
                             Event::Type on_success_type,
-                            ParserResult on_error_code );
+                            Result on_error_code );
     bool is_number_start_char();
     bool is_invalid_json_number_start_char();
-    ParserResult get_number();
-    ParserResult get_string();
+    Result get_number();
+    Result get_string();
     void read_to_non_quoted_value_end();
     bool is_separator();
     bool is_unexpected_object_close();
-    ParserResult unexpected_object_close_error();
+    Result unexpected_object_close_error();
     bool is_unexpected_array_close();
-    ParserResult unexpected_array_close_error();
+    Result unexpected_array_close_error();
     bool is_unexpected_close();
-    ParserResult unexpected_close_error();
-    ParserResult context_update_for_object();
-    ParserResult context_update_for_array();
+    Result unexpected_close_error();
+    Result context_update_for_object();
+    Result context_update_for_array();
     void conditional_context_update_for_nesting_increase();
 
-    ParserResult report_error( ParserResult error );
+    Result report_error( Result error );
 };
 
 //----------------------------------------------------------------------------
@@ -433,16 +433,16 @@ class ParserException : public std::exception
 {
 private:
     struct Members {
-        Parser::ParserResult error;
+        Parser::Result error;
 
-        Members( Parser::ParserResult error_in ) : error( error_in ) {}
+        Members( Parser::Result error_in ) : error( error_in ) {}
     } m;
 
 public:
-    ParserException( Parser::ParserResult error_in )
+    ParserException( Parser::Result error_in )
         : m( error_in )
     {}
-    Parser::ParserResult error() const { return m.error; }
+    Parser::Result error() const { return m.error; }
     const char * what() const throw()
     {
         return "cljp::ParserException";

@@ -225,7 +225,7 @@ TFEATURE( "Repeated reads at end of message return 'End of message'" )
 void value_test(
         int test_line,
         const char * p_input,
-        cljp::Parser::ParserResult expected_result,
+        cljp::Parser::Result expected_result,
         cljp::Event::Type expected_type,
         const char * p_expected_value )
 {
@@ -435,7 +435,7 @@ void string_ok_test(
 void string_fail_test(
         int test_line,
         const char * p_input,
-        cljp::Parser::ParserResult expected_error_code )
+        cljp::Parser::Result expected_error_code )
 {
     char c_doc[256];
     sprintf( c_doc, "Line: %d, input: %s", test_line, p_input );

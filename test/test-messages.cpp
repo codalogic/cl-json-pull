@@ -39,7 +39,7 @@
 
 struct ExpectedEvent
 {
-    cljp::Parser::ParserResult result;
+    cljp::Parser::Result result;
     cljp::Event::Type type;
     std::string name;
     std::string value;
@@ -51,7 +51,7 @@ void test_message_sequence( const char * message, ExpectedEvent events[] )
 
     for( size_t i=0; ; ++i )
     {
-        cljp::Parser::ParserResult result = h.parser.get( &h.event );
+        cljp::Parser::Result result = h.parser.get( &h.event );
 
         TCRITICALTEST( result == events[i].result );
 
@@ -374,13 +374,13 @@ TFEATURE( "Reading multiple messages in single stream" )
     }
 }
 
-void test_invalid_message( const char * message, cljp::Parser::ParserResult expected_final_result )
+void test_invalid_message( const char * message, cljp::Parser::Result expected_final_result )
 {
     Harness h( message );
 
     for(;;)
     {
-        cljp::Parser::ParserResult result = h.parser.get( &h.event );
+        cljp::Parser::Result result = h.parser.get( &h.event );
 
         TCRITICALTEST( result != cljp::Parser::PR_END_OF_MESSAGE );
 
