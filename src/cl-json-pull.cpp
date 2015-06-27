@@ -1405,14 +1405,12 @@ Parser::Result Parser::get_in_object()
 
 Parser::Result Parser::get_for_object()
 {
-    Result get_member_result = get_member();
+    Result result = get_member();
 
-    Result context_update_result = context_update_for_object();
+    if( result == PR_OK )
+        result = context_update_for_object();
 
-    if( get_member_result != PR_OK )
-        return get_member_result;
-
-    return context_update_result;
+    return result;
 }
 
 Parser::Result Parser::get_start_array()
@@ -1456,14 +1454,12 @@ Parser::Result Parser::get_in_array()
 
 Parser::Result Parser::get_for_array()
 {
-    Result get_value_result = get_value();
+    Result result = get_value();
 
-    Result context_update_result = context_update_for_array();
+    if( result == PR_OK )
+        result = context_update_for_array();
 
-    if( get_value_result != PR_OK )
-        return get_value_result;
-
-    return context_update_result;
+    return result;
 }
 
 Parser::Result Parser::get_member()
