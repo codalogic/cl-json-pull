@@ -181,10 +181,6 @@
 				>
 			</File>
 			<File
-				RelativePath=".\test-harness.h"
-				>
-			</File>
-			<File
 				RelativePath=".\test-messages.cpp"
 				>
 			</File>
@@ -220,6 +216,10 @@
 			</File>
 			<File
 				RelativePath=".\sdd.h"
+				>
+			</File>
+			<File
+				RelativePath=".\test-harness.h"
 				>
 			</File>
 		</Filter>
