@@ -169,3 +169,9 @@ INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN
 CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
 ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
 POSSIBILITY OF SUCH DAMAGE.
+
+Test Table of Contents
+======================
+To assist in seeing how the library can be used, using the principles of
+'tests as documentation', the [test Table of Contents is
+here](test/clunit-toc.md).
