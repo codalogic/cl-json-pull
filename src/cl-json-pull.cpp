@@ -94,7 +94,7 @@ public:
             pack( '\xc0', 2, code_point );
         else
             utf8[0] = '\0';
-    };
+    }
     operator const char * () const { return utf8; }
     char operator [] ( size_t index ) const { return utf8[index]; }
     char & operator [] ( size_t index ) { return utf8[index]; }
