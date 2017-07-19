@@ -31,7 +31,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //----------------------------------------------------------------------------
 
-#include "cl-json-pull.h"
+#include "cl-json-pull/cl-json-pull.h"
 
 #define CLUNIT_HOME
 #include "clunit.h"

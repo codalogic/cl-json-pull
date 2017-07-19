@@ -31,7 +31,7 @@
 // POSSIBILITY OF SUCH DAMAGE.
 //----------------------------------------------------------------------------
 
-#include "cl-json-pull.h"   // Put file under test first to verify dependencies
+#include "cl-json-pull/cl-json-pull.h"   // Put file under test first to verify dependencies
 
 #include "clunit.h"
 

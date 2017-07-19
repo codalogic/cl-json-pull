@@ -33,7 +33,7 @@
 
 #include "clunit.h"
 
-#include "cl-json-pull.h"
+#include "cl-json-pull/cl-json-pull.h"
 
 TFEATURE( "struct Event" )
 {

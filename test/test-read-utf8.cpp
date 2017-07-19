@@ -33,7 +33,7 @@
 
 #include "clunit.h"
 
-#include "cl-json-pull.h"
+#include "cl-json-pull/cl-json-pull.h"
 
 #define MK_STR_WITH_ZEROS( x ) std::string( (x), sizeof(x) - 1 )
 

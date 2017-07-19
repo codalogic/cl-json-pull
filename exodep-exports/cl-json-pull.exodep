@@ -1,0 +1,22 @@
+# See https://github.com/codalogic/exodep for details on use and format of
+# exodep files
+
+# cl-json-pull documentation is at:
+#
+#    https://github.com/codalogic/cl-json-pull
+
+default $h_dst   include/cl-json-pull/
+default $cpp_dst src/cl-json-pull/
+
+default $cl_json_pull_h_dst   ${h_dst}
+default cl_json_pull_cpp_dst  ${cpp_dst}
+
+$owner codalogic
+$project cl-json-pull
+$strand angst
+
+versions    # Invoking 'versions' must happen after setting up $owner/$project variables
+
+get include/cl-json-pull/cl-json-pull-config.h   ${cl_json_pull_h_dst}
+get include/cl-json-pull/cl-json-pull.h          ${cl_json_pull_h_dst}
+get src/cl-json-pull/cl-json-pull.cpp            ${cl_json_pull_cpp_dst}
