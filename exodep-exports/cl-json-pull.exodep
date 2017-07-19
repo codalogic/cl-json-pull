@@ -9,7 +9,7 @@ default $h_dst   include/cl-json-pull/
 default $cpp_dst src/cl-json-pull/
 
 default $cl_json_pull_h_dst   ${h_dst}
-default cl_json_pull_cpp_dst  ${cpp_dst}
+default $cl_json_pull_cpp_dst  ${cpp_dst}
 
 $owner codalogic
 $project cl-json-pull
